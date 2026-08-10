@@ -1,0 +1,2 @@
+-- User-owned defaults are inserted by the authenticated application on first use.
+-- This file intentionally contains no shared public data and no credentials.
