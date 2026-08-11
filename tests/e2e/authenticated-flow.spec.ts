@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { createChunks, stringToBase64URL } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
 import { expect, test } from "@playwright/test";
 
@@ -14,13 +15,21 @@ test.describe("authenticated MVP flow", () => {
 
   const email = `e2e-${randomUUID()}@example.com`;
   const password = `Test-${randomUUID()}-9!`;
+  let sessionCookieChunks: Array<{ name: string; value: string }> = [];
 
   test.beforeAll(async () => {
     const client = createClient(supabaseUrl, publishableKey, {
       auth: { persistSession: false, autoRefreshToken: false },
     });
-    const { error } = await client.auth.signUp({ email, password });
+    const { data, error } = await client.auth.signUp({ email, password });
     expect(error).toBeNull();
+    expect(data.session).not.toBeNull();
+
+    const storageKey = `sb-${new URL(supabaseUrl).hostname.split(".")[0]}-auth-token`;
+    const cookieValue = `base64-${stringToBase64URL(
+      JSON.stringify(data.session),
+    )}`;
+    sessionCookieChunks = createChunks(storageKey, cookieValue);
   });
 
   test("completes the authenticated MVP workflow", async ({ page }) => {
@@ -30,10 +39,15 @@ test.describe("authenticated MVP flow", () => {
     });
     page.on("pageerror", (error) => browserErrors.push(error.message));
 
-    await page.goto("/login");
-    await page.locator("#sign-in-email").fill(email);
-    await page.locator("#sign-in-password").fill(password);
-    await page.getByRole("button", { name: "ログイン" }).click();
+    await page.context().addCookies(
+      sessionCookieChunks.map(({ name, value }) => ({
+        name,
+        value,
+        url: "http://127.0.0.1:3000",
+        sameSite: "Lax" as const,
+      })),
+    );
+    await page.goto("/dashboard");
     await expect(page).toHaveURL(/\/dashboard$/);
 
     await page.goto("/items/new");

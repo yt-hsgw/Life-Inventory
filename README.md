@@ -19,11 +19,20 @@ npm run dev
 
 Supabaseプロジェクトを作成し、`supabase/migrations` を適用してから `.env.local` にURLとPublishable Keyを設定してください。秘密鍵やService Role Keyはこのアプリでは使用しません。
 
-Supabase AuthのSite URLをアプリURLに設定し、SSR確認メールのリンクを次の形式にします。
+認証はGoogle OAuthのみをユーザーへ提供します。Supabase DashboardのGoogle ProviderにGoogle CloudのWeb OAuth Client ID / Secretを設定し、Site URLとRedirect URLへアプリURLを登録してください。
 
 ```text
-{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/dashboard
+http://localhost:3000/auth/callback
+https://<production-domain>/auth/callback
 ```
+
+Google Cloud側のAuthorized redirect URIにはSupabase Authのcallbackを設定します。
+
+```text
+https://<project-ref>.supabase.co/auth/v1/callback
+```
+
+ローカルSupabaseのEmail/Password AuthはDB統合テスト専用に残しています。アプリのログイン画面からは利用できません。
 
 ## Validation
 

@@ -48,7 +48,9 @@
 
 ### Auth & Authorization
 
-- Supabase Authを使用し、未認証ユーザーはLoginへ誘導する。
+- Supabase AuthのGoogle OAuthを使用し、未認証ユーザーはLoginへ誘導する。
+- Loginは「Googleで続ける」の単一導線とし、初回認証時は同じ導線でユーザーを作成する。
+- ユーザー向けのEmail / Password登録・ログインは提供しない。
 - 全domain tableは `user_id` を持ち、RLSで `(select auth.uid()) = user_id` を強制する。
 - Client判定だけに依存しない。
 

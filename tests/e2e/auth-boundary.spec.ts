@@ -14,8 +14,12 @@ test("login screen renders the primary authentication controls", async ({
   await expect(
     page.getByRole("heading", { name: "今の暮らしを見渡す" }),
   ).toBeVisible();
-  await expect(page.getByLabel("メールアドレス").first()).toBeVisible();
-  await expect(page.getByRole("button", { name: "ログイン" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Googleで続ける" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Gmailの内容にはアクセスしません。", { exact: false }),
+  ).toBeVisible();
   await expect(page.locator("[data-nextjs-dialog]")).toHaveCount(0);
   expect(browserErrors).toEqual([]);
 });
@@ -26,5 +30,7 @@ test("anonymous visitors cannot enter the authenticated app", async ({
   await page.goto("/dashboard");
 
   await expect(page).toHaveURL(/\/login$/);
-  await expect(page.getByRole("button", { name: "ログイン" })).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Googleで続ける" }),
+  ).toBeVisible();
 });

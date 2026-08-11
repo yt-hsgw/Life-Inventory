@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
 import { Leaf } from "lucide-react";
-import { AuthForm } from "@/features/auth/components/auth-form";
+import { GoogleAuthButton } from "@/features/auth/components/google-auth-button";
 
 export const metadata: Metadata = { title: "ログイン" };
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
+
   return (
     <main className="grid min-h-screen lg:grid-cols-[1.05fr_0.95fr]">
       <section className="bg-foreground text-background hidden flex-col justify-between p-12 lg:flex">
@@ -36,19 +42,14 @@ export default function LoginPage() {
           </p>
           <h1 className="mt-3 font-serif text-4xl">今の暮らしを見渡す</h1>
           <p className="text-muted-foreground mt-3 text-sm leading-6">
-            ログインしてInventoryを開きます。
+            GoogleアカウントでログインしてInventoryを開きます。初回はそのままアカウントが作成されます。
           </p>
           <div className="mt-8">
-            <AuthForm mode="sign-in" />
+            <GoogleAuthButton initialError={error === "oauth"} />
           </div>
-          <details className="border-border mt-8 border-t pt-6">
-            <summary className="focus-visible:ring-primary cursor-pointer text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none">
-              初めて使う方
-            </summary>
-            <div className="mt-5">
-              <AuthForm mode="sign-up" />
-            </div>
-          </details>
+          <p className="text-muted-foreground mt-6 text-xs leading-5">
+            認証にはGoogleの基本プロフィールとメールアドレスのみを使用します。Gmailの内容にはアクセスしません。
+          </p>
         </div>
       </section>
     </main>
