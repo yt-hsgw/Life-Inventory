@@ -27,10 +27,15 @@ Supabase AuthのSite URLをアプリURLに設定し、SSR確認メールのリ�
 
 ## Validation
 
+DB統合テストと認証済みE2EにはDockerが必要です。Supabase CLIは互換性を固定するためdevDependencyに含めています。
+
 ```bash
 npm run check
 npm run build
+npm run supabase:start
+npm run test:db
 npm run test:e2e
+npm run supabase:stop
 ```
 
 詳しい仕様と設計は [docs/Requirements.md](docs/Requirements.md) と [docs/Architecture.md](docs/Architecture.md) を参照してください。

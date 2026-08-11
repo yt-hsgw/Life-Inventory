@@ -1,17 +1,18 @@
-import { ArchiveX, CirclePause, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { reviewItemAction } from "@/features/review/actions";
+import { ReviewDecisionButtons } from "@/features/review/components/review-decision-buttons";
 import type { ItemView } from "@/features/items/types";
 import { formatDate } from "@/lib/utils";
 
 export function ReviewCard({
   item,
   remaining,
+  sessionId,
 }: {
   item: ItemView;
   remaining: number;
+  sessionId: string;
 }) {
   return (
     <Card className="mx-auto max-w-2xl p-7 sm:p-10">
@@ -42,6 +43,7 @@ export function ReviewCard({
       </div>
       <form action={reviewItemAction} className="border-border border-t pt-7">
         <input type="hidden" name="itemId" value={item.id} />
+        <input type="hidden" name="sessionId" value={sessionId} />
         <label
           htmlFor="review-memo"
           className="text-muted-foreground text-xs font-bold tracking-wide"
@@ -57,25 +59,7 @@ export function ReviewCard({
         <p className="mt-7 text-center font-serif text-2xl">
           このアイテムをどうしますか？
         </p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          <Button type="submit" name="decision" value="KEEP">
-            <Heart className="size-4" />
-            残す
-          </Button>
-          <Button type="submit" name="decision" value="MAYBE" variant="outline">
-            <CirclePause className="size-4" />
-            保留
-          </Button>
-          <Button
-            type="submit"
-            name="decision"
-            value="RELEASE"
-            variant="destructive"
-          >
-            <ArchiveX className="size-4" />
-            手放す
-          </Button>
-        </div>
+        <ReviewDecisionButtons />
       </form>
     </Card>
   );

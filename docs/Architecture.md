@@ -35,6 +35,8 @@ flowchart LR
 
 - RLSなし: Data API経由で越境参照。全tableにRLS + ownership policy + `user_id` indexを必須化。
 - Review部分成功: Itemとhistoryが不整合。単一DB functionで原子的に更新。
+- Review履歴の直書き: transaction境界を迂回できる。table INSERTを拒否し、所有者検証済みの`review_item`だけに許可。
+- `security definer`誤用: RLSを迂回する。Review履歴のappend-only保証に限定し、空の`search_path`、`auth.uid()`確認、最小grantを強制。代替のtrigger方式はMemo受け渡しと通常Status更新の区別が複雑になるため不採用。
 - 大量Item: `%term%` 検索はscaleしない。MVP後に`pg_trgm` indexまたは検索専用列を検討。
 - 年額端数: 月額表示のみroundし、集計はnumeric精度を維持。
 - 任意URL: `javascript:` 等を拒否し、http/httpsのみ許可。

@@ -7,7 +7,7 @@ import type { ItemView } from "@/features/items/types";
 import { requireUserId } from "@/lib/auth";
 import type { ItemRow } from "@/types/database.generated";
 
-function attachCategories(
+export function attachCategories(
   items: ItemRow[],
   categories: Awaited<ReturnType<typeof getCategories>>,
 ): ItemView[] {

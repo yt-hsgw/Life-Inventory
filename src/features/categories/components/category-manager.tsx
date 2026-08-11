@@ -7,6 +7,7 @@ import {
   saveSubCategoryAction,
 } from "@/features/categories/actions";
 import type { CategoryWithSubs } from "@/features/categories/server/categories";
+import type { SubCategory } from "@/types/database.generated";
 import { INITIAL_ACTION_STATE } from "@/lib/action-state";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -33,6 +34,41 @@ function NewCategoryForm() {
       </Button>
       {state.message ? (
         <p className="text-destructive text-sm" role="alert">
+          {state.message}
+        </p>
+      ) : null}
+    </form>
+  );
+}
+
+function SubCategoryRow({
+  category,
+  subCategory,
+}: {
+  category: CategoryWithSubs;
+  subCategory: SubCategory;
+}) {
+  const [state, action] = useActionState(
+    saveSubCategoryAction,
+    INITIAL_ACTION_STATE,
+  );
+  return (
+    <form action={action} className="flex flex-col gap-2 sm:flex-row">
+      <input type="hidden" name="id" value={subCategory.id} />
+      <input type="hidden" name="categoryId" value={category.id} />
+      <input type="hidden" name="sortOrder" value={subCategory.sort_order} />
+      <Input
+        name="name"
+        defaultValue={subCategory.name}
+        maxLength={50}
+        aria-label={`${subCategory.name}の名前`}
+        required
+      />
+      <Button type="submit" variant="outline">
+        更新
+      </Button>
+      {state.message ? (
+        <p className="text-destructive self-center text-sm" role="alert">
           {state.message}
         </p>
       ) : null}
@@ -75,14 +111,13 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
           SUB CATEGORIES
         </p>
         {category.subCategories.length ? (
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 space-y-2">
             {category.subCategories.map((sub) => (
-              <span
+              <SubCategoryRow
                 key={sub.id}
-                className="bg-secondary rounded-full px-3 py-1.5 text-sm"
-              >
-                {sub.name}
-              </span>
+                category={category}
+                subCategory={sub}
+              />
             ))}
           </div>
         ) : (

@@ -1,4 +1,4 @@
-// Generated contract for the initial migration. Regenerate with Supabase CLI after schema changes.
+// Generated contract for the committed migrations. Regenerate with Supabase CLI after schema changes.
 // DO NOT EDIT MANUALLY.
 export type Json =
   | string
@@ -59,6 +59,7 @@ type ItemReviewRow = {
   item_id: string;
   previous_status: ItemStatus;
   decision: ItemStatus;
+  review_session_id: string | null;
   reviewed_at: string;
   memo: string | null;
 };
@@ -150,8 +151,21 @@ export type Database = {
     };
     Views: Record<string, never>;
     Functions: {
+      get_review_queue: {
+        Args: { p_session_id: string; p_limit?: number };
+        Returns: ItemRow[];
+      };
+      get_review_queue_count: {
+        Args: Record<PropertyKey, never>;
+        Returns: number;
+      };
       review_item: {
-        Args: { p_item_id: string; p_decision: string; p_memo?: string | null };
+        Args: {
+          p_item_id: string;
+          p_decision: string;
+          p_session_id: string;
+          p_memo?: string | null;
+        };
         Returns: ItemReviewRow;
       };
     };

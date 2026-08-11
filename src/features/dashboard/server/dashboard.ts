@@ -9,25 +9,32 @@ export async function getDashboard() {
     requireUserId(),
     getCategories(),
   ]);
-  const [itemResult, idealResult, expenseResult] = await Promise.all([
-    supabase
-      .from("items")
-      .select("quantity,status,review_requested,category_id")
-      .eq("user_id", userId)
-      .is("archived_at", null)
-      .limit(5000),
-    supabase
-      .from("ideal_items")
-      .select("target_quantity")
-      .eq("user_id", userId)
-      .limit(5000),
-    supabase
-      .from("expenses")
-      .select("amount,billing_cycle")
-      .eq("user_id", userId)
-      .limit(5000),
-  ]);
-  if (itemResult.error || idealResult.error || expenseResult.error)
+  const [itemResult, idealResult, expenseResult, reviewCountResult] =
+    await Promise.all([
+      supabase
+        .from("items")
+        .select("quantity,status,review_requested,category_id")
+        .eq("user_id", userId)
+        .is("archived_at", null)
+        .limit(5000),
+      supabase
+        .from("ideal_items")
+        .select("target_quantity")
+        .eq("user_id", userId)
+        .limit(5000),
+      supabase
+        .from("expenses")
+        .select("amount,billing_cycle")
+        .eq("user_id", userId)
+        .limit(5000),
+      supabase.rpc("get_review_queue_count"),
+    ]);
+  if (
+    itemResult.error ||
+    idealResult.error ||
+    expenseResult.error ||
+    reviewCountResult.error
+  )
     throw new Error("Dashboardを読み込めませんでした。");
   const currentItems = itemResult.data.reduce(
     (sum, item) => sum + item.quantity,
@@ -48,9 +55,7 @@ export async function getDashboard() {
     currentItems,
     idealItems,
     gap: idealItems - currentItems,
-    reviewCount: itemResult.data.filter(
-      (item) => item.status === "MAYBE" || item.review_requested,
-    ).length,
+    reviewCount: Number(reviewCountResult.data ?? 0),
     releaseCount: itemResult.data
       .filter((item) => item.status === "RELEASE")
       .reduce((sum, item) => sum + item.quantity, 0),
