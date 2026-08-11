@@ -33,7 +33,7 @@ export function ItemList({
               defaultValue={filters.q}
               placeholder="名前・用途・メモを検索"
               maxLength={100}
-              aria-label="Itemを検索"
+              aria-label="持ち物を検索"
             />
           </div>
           <select
@@ -51,9 +51,9 @@ export function ItemList({
           <select
             name="status"
             defaultValue={filters.status}
-            aria-label="Statusで絞り込む"
+            aria-label="状態で絞り込む"
           >
-            <option value="">すべてのStatus</option>
+            <option value="">すべての状態</option>
             <option value="KEEP">残す</option>
             <option value="MAYBE">迷っている</option>
             <option value="RELEASE">手放す</option>
@@ -68,11 +68,11 @@ export function ItemList({
       </Card>
       {items.length === 0 ? (
         <EmptyState
-          title="Itemが見つかりません"
-          description="条件を変えるか、最初のItemを追加してみましょう。"
+          title="持ち物が見つかりません"
+          description="条件を変えるか、最初の持ち物を追加してみましょう。"
           action={
             <Link className={buttonVariants()} href="/items/new">
-              Itemを追加
+              持ち物を追加
             </Link>
           }
         />

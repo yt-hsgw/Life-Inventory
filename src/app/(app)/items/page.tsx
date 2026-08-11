@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { ItemList } from "@/features/items/components/item-list";
 import { getItems } from "@/features/items/server/items";
 
-export const metadata: Metadata = { title: "Items" };
+export const metadata: Metadata = { title: "持ち物" };
 
 export default async function ItemsPage({
   searchParams,
@@ -17,13 +17,13 @@ export default async function ItemsPage({
   return (
     <>
       <PageHeader
-        eyebrow="CURRENT"
-        title="Items"
+        eyebrow="今の持ち物"
+        title="持ち物"
         description={`${result.items.reduce((total, item) => total + item.quantity, 0)}個の持ち物を表示しています。`}
         action={
           <Link href="/items/new" className={buttonVariants()}>
             <Plus className="size-4" />
-            Add Item
+            持ち物を追加
           </Link>
         }
       />

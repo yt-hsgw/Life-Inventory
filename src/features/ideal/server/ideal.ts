@@ -34,7 +34,7 @@ export async function getIdealComparisons(filter = "ALL") {
       .is("archived_at", null),
   ]);
   if (idealResult.error || itemResult.error)
-    throw new Error("Idealを読み込めませんでした。");
+    throw new Error("理想の持ち物を読み込めませんでした。");
   const current = new Map<string, number>();
   itemResult.data.forEach((item) => {
     const key = `${item.category_id}:${item.name.trim().toLocaleLowerCase("ja")}`;

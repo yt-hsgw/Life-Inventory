@@ -5,21 +5,21 @@ import { Card } from "@/components/ui/card";
 import { getArchivedItems } from "@/features/items/server/items";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Archive" };
+export const metadata: Metadata = { title: "アーカイブ" };
 
 export default async function ArchivePage() {
   const items = await getArchivedItems();
   return (
     <>
       <PageHeader
-        eyebrow="HISTORY"
-        title="Archive"
+        eyebrow="これまでの記録"
+        title="アーカイブ"
         description="手放した物も、これまでの暮らしの記録として残します。"
       />
       {items.length === 0 ? (
         <EmptyState
-          title="Archiveはまだ空です"
-          description="ItemをArchiveすると、ここに履歴が残ります。"
+          title="アーカイブはまだ空です"
+          description="持ち物をアーカイブすると、ここに履歴が残ります。"
         />
       ) : (
         <div className="space-y-3">

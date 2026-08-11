@@ -31,7 +31,7 @@ export function ItemForm({
       <Card className="grid gap-5 md:grid-cols-2">
         <div className="md:col-span-2">
           <FormField
-            label="Item Name"
+            label="持ち物の名前"
             htmlFor="name"
             error={state.errors?.name?.[0]}
           >
@@ -47,7 +47,7 @@ export function ItemForm({
           </FormField>
         </div>
         <FormField
-          label="Category"
+          label="カテゴリ"
           htmlFor="categoryId"
           error={state.errors?.categoryId?.[0]}
         >
@@ -67,7 +67,7 @@ export function ItemForm({
           </select>
         </FormField>
         <FormField
-          label="Quantity"
+          label="数量"
           htmlFor="quantity"
           error={state.errors?.quantity?.[0]}
         >
@@ -88,10 +88,10 @@ export function ItemForm({
         open={Boolean(item)}
       >
         <summary className="focus-visible:ring-primary cursor-pointer font-semibold focus-visible:ring-2 focus-visible:outline-none">
-          + Details
+          ＋ 詳細情報
         </summary>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
-          <FormField label="Sub Category" htmlFor="subCategoryId">
+          <FormField label="サブカテゴリ" htmlFor="subCategoryId">
             <select
               id="subCategoryId"
               name="subCategoryId"
@@ -105,7 +105,7 @@ export function ItemForm({
               ))}
             </select>
           </FormField>
-          <FormField label="Status" htmlFor="status">
+          <FormField label="状態" htmlFor="status">
             <select
               id="status"
               name="status"
@@ -116,7 +116,7 @@ export function ItemForm({
               <option value="RELEASE">手放す</option>
             </select>
           </FormField>
-          <FormField label="Color" htmlFor="color">
+          <FormField label="色" htmlFor="color">
             <Input
               id="color"
               name="color"
@@ -124,7 +124,7 @@ export function ItemForm({
               maxLength={50}
             />
           </FormField>
-          <FormField label="Size" htmlFor="size">
+          <FormField label="サイズ" htmlFor="size">
             <Input
               id="size"
               name="size"
@@ -132,7 +132,7 @@ export function ItemForm({
               maxLength={50}
             />
           </FormField>
-          <FormField label="Purpose" htmlFor="purpose">
+          <FormField label="用途" htmlFor="purpose">
             <Input
               id="purpose"
               name="purpose"
@@ -141,7 +141,7 @@ export function ItemForm({
             />
           </FormField>
           <FormField
-            label="Product URL"
+            label="商品ページURL"
             htmlFor="productUrl"
             error={state.errors?.productUrl?.[0]}
           >
@@ -154,7 +154,7 @@ export function ItemForm({
               aria-describedby="productUrl-description"
             />
           </FormField>
-          <FormField label="Purchase Price" htmlFor="purchasePrice">
+          <FormField label="購入価格" htmlFor="purchasePrice">
             <Input
               id="purchasePrice"
               name="purchasePrice"
@@ -163,7 +163,7 @@ export function ItemForm({
               defaultValue={item?.purchase_price ?? ""}
             />
           </FormField>
-          <FormField label="Purchased Date" htmlFor="purchasedAt">
+          <FormField label="購入日" htmlFor="purchasedAt">
             <Input
               id="purchasedAt"
               name="purchasedAt"
@@ -171,7 +171,7 @@ export function ItemForm({
               defaultValue={item?.purchased_at ?? ""}
             />
           </FormField>
-          <FormField label="Last Used Date" htmlFor="lastUsedAt">
+          <FormField label="最終使用日" htmlFor="lastUsedAt">
             <Input
               id="lastUsedAt"
               name="lastUsedAt"
@@ -186,10 +186,10 @@ export function ItemForm({
               defaultChecked={item?.review_requested}
               className="accent-primary size-4"
             />
-            Reviewに追加
+            見直しに追加
           </label>
           <div className="md:col-span-2">
-            <FormField label="Memo" htmlFor="memo">
+            <FormField label="メモ" htmlFor="memo">
               <Textarea
                 id="memo"
                 name="memo"
@@ -208,7 +208,7 @@ export function ItemForm({
           {state.message}
         </p>
       ) : null}
-      <SubmitButton>{item ? "変更を保存" : "Itemを追加"}</SubmitButton>
+      <SubmitButton>{item ? "変更を保存" : "持ち物を追加"}</SubmitButton>
     </form>
   );
 }

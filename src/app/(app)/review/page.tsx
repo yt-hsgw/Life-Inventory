@@ -13,7 +13,7 @@ import {
   getReviewSummary,
 } from "@/features/review/server/review";
 
-export const metadata: Metadata = { title: "Review" };
+export const metadata: Metadata = { title: "見直し" };
 
 export default async function ReviewPage({
   searchParams,
@@ -34,8 +34,8 @@ export default async function ReviewPage({
   return (
     <>
       <PageHeader
-        eyebrow="REVIEW FIRST"
-        title="Review"
+        eyebrow="ひとつずつ見直す"
+        title="見直し"
         description="1つずつ、自分にとっての役割を静かに見直します。"
       />
       {queue[0] ? (
@@ -46,14 +46,14 @@ export default async function ReviewPage({
         />
       ) : (
         <EmptyState
-          title="Review Complete"
-          description="今、判断を待っているItemはありません。必要になったらItem詳細からReviewへ追加できます。"
+          title="見直しが完了しました"
+          description="今、判断を待っている持ち物はありません。必要になったら持ち物の詳細から見直しへ追加できます。"
           action={
             <Link
               href="/items"
               className={buttonVariants({ variant: "outline" })}
             >
-              Itemsを見る
+              持ち物を見る
             </Link>
           }
         />
@@ -62,19 +62,19 @@ export default async function ReviewPage({
         <Card className="mx-auto mt-5 grid max-w-2xl grid-cols-4 text-center">
           <div>
             <p className="text-2xl font-semibold">{summary.total}</p>
-            <p className="text-muted-foreground text-xs">Session</p>
+            <p className="text-muted-foreground text-xs">今回</p>
           </div>
           <div>
             <p className="text-2xl font-semibold">{summary.keep}</p>
-            <p className="text-muted-foreground text-xs">Keep</p>
+            <p className="text-muted-foreground text-xs">残す</p>
           </div>
           <div>
             <p className="text-2xl font-semibold">{summary.maybe}</p>
-            <p className="text-muted-foreground text-xs">Maybe</p>
+            <p className="text-muted-foreground text-xs">保留</p>
           </div>
           <div>
             <p className="text-2xl font-semibold">{summary.release}</p>
-            <p className="text-muted-foreground text-xs">Release</p>
+            <p className="text-muted-foreground text-xs">手放す</p>
           </div>
         </Card>
       ) : null}

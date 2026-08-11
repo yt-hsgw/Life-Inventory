@@ -13,7 +13,7 @@ export async function getReviewQueue(sessionId: string) {
     p_session_id: sessionId,
     p_limit: 500,
   });
-  if (error) throw new Error("Review対象を読み込めませんでした。");
+  if (error) throw new Error("見直し対象を読み込めませんでした。");
   return attachCategories(data, categories);
 }
 
@@ -24,7 +24,7 @@ export async function getReviewSummary(sessionId: string) {
     .select("decision")
     .eq("user_id", userId)
     .eq("review_session_id", sessionId);
-  if (error) throw new Error("Review履歴を読み込めませんでした。");
+  if (error) throw new Error("見直し履歴を読み込めませんでした。");
   return data.reduce(
     (summary, review) => ({
       ...summary,

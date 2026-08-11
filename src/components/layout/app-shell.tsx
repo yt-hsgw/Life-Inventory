@@ -4,12 +4,12 @@ import {
   Archive,
   CircleGauge,
   CreditCard,
-  Leaf,
   ListChecks,
   Package,
   Settings,
   Target,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
@@ -17,11 +17,11 @@ import { signOutAction } from "@/features/auth/actions";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: CircleGauge },
-  { href: "/items", label: "Items", icon: Package },
-  { href: "/review", label: "Review", icon: ListChecks },
-  { href: "/ideal", label: "Ideal", icon: Target },
-  { href: "/expenses", label: "Expenses", icon: CreditCard },
+  { href: "/dashboard", label: "概要", icon: CircleGauge },
+  { href: "/items", label: "持ち物", icon: Package },
+  { href: "/review", label: "見直し", icon: ListChecks },
+  { href: "/ideal", label: "理想", icon: Target },
+  { href: "/expenses", label: "固定費", icon: CreditCard },
 ] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -36,8 +36,8 @@ export function AppShell({ children }: { children: ReactNode }) {
           href="/dashboard"
           className="focus-visible:ring-primary flex items-center gap-3 px-3 text-sm font-bold tracking-wide focus-visible:ring-2 focus-visible:outline-none"
         >
-          <span className="bg-primary text-primary-foreground grid size-9 place-items-center rounded-full">
-            <Leaf className="size-4" />
+          <span className="bg-secondary grid size-9 place-items-center rounded-xl">
+            <Image src="/app-icon.svg" alt="" width={20} height={20} />
           </span>
           LIFE INVENTORY
         </Link>
@@ -65,7 +65,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
           >
             <Archive className="size-4" />
-            Archive
+            アーカイブ
           </Link>
           <Link
             href="/settings/categories"
@@ -75,7 +75,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
           >
             <Settings className="size-4" />
-            Settings
+            設定
           </Link>
           <form action={signOutAction}>
             <button className="text-muted-foreground hover:bg-secondary focus-visible:ring-primary min-h-10 w-full rounded-xl px-3 text-left text-xs font-semibold focus-visible:ring-2 focus-visible:outline-none">

@@ -12,7 +12,7 @@ import { Card } from "@/components/ui/card";
 import { getDashboard } from "@/features/dashboard/server/dashboard";
 import { formatCurrency } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Dashboard" };
+export const metadata: Metadata = { title: "概要" };
 
 function Metric({
   label,
@@ -44,28 +44,28 @@ export default async function DashboardPage() {
   return (
     <>
       <PageHeader
-        eyebrow="LIFE AT A GLANCE"
-        title="Dashboard"
+        eyebrow="暮らしの全体像"
+        title="概要"
         description="今の状態と理想との差を、判断を急がずに見渡します。"
       />
       <div className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
         <Card className="p-7 sm:p-9">
           <div className="grid gap-8 sm:grid-cols-3">
-            <Metric label="CURRENT ITEMS" value={data.currentItems} />
-            <Metric label="IDEAL ITEMS" value={data.idealItems} accent />
+            <Metric label="今の持ち物" value={data.currentItems} />
+            <Metric label="理想の持ち物" value={data.idealItems} accent />
             <Metric
-              label="GAP"
+              label="差"
               value={`${data.gap > 0 ? "+" : ""}${data.gap}`}
             />
           </div>
           <div className="border-border mt-9 border-t pt-7">
             <div className="mb-5 flex items-center justify-between">
-              <h2 className="font-serif text-2xl">By category</h2>
+              <h2 className="font-serif text-2xl">カテゴリ別</h2>
               <Link
                 href="/items"
                 className="text-primary text-xs font-semibold"
               >
-                Itemsを見る
+                持ち物を見る
               </Link>
             </div>
             <div className="space-y-4">
@@ -100,7 +100,7 @@ export default async function DashboardPage() {
               </div>
               <p className="mt-7 text-3xl font-semibold">{data.reviewCount}</p>
               <p className="text-muted-foreground mt-1 text-sm">
-                items waiting for review
+                件の持ち物が見直し待ち
               </p>
             </Card>
           </Link>
@@ -112,7 +112,7 @@ export default async function DashboardPage() {
               </div>
               <p className="mt-7 text-3xl font-semibold">{data.releaseCount}</p>
               <p className="text-muted-foreground mt-1 text-sm">
-                items to release
+                個の持ち物を手放す予定
               </p>
             </Card>
           </Link>
@@ -127,7 +127,7 @@ export default async function DashboardPage() {
               </span>
               <div>
                 <p className="text-muted-foreground text-xs">
-                  CURRENT VS IDEAL
+                  今と理想
                 </p>
                 <p className="mt-1 font-semibold">差を見直す</p>
               </div>
@@ -142,15 +142,15 @@ export default async function DashboardPage() {
                 <CreditCard className="text-primary size-5" />
               </span>
               <div>
-                <p className="text-muted-foreground text-xs">FIXED COST</p>
+                <p className="text-muted-foreground text-xs">固定費</p>
                 <p className="mt-1 font-semibold">
                   {formatCurrency(Math.round(data.expenses.monthly))}{" "}
                   <span className="text-muted-foreground text-xs font-normal">
-                    / month
+                    / 月
                   </span>
                 </p>
                 <p className="text-muted-foreground mt-1 text-xs">
-                  {formatCurrency(Math.round(data.expenses.annual))} / year
+                  {formatCurrency(Math.round(data.expenses.annual))} / 年
                 </p>
               </div>
             </div>

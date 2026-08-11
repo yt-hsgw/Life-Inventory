@@ -10,8 +10,8 @@ export default async function CategoriesPage() {
   return (
     <>
       <PageHeader
-        eyebrow="SETTINGS"
-        title="Categories"
+        eyebrow="設定"
+        title="カテゴリ"
         description="持ち物を見るときの、自分なりのまとまりを整えます。"
       />
       <CategoryManager categories={categories} />

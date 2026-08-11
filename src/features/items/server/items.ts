@@ -65,7 +65,7 @@ export async function getItems(
       );
   }
   const { data, error } = await query;
-  if (error) throw new Error("Itemを読み込めませんでした。");
+  if (error) throw new Error("持ち物を読み込めませんでした。");
   return { items: attachCategories(data, categories), categories, filters };
 }
 
@@ -81,7 +81,7 @@ export async function getItem(itemId: string) {
     .eq("user_id", userId)
     .is("archived_at", null)
     .maybeSingle();
-  if (error) throw new Error("Itemを読み込めませんでした。");
+  if (error) throw new Error("持ち物を読み込めませんでした。");
   if (!data) notFound();
   const [item] = attachCategories([data], categories);
   if (!item) notFound();
@@ -100,6 +100,6 @@ export async function getArchivedItems() {
     .not("archived_at", "is", null)
     .order("archived_at", { ascending: false })
     .limit(500);
-  if (error) throw new Error("Archiveを読み込めませんでした。");
+  if (error) throw new Error("アーカイブを読み込めませんでした。");
   return attachCategories(data, categories);
 }

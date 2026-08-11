@@ -35,7 +35,7 @@ export async function saveIdealAction(
         .eq("user_id", userId)
     : supabase.from("ideal_items").insert({ ...record, user_id: userId });
   const { error } = await query;
-  if (error) return failedAction("Idealを保存できませんでした。");
+  if (error) return failedAction("理想の持ち物を保存できませんでした。");
   revalidatePath("/ideal");
   revalidatePath("/dashboard");
   return { status: "idle" };
@@ -50,7 +50,7 @@ export async function deleteIdealAction(formData: FormData) {
     .delete()
     .eq("id", id.data)
     .eq("user_id", userId);
-  if (error) throw new Error("Idealを削除できませんでした。");
+  if (error) throw new Error("理想の持ち物を削除できませんでした。");
   revalidatePath("/ideal");
   revalidatePath("/dashboard");
 }

@@ -35,7 +35,7 @@ export async function getDashboard() {
     expenseResult.error ||
     reviewCountResult.error
   )
-    throw new Error("Dashboardを読み込めませんでした。");
+    throw new Error("概要を読み込めませんでした。");
   const currentItems = itemResult.data.reduce(
     (sum, item) => sum + item.quantity,
     0,

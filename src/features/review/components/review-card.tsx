@@ -17,8 +17,8 @@ export function ReviewCard({
   return (
     <Card className="mx-auto max-w-2xl p-7 sm:p-10">
       <div className="text-muted-foreground flex items-center justify-between text-xs font-bold tracking-[0.16em]">
-        <span>REVIEW</span>
-        <span>{remaining} ITEMS LEFT</span>
+        <span>見直し</span>
+        <span>残り {remaining} 件</span>
       </div>
       <div className="my-10 text-center">
         <p className="text-muted-foreground text-sm">

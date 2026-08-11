@@ -9,7 +9,7 @@ import { deleteIdealAction } from "@/features/ideal/actions";
 import { getIdealComparisons } from "@/features/ideal/server/ideal";
 import { cn, formatCurrency } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Ideal" };
+export const metadata: Metadata = { title: "理想" };
 
 export default async function IdealPage({
   searchParams,
@@ -33,23 +33,23 @@ export default async function IdealPage({
   return (
     <>
       <PageHeader
-        eyebrow="CURRENT VS IDEAL"
-        title="Ideal"
+        eyebrow="今と理想"
+        title="理想"
         description="減らすことだけでなく、必要なものを足すことも同じように見渡します。"
       />
       <div className="mb-5 grid gap-3 sm:grid-cols-3">
         <Card>
-          <p className="text-muted-foreground text-xs">CURRENT</p>
+          <p className="text-muted-foreground text-xs">現在</p>
           <p className="mt-2 text-3xl font-semibold">{currentTotal}</p>
         </Card>
         <Card>
-          <p className="text-muted-foreground text-xs">IDEAL</p>
+          <p className="text-muted-foreground text-xs">理想</p>
           <p className="text-primary mt-2 text-3xl font-semibold">
             {targetTotal}
           </p>
         </Card>
         <Card>
-          <p className="text-muted-foreground text-xs">GAP</p>
+          <p className="text-muted-foreground text-xs">差</p>
           <p className="mt-2 text-3xl font-semibold">
             {targetTotal - currentTotal > 0 ? "+" : ""}
             {targetTotal - currentTotal}
@@ -59,14 +59,17 @@ export default async function IdealPage({
       <Card className="mb-5">
         <details>
           <summary className="focus-visible:ring-primary cursor-pointer font-semibold focus-visible:ring-2 focus-visible:outline-none">
-            + Ideal Itemを追加
+            ＋ 理想の持ち物を追加
           </summary>
           <div className="mt-6">
             <IdealForm categories={categories} />
           </div>
         </details>
       </Card>
-      <nav className="mb-5 flex flex-wrap gap-2" aria-label="Ideal filter">
+      <nav
+        className="mb-5 flex flex-wrap gap-2"
+        aria-label="理想の持ち物の絞り込み"
+      >
         {["ALL", "REDUCE", "ADD", "MATCHED"].map((value) => (
           <Link
             key={value}
@@ -79,19 +82,19 @@ export default async function IdealPage({
             )}
           >
             {value === "ALL"
-              ? "All"
+              ? "すべて"
               : value === "REDUCE"
-                ? "Reduce"
+                ? "減らす"
                 : value === "ADD"
-                  ? "Add"
-                  : "Matched"}
+                  ? "増やす"
+                  : "一致"}
           </Link>
         ))}
       </nav>
       {comparisons.length === 0 ? (
         <EmptyState
-          title="Idealを描いてみましょう"
-          description="理想の数量を決めると、Currentとの差がここに現れます。"
+          title="理想を描いてみましょう"
+          description="理想の数量を決めると、現在との差がここに現れます。"
         />
       ) : (
         <div className="space-y-3">
@@ -134,7 +137,7 @@ export default async function IdealPage({
                   <form action={deleteIdealAction} className="mt-4">
                     <input type="hidden" name="idealItemId" value={item.id} />
                     <Button type="submit" variant="destructive">
-                      Idealを削除
+                      理想の持ち物を削除
                     </Button>
                   </form>
                 </div>

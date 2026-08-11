@@ -26,7 +26,7 @@ export function ExpenseForm({ expense }: { expense?: ExpenseRow }) {
       ) : null}
       <div className="sm:col-span-2">
         <FormField
-          label="Name"
+          label="名前"
           htmlFor={`expense-name-${suffix}`}
           error={state.errors?.name?.[0]}
         >
@@ -39,7 +39,7 @@ export function ExpenseForm({ expense }: { expense?: ExpenseRow }) {
           />
         </FormField>
       </div>
-      <FormField label="Category" htmlFor={`expense-category-${suffix}`}>
+      <FormField label="カテゴリ" htmlFor={`expense-category-${suffix}`}>
         <select
           id={`expense-category-${suffix}`}
           name="category"
@@ -53,7 +53,7 @@ export function ExpenseForm({ expense }: { expense?: ExpenseRow }) {
         </select>
       </FormField>
       <FormField
-        label="Amount"
+        label="金額"
         htmlFor={`expense-amount-${suffix}`}
         error={state.errors?.amount?.[0]}
       >
@@ -66,20 +66,20 @@ export function ExpenseForm({ expense }: { expense?: ExpenseRow }) {
           required
         />
       </FormField>
-      <FormField label="Billing Cycle" htmlFor={`expense-cycle-${suffix}`}>
+      <FormField label="支払い周期" htmlFor={`expense-cycle-${suffix}`}>
         <select
           id={`expense-cycle-${suffix}`}
           name="billingCycle"
           defaultValue={expense?.billing_cycle ?? "MONTHLY"}
         >
-          <option value="MONTHLY">Monthly</option>
-          <option value="YEARLY">Yearly</option>
+          <option value="MONTHLY">毎月</option>
+          <option value="YEARLY">毎年</option>
         </select>
       </FormField>
       <FormField
-        label="Billing Month"
+        label="支払い月"
         htmlFor={`expense-month-${suffix}`}
-        hint="Yearlyの場合のみ"
+        hint="「毎年」を選んだ場合のみ"
       >
         <Input
           id={`expense-month-${suffix}`}
@@ -91,7 +91,7 @@ export function ExpenseForm({ expense }: { expense?: ExpenseRow }) {
         />
       </FormField>
       <div className="sm:col-span-2">
-        <FormField label="Memo" htmlFor={`expense-memo-${suffix}`}>
+        <FormField label="メモ" htmlFor={`expense-memo-${suffix}`}>
           <Textarea
             id={`expense-memo-${suffix}`}
             name="memo"

@@ -14,7 +14,7 @@ import { getItem } from "@/features/items/server/items";
 import { ITEM_STATUS_LABELS } from "@/features/items/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Item詳細" };
+export const metadata: Metadata = { title: "持ち物の詳細" };
 
 export default async function ItemDetailPage({
   params,
@@ -25,29 +25,29 @@ export default async function ItemDetailPage({
   const { item } = await getItem(itemId);
   const details = [
     [
-      "Category",
+      "カテゴリ",
       `${item.category.name}${item.subCategory ? ` / ${item.subCategory.name}` : ""}`,
     ],
-    ["Quantity", String(item.quantity)],
-    ["Color", item.color ?? "—"],
-    ["Size", item.size ?? "—"],
-    ["Purpose", item.purpose ?? "—"],
+    ["数量", String(item.quantity)],
+    ["色", item.color ?? "—"],
+    ["サイズ", item.size ?? "—"],
+    ["用途", item.purpose ?? "—"],
     [
-      "Purchase Price",
+      "購入価格",
       item.purchase_price === null ? "—" : formatCurrency(item.purchase_price),
     ],
-    ["Purchased", formatDate(item.purchased_at)],
-    ["Last Used", formatDate(item.last_used_at)],
+    ["購入日", formatDate(item.purchased_at)],
+    ["最終使用日", formatDate(item.last_used_at)],
   ];
   return (
     <>
       <PageHeader
-        eyebrow="ITEM DETAIL"
+        eyebrow="持ち物の詳細"
         title={item.name}
         action={
           <Link href={`/items/${item.id}/edit`} className={buttonVariants()}>
             <Pencil className="size-4" />
-            Edit
+            編集
           </Link>
         }
       />
@@ -57,7 +57,7 @@ export default async function ItemDetailPage({
             {details.map(([label, value]) => (
               <div key={label}>
                 <p className="text-muted-foreground text-xs font-bold tracking-wide">
-                  {label.toUpperCase()}
+                  {label}
                 </p>
                 <p className="mt-1.5 text-sm leading-6">{value}</p>
               </div>
@@ -70,13 +70,13 @@ export default async function ItemDetailPage({
               target="_blank"
               rel="noreferrer"
             >
-              Product URLを開く
+              商品ページを開く
             </a>
           ) : null}
           {item.memo ? (
             <div className="border-border mt-6 border-t pt-5">
               <p className="text-muted-foreground text-xs font-bold tracking-wide">
-                MEMO
+                メモ
               </p>
               <p className="mt-2 text-sm leading-6 whitespace-pre-wrap">
                 {item.memo}
@@ -87,7 +87,7 @@ export default async function ItemDetailPage({
         <div className="space-y-5">
           <Card>
             <p className="text-muted-foreground text-xs font-bold tracking-wide">
-              STATUS
+              状態
             </p>
             <Badge className="mt-3">{ITEM_STATUS_LABELS[item.status]}</Badge>
             <form action={updateItemStatusAction} className="mt-5 space-y-3">
@@ -95,28 +95,28 @@ export default async function ItemDetailPage({
               <select
                 name="status"
                 defaultValue={item.status}
-                aria-label="Statusを変更"
+                aria-label="状態を変更"
               >
                 <option value="KEEP">残す</option>
                 <option value="MAYBE">迷っている</option>
                 <option value="RELEASE">手放す</option>
               </select>
               <Button type="submit" variant="outline" className="w-full">
-                Statusを更新
+                状態を更新
               </Button>
             </form>
             <form action={requestReviewAction} className="mt-3">
               <input type="hidden" name="itemId" value={item.id} />
               <Button type="submit" variant="ghost" className="w-full">
                 <ListChecks className="size-4" />
-                {item.review_requested ? "Reviewに追加済み" : "Reviewに追加"}
+                {item.review_requested ? "見直しに追加済み" : "見直しに追加"}
               </Button>
             </form>
           </Card>
           <Card>
             <details>
               <summary className="focus-visible:ring-primary cursor-pointer text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none">
-                Archiveする
+                アーカイブする
               </summary>
               <form action={archiveItemAction} className="mt-4 space-y-3">
                 <input type="hidden" name="itemId" value={item.id} />
@@ -134,7 +134,7 @@ export default async function ItemDetailPage({
                 />
                 <Button type="submit" variant="destructive" className="w-full">
                   <Archive className="size-4" />
-                  Archive
+                  アーカイブ
                 </Button>
               </form>
             </details>

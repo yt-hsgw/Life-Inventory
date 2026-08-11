@@ -10,7 +10,7 @@ import { getExpenses } from "@/features/expenses/server/expenses";
 import { EXPENSE_CATEGORY_LABELS } from "@/features/expenses/types";
 import { formatCurrency } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "Expenses" };
+export const metadata: Metadata = { title: "固定費" };
 
 export default async function ExpensesPage() {
   const { expenses, totals } = await getExpenses();
@@ -18,19 +18,19 @@ export default async function ExpensesPage() {
   return (
     <>
       <PageHeader
-        eyebrow="FIXED COST"
-        title="Expenses"
+        eyebrow="定期的な支出"
+        title="固定費"
         description="変動費ではなく、暮らしに定期的に流れる固定費だけを見渡します。"
       />
       <div className="mb-5 grid gap-3 sm:grid-cols-2">
         <Card>
-          <p className="text-muted-foreground text-xs">MONTHLY</p>
+          <p className="text-muted-foreground text-xs">月額</p>
           <p className="text-primary mt-2 text-3xl font-semibold">
             {formatCurrency(Math.round(totals.monthly))}
           </p>
         </Card>
         <Card>
-          <p className="text-muted-foreground text-xs">YEARLY</p>
+          <p className="text-muted-foreground text-xs">年額</p>
           <p className="mt-2 text-3xl font-semibold">
             {formatCurrency(Math.round(totals.annual))}
           </p>
@@ -76,8 +76,8 @@ export default async function ExpensesPage() {
                           <span className="text-muted-foreground text-xs font-normal">
                             /{" "}
                             {expense.billing_cycle === "MONTHLY"
-                              ? "month"
-                              : "year"}
+                              ? "月"
+                              : "年"}
                           </span>
                         </p>
                         {expense.billing_cycle === "YEARLY" ? (

@@ -53,7 +53,7 @@ export async function saveItemAction(
   const { data, error } = await query;
   if (error || !data)
     return failedAction(
-      "Itemを保存できませんでした。カテゴリの組み合わせも確認してください。",
+      "持ち物を保存できませんでした。カテゴリの組み合わせも確認してください。",
     );
   revalidatePath("/items");
   revalidatePath("/dashboard");
@@ -76,7 +76,7 @@ export async function archiveItemAction(formData: FormData) {
     .eq("id", parsed.data.itemId)
     .eq("user_id", userId)
     .is("archived_at", null);
-  if (error) throw new Error("Archiveできませんでした。");
+  if (error) throw new Error("アーカイブできませんでした。");
   revalidatePath("/items");
   revalidatePath("/archive");
   revalidatePath("/dashboard");
@@ -93,7 +93,7 @@ export async function requestReviewAction(formData: FormData) {
     .eq("id", parsed.data.itemId)
     .eq("user_id", userId)
     .is("archived_at", null);
-  if (error) throw new Error("Reviewへ追加できませんでした。");
+  if (error) throw new Error("見直しへ追加できませんでした。");
   revalidatePath("/review");
   revalidatePath(`/items/${parsed.data.itemId}`);
 }
@@ -110,7 +110,7 @@ export async function updateItemStatusAction(formData: FormData) {
     .eq("id", parsed.data.itemId)
     .eq("user_id", userId)
     .is("archived_at", null);
-  if (error) throw new Error("Statusを更新できませんでした。");
+  if (error) throw new Error("状態を更新できませんでした。");
   revalidatePath("/items");
   revalidatePath(`/items/${parsed.data.itemId}`);
   revalidatePath("/dashboard");

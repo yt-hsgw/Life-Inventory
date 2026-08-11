@@ -108,7 +108,7 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
       ) : null}
       <div className="border-border mt-5 border-t pt-5">
         <p className="text-muted-foreground text-xs font-bold tracking-wide">
-          SUB CATEGORIES
+          サブカテゴリ
         </p>
         {category.subCategories.length ? (
           <div className="mt-3 space-y-2">

@@ -23,7 +23,7 @@ export function IdealForm({
       {item ? <input type="hidden" name="idealItemId" value={item.id} /> : null}
       <div className="sm:col-span-2">
         <FormField
-          label="Name"
+          label="名前"
           htmlFor={`ideal-name-${item?.id ?? "new"}`}
           error={state.errors?.name?.[0]}
         >
@@ -37,7 +37,7 @@ export function IdealForm({
         </FormField>
       </div>
       <FormField
-        label="Category"
+        label="カテゴリ"
         htmlFor={`ideal-category-${item?.id ?? "new"}`}
       >
         <select
@@ -53,7 +53,7 @@ export function IdealForm({
         </select>
       </FormField>
       <FormField
-        label="Ideal Quantity"
+        label="理想の数量"
         htmlFor={`ideal-quantity-${item?.id ?? "new"}`}
         error={state.errors?.targetQuantity?.[0]}
       >
@@ -67,7 +67,7 @@ export function IdealForm({
         />
       </FormField>
       <FormField
-        label="Estimated Price"
+        label="想定価格"
         htmlFor={`ideal-price-${item?.id ?? "new"}`}
       >
         <Input
@@ -79,7 +79,7 @@ export function IdealForm({
         />
       </FormField>
       <FormField
-        label="Priority"
+        label="優先度"
         htmlFor={`ideal-priority-${item?.id ?? "new"}`}
       >
         <select
@@ -88,13 +88,13 @@ export function IdealForm({
           defaultValue={item?.priority ?? ""}
         >
           <option value="">未設定</option>
-          <option value="LOW">Low</option>
-          <option value="MEDIUM">Medium</option>
-          <option value="HIGH">High</option>
+          <option value="LOW">低</option>
+          <option value="MEDIUM">中</option>
+          <option value="HIGH">高</option>
         </select>
       </FormField>
       <div className="sm:col-span-2">
-        <FormField label="Memo" htmlFor={`ideal-memo-${item?.id ?? "new"}`}>
+        <FormField label="メモ" htmlFor={`ideal-memo-${item?.id ?? "new"}`}>
           <Textarea
             id={`ideal-memo-${item?.id ?? "new"}`}
             name="memo"
@@ -108,7 +108,9 @@ export function IdealForm({
         </p>
       ) : null}
       <div className="sm:col-span-2">
-        <SubmitButton>{item ? "Idealを更新" : "Idealを追加"}</SubmitButton>
+        <SubmitButton>
+          {item ? "理想の持ち物を更新" : "理想の持ち物を追加"}
+        </SubmitButton>
       </div>
     </form>
   );
