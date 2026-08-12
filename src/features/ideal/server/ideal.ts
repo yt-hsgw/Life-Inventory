@@ -17,11 +17,10 @@ export type IdealComparison = IdealItemRow & {
 };
 
 export async function getIdealComparisons(filter = "ALL") {
-  const [{ supabase, userId }, categories] = await Promise.all([
-    requireUserId(),
-    getCategories(),
-  ]);
-  const [idealResult, itemResult] = await Promise.all([
+  const authContext = await requireUserId();
+  const { supabase, userId } = authContext;
+  const [categories, idealResult, itemResult] = await Promise.all([
+    getCategories(authContext),
     supabase
       .from("ideal_items")
       .select("*")

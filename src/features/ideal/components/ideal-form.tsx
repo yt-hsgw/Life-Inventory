@@ -66,10 +66,7 @@ export function IdealForm({
           required
         />
       </FormField>
-      <FormField
-        label="想定価格"
-        htmlFor={`ideal-price-${item?.id ?? "new"}`}
-      >
+      <FormField label="想定価格" htmlFor={`ideal-price-${item?.id ?? "new"}`}>
         <Input
           id={`ideal-price-${item?.id ?? "new"}`}
           name="estimatedPrice"
@@ -78,10 +75,7 @@ export function IdealForm({
           defaultValue={item?.estimated_price ?? ""}
         />
       </FormField>
-      <FormField
-        label="優先度"
-        htmlFor={`ideal-priority-${item?.id ?? "new"}`}
-      >
+      <FormField label="優先度" htmlFor={`ideal-priority-${item?.id ?? "new"}`}>
         <select
           id={`ideal-priority-${item?.id ?? "new"}`}
           name="priority"
@@ -108,7 +102,7 @@ export function IdealForm({
         </p>
       ) : null}
       <div className="sm:col-span-2">
-        <SubmitButton>
+        <SubmitButton pendingLabel="理想の持ち物を保存中…">
           {item ? "理想の持ち物を更新" : "理想の持ち物を追加"}
         </SubmitButton>
       </div>

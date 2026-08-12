@@ -62,6 +62,8 @@
 - Desktop優先、Tablet / Mobileも利用可能。Mobileではbottom navigationを使う。
 - Item追加は最短3入力。詳細は必要時だけ展開する。
 - Keyboard、明確なFocus、十分なContrast、Icon buttonのaria-labelを保証する。
+- 更新中は対象操作を無効化し、処理内容を示す文言を表示する。失敗時は入力値を保ち、再試行できるエラーを対象フォーム内に表示する。
+- 画面遷移中は現在のApp Shellを維持し、押したナビゲーションと遷移先領域に待機状態を表示する。
 - Dashboard / Item Listは通常データ量で約1秒表示を目標とする。
 
 ## Out of Scope

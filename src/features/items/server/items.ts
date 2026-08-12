@@ -41,10 +41,9 @@ export async function getItems(
   input: { q?: string; category?: string; status?: string } = {},
 ) {
   const filters = itemListQuerySchema.parse(input);
-  const [{ supabase, userId }, categories] = await Promise.all([
-    requireUserId(),
-    getCategories(),
-  ]);
+  const authContext = await requireUserId();
+  const { supabase, userId } = authContext;
+  const categoriesPromise = getCategories(authContext);
   let query = supabase
     .from("items")
     .select("*")
@@ -64,23 +63,27 @@ export async function getItems(
         `name.ilike.%${safe}%,memo.ilike.%${safe}%,purpose.ilike.%${safe}%`,
       );
   }
-  const { data, error } = await query;
+  const [{ data, error }, categories] = await Promise.all([
+    query,
+    categoriesPromise,
+  ]);
   if (error) throw new Error("持ち物を読み込めませんでした。");
   return { items: attachCategories(data, categories), categories, filters };
 }
 
 export async function getItem(itemId: string) {
-  const [{ supabase, userId }, categories] = await Promise.all([
-    requireUserId(),
-    getCategories(),
+  const authContext = await requireUserId();
+  const { supabase, userId } = authContext;
+  const [{ data, error }, categories] = await Promise.all([
+    supabase
+      .from("items")
+      .select("*")
+      .eq("id", itemId)
+      .eq("user_id", userId)
+      .is("archived_at", null)
+      .maybeSingle(),
+    getCategories(authContext),
   ]);
-  const { data, error } = await supabase
-    .from("items")
-    .select("*")
-    .eq("id", itemId)
-    .eq("user_id", userId)
-    .is("archived_at", null)
-    .maybeSingle();
   if (error) throw new Error("持ち物を読み込めませんでした。");
   if (!data) notFound();
   const [item] = attachCategories([data], categories);
@@ -89,17 +92,18 @@ export async function getItem(itemId: string) {
 }
 
 export async function getArchivedItems() {
-  const [{ supabase, userId }, categories] = await Promise.all([
-    requireUserId(),
-    getCategories(),
+  const authContext = await requireUserId();
+  const { supabase, userId } = authContext;
+  const [{ data, error }, categories] = await Promise.all([
+    supabase
+      .from("items")
+      .select("*")
+      .eq("user_id", userId)
+      .not("archived_at", "is", null)
+      .order("archived_at", { ascending: false })
+      .limit(500),
+    getCategories(authContext),
   ]);
-  const { data, error } = await supabase
-    .from("items")
-    .select("*")
-    .eq("user_id", userId)
-    .not("archived_at", "is", null)
-    .order("archived_at", { ascending: false })
-    .limit(500);
   if (error) throw new Error("アーカイブを読み込めませんでした。");
   return attachCategories(data, categories);
 }

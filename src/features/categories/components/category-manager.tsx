@@ -9,9 +9,9 @@ import {
 import type { CategoryWithSubs } from "@/features/categories/server/categories";
 import type { SubCategory } from "@/types/database.generated";
 import { INITIAL_ACTION_STATE } from "@/lib/action-state";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { SubmitButton } from "@/components/ui/submit-button";
 
 const SUGGESTED_CATEGORIES = [
   "デジタル・家電",
@@ -37,10 +37,10 @@ function NewCategoryForm() {
         required
       />
       <input type="hidden" name="sortOrder" value="100" />
-      <Button type="submit">
+      <SubmitButton pendingLabel="カテゴリを追加中…">
         <Plus className="size-4" />
         追加
-      </Button>
+      </SubmitButton>
       {state.message ? (
         <p className="text-destructive col-span-2 text-sm" role="alert">
           {state.message}
@@ -65,10 +65,10 @@ function PresetCategoryButton({
     <form action={action}>
       <input type="hidden" name="name" value={name} />
       <input type="hidden" name="sortOrder" value={sortOrder} />
-      <Button type="submit" variant="outline" size="sm">
+      <SubmitButton variant="outline" size="sm" pendingLabel="追加中…">
         <Plus className="size-3.5" />
         {name}
-      </Button>
+      </SubmitButton>
       {state.message ? (
         <span className="sr-only" role="alert">
           {state.message}
@@ -101,10 +101,10 @@ function SubCategoryRow({
         aria-label={`${subCategory.name}の名前`}
         required
       />
-      <Button type="submit" variant="outline">
+      <SubmitButton variant="outline" pendingLabel="更新中…">
         <Save className="size-4" />
         更新
-      </Button>
+      </SubmitButton>
       {state.message ? (
         <p className="text-destructive col-span-2 text-sm" role="alert">
           {state.message}
@@ -138,10 +138,10 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
           aria-label={`${category.name}の名前`}
           required
         />
-        <Button type="submit" variant="outline">
+        <SubmitButton variant="outline" pendingLabel="更新中…">
           <Save className="size-4" />
           更新
-        </Button>
+        </SubmitButton>
       </form>
       {categoryState.message ? (
         <p className="text-destructive mt-2 text-sm" role="alert">
@@ -182,10 +182,10 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
             aria-label={`${category.name}にサブカテゴリを追加`}
             required
           />
-          <Button type="submit" variant="ghost">
+          <SubmitButton variant="ghost" pendingLabel="追加中…">
             <Plus className="size-4" />
             追加
-          </Button>
+          </SubmitButton>
         </form>
         {subState.message ? (
           <p className="text-destructive mt-2 text-sm" role="alert">

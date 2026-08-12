@@ -23,6 +23,8 @@ import {
   type ReactNode,
 } from "react";
 import { signOutAction } from "@/features/auth/actions";
+import { NavigationPendingHint } from "@/components/navigation/navigation-pending-hint";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -135,6 +137,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Image src="/app-icon.svg" alt="" width={20} height={20} />
           </span>
           {showLabels ? <span>LIFE INVENTORY</span> : null}
+          <NavigationPendingHint />
         </Link>
         <nav className="mt-10 space-y-1" aria-label="メインナビゲーション">
           {navItems.map((item) => (
@@ -150,7 +153,10 @@ export function AppShell({ children }: { children: ReactNode }) {
               )}
             >
               <item.icon className="size-4 shrink-0" />
-              {showLabels ? <span className="whitespace-nowrap">{item.label}</span> : null}
+              {showLabels ? (
+                <span className="whitespace-nowrap">{item.label}</span>
+              ) : null}
+              <NavigationPendingHint />
             </Link>
           ))}
         </nav>
@@ -166,7 +172,10 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
           >
             <Archive className="size-4 shrink-0" />
-            {showLabels ? <span className="whitespace-nowrap">アーカイブ</span> : null}
+            {showLabels ? (
+              <span className="whitespace-nowrap">アーカイブ</span>
+            ) : null}
+            <NavigationPendingHint />
           </Link>
           <Link
             href="/settings/categories"
@@ -179,17 +188,24 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
           >
             <Settings className="size-4 shrink-0" />
-            {showLabels ? <span className="whitespace-nowrap">設定</span> : null}
+            {showLabels ? (
+              <span className="whitespace-nowrap">設定</span>
+            ) : null}
+            <NavigationPendingHint />
           </Link>
           <form action={signOutAction}>
-            <button
+            <SubmitButton
+              variant="ghost"
+              pendingLabel="ログアウト中…"
               title={showLabels ? undefined : "ログアウト"}
               aria-label="ログアウト"
               className="text-destructive hover:bg-destructive/10 focus-visible:ring-destructive flex min-h-11 w-full items-center gap-3 overflow-hidden rounded-xl px-3 text-left text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none"
             >
               <LogOut className="size-4 shrink-0" />
-              {showLabels ? <span className="whitespace-nowrap">ログアウト</span> : null}
-            </button>
+              {showLabels ? (
+                <span className="whitespace-nowrap">ログアウト</span>
+              ) : null}
+            </SubmitButton>
           </form>
         </div>
         <button
@@ -200,7 +216,9 @@ export function AppShell({ children }: { children: ReactNode }) {
           aria-valuemin={COLLAPSED_SIDEBAR_WIDTH}
           aria-valuemax={MAX_SIDEBAR_WIDTH}
           aria-valuenow={Math.round(sidebarWidth)}
-          aria-valuetext={showLabels ? `${Math.round(sidebarWidth)}ピクセル` : "折りたたみ"}
+          aria-valuetext={
+            showLabels ? `${Math.round(sidebarWidth)}ピクセル` : "折りたたみ"
+          }
           title="ドラッグで幅を変更・クリックで折りたたみ"
           className="group focus-visible:ring-primary absolute inset-y-0 -right-2 hidden w-4 cursor-col-resize touch-none focus-visible:ring-2 focus-visible:outline-none md:block"
           onPointerDown={handleResizeStart}
@@ -233,12 +251,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             href={item.href}
             aria-label={item.label}
             className={cn(
-              "text-muted-foreground focus-visible:ring-primary flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-semibold focus-visible:ring-2 focus-visible:outline-none",
+              "text-muted-foreground focus-visible:ring-primary relative flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-semibold focus-visible:ring-2 focus-visible:outline-none",
               isActive(item.href) && "bg-secondary text-foreground",
             )}
           >
             <item.icon className="size-4" />
             {item.label}
+            <NavigationPendingHint className="absolute top-1.5 right-1.5" />
           </Link>
         ))}
       </nav>

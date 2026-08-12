@@ -5,30 +5,34 @@ import { calculateExpenseTotals } from "@/features/expenses/domain/calculate-exp
 import { requireUserId } from "@/lib/auth";
 
 export async function getDashboard() {
-  const [{ supabase, userId }, categories] = await Promise.all([
-    requireUserId(),
-    getCategories(),
+  const authContext = await requireUserId();
+  const { supabase, userId } = authContext;
+  const [
+    categories,
+    itemResult,
+    idealResult,
+    expenseResult,
+    reviewCountResult,
+  ] = await Promise.all([
+    getCategories(authContext),
+    supabase
+      .from("items")
+      .select("quantity,status,review_requested,category_id")
+      .eq("user_id", userId)
+      .is("archived_at", null)
+      .limit(5000),
+    supabase
+      .from("ideal_items")
+      .select("target_quantity")
+      .eq("user_id", userId)
+      .limit(5000),
+    supabase
+      .from("expenses")
+      .select("amount,billing_cycle")
+      .eq("user_id", userId)
+      .limit(5000),
+    supabase.rpc("get_review_queue_count"),
   ]);
-  const [itemResult, idealResult, expenseResult, reviewCountResult] =
-    await Promise.all([
-      supabase
-        .from("items")
-        .select("quantity,status,review_requested,category_id")
-        .eq("user_id", userId)
-        .is("archived_at", null)
-        .limit(5000),
-      supabase
-        .from("ideal_items")
-        .select("target_quantity")
-        .eq("user_id", userId)
-        .limit(5000),
-      supabase
-        .from("expenses")
-        .select("amount,billing_cycle")
-        .eq("user_id", userId)
-        .limit(5000),
-      supabase.rpc("get_review_queue_count"),
-    ]);
   if (
     itemResult.error ||
     idealResult.error ||

@@ -71,7 +71,7 @@
 
 ### `items`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (4)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (5)、`types` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (5)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (6)、`types` (1)
 
 - `src/features/items/actions.test.ts`
 - `src/features/items/actions.ts`
@@ -80,6 +80,8 @@
 - `src/features/items/components/item-color-field.tsx`
 - `src/features/items/components/item-form.tsx`
 - `src/features/items/components/item-list.tsx`
+- `src/features/items/components/item-state-controls.test.tsx`
+- `src/features/items/components/item-state-controls.tsx`
 - `src/features/items/domain/item-color.test.ts`
 - `src/features/items/domain/item-color.ts`
 - `src/features/items/domain/item-metrics.test.ts`
@@ -101,7 +103,7 @@
 
 ## Exported symbols
 
-JSDoc 付与済み: 0 / 115
+JSDoc 付与済み: 0 / 119
 
 | シンボル | 種別 | JSDoc | 定義 |
 | --- | --- | --- | --- |
@@ -111,17 +113,18 @@ JSDoc 付与済み: 0 / 115
 | `DashboardPage` | default function | なし | `src/app/(app)/dashboard/page.tsx:38` |
 | `metadata` | value | なし | `src/app/(app)/expenses/page.tsx:15` |
 | `ExpensesPage` | default function | なし | `src/app/(app)/expenses/page.tsx:17` |
-| `metadata` | value | なし | `src/app/(app)/ideal/page.tsx:14` |
-| `IdealPage` | default function | なし | `src/app/(app)/ideal/page.tsx:16` |
+| `metadata` | value | なし | `src/app/(app)/ideal/page.tsx:15` |
+| `IdealPage` | default function | なし | `src/app/(app)/ideal/page.tsx:17` |
 | `metadata` | value | なし | `src/app/(app)/items/[itemId]/edit/page.tsx:6` |
 | `EditItemPage` | default function | なし | `src/app/(app)/items/[itemId]/edit/page.tsx:8` |
-| `metadata` | value | なし | `src/app/(app)/items/[itemId]/page.tsx:20` |
-| `ItemDetailPage` | default function | なし | `src/app/(app)/items/[itemId]/page.tsx:22` |
+| `metadata` | value | なし | `src/app/(app)/items/[itemId]/page.tsx:16` |
+| `ItemDetailPage` | default function | なし | `src/app/(app)/items/[itemId]/page.tsx:18` |
 | `metadata` | value | なし | `src/app/(app)/items/new/page.tsx:6` |
 | `NewItemPage` | default function | なし | `src/app/(app)/items/new/page.tsx:8` |
 | `metadata` | value | なし | `src/app/(app)/items/page.tsx:9` |
 | `ItemsPage` | default function | なし | `src/app/(app)/items/page.tsx:11` |
 | `AuthenticatedLayout` | default function | なし | `src/app/(app)/layout.tsx:5` |
+| `AuthenticatedLoading` | default function | なし | `src/app/(app)/loading.tsx:1` |
 | `metadata` | value | なし | `src/app/(app)/review/page.tsx:16` |
 | `ReviewPage` | default function | なし | `src/app/(app)/review/page.tsx:18` |
 | `metadata` | value | なし | `src/app/(app)/settings/categories/page.tsx:6` |
@@ -137,16 +140,18 @@ JSDoc 付与済み: 0 / 115
 | `NotFound` | default function | なし | `src/app/not-found.tsx:4` |
 | `HomePage` | default function | なし | `src/app/page.tsx:3` |
 | `EmptyState` | function | なし | `src/components/feedback/empty-state.tsx:4` |
-| `AppShell` | function | なし | `src/components/layout/app-shell.tsx:41` |
+| `AppShell` | function | なし | `src/components/layout/app-shell.tsx:43` |
 | `PageHeader` | function | なし | `src/components/layout/page-header.tsx:3` |
+| `NavigationPendingHint` | function | なし | `src/components/navigation/navigation-pending-hint.tsx:7` |
 | `Badge` | function | なし | `src/components/ui/badge.tsx:4` |
+| `ButtonProps` | type | なし | `src/components/ui/button.tsx:22` |
 | `Button` | function | なし | `src/components/ui/button.tsx:25` |
 | `buttonVariants` | named export | なし | `src/components/ui/button.tsx:34` |
 | `Card` | function | なし | `src/components/ui/card.tsx:4` |
 | `DisclosureSummary` | function | なし | `src/components/ui/disclosure-summary.tsx:5` |
 | `FormField` | function | なし | `src/components/ui/form-field.tsx:11` |
 | `Input` | function | なし | `src/components/ui/input.tsx:4` |
-| `SubmitButton` | function | なし | `src/components/ui/submit-button.tsx:6` |
+| `SubmitButton` | function | なし | `src/components/ui/submit-button.tsx:13` |
 | `Textarea` | function | なし | `src/components/ui/textarea.tsx:4` |
 | `signOutAction` | function | なし | `src/features/auth/actions.ts:6` |
 | `GoogleAuthButton` | function | なし | `src/features/auth/components/google-auth-button.tsx:10` |
@@ -156,7 +161,7 @@ JSDoc 付与済み: 0 / 115
 | `categorySchema` | value | なし | `src/features/categories/schemas/category-schema.ts:3` |
 | `subCategorySchema` | value | なし | `src/features/categories/schemas/category-schema.ts:13` |
 | `CategoryWithSubs` | type | なし | `src/features/categories/server/categories.ts:8` |
-| `getCategories` | function | なし | `src/features/categories/server/categories.ts:10` |
+| `getCategories` | function | なし | `src/features/categories/server/categories.ts:11` |
 | `getDashboard` | function | なし | `src/features/dashboard/server/dashboard.ts:7` |
 | `saveExpenseAction` | function | なし | `src/features/expenses/actions.ts:13` |
 | `deleteExpenseAction` | function | なし | `src/features/expenses/actions.ts:44` |
@@ -177,14 +182,15 @@ JSDoc 付与済み: 0 / 115
 | `idealSchema` | value | なし | `src/features/ideal/schemas/ideal-schema.ts:3` |
 | `IdealComparison` | type | なし | `src/features/ideal/server/ideal.ts:12` |
 | `getIdealComparisons` | function | なし | `src/features/ideal/server/ideal.ts:19` |
-| `saveItemAction` | function | なし | `src/features/items/actions.ts:15` |
-| `archiveItemAction` | function | なし | `src/features/items/actions.ts:65` |
-| `setReviewRequestedAction` | function | なし | `src/features/items/actions.ts:86` |
-| `updateItemStatusAction` | function | なし | `src/features/items/actions.ts:113` |
+| `saveItemAction` | function | なし | `src/features/items/actions.ts:16` |
+| `archiveItemAction` | function | なし | `src/features/items/actions.ts:66` |
+| `setReviewRequestedAction` | function | なし | `src/features/items/actions.ts:87` |
+| `updateItemStatusAction` | function | なし | `src/features/items/actions.ts:118` |
 | `ItemColorDisplay` | function | なし | `src/features/items/components/item-color-display.tsx:4` |
 | `ItemColorField` | function | なし | `src/features/items/components/item-color-field.tsx:15` |
 | `ItemForm` | function | なし | `src/features/items/components/item-form.tsx:17` |
 | `ItemList` | function | なし | `src/features/items/components/item-list.tsx:13` |
+| `ItemStateControls` | function | なし | `src/features/items/components/item-state-controls.tsx:15` |
 | `ITEM_COLOR_PRESETS` | value | なし | `src/features/items/domain/item-color.ts:1` |
 | `ITEM_COLOR_HEX_PATTERN` | value | なし | `src/features/items/domain/item-color.ts:15` |
 | `normalizeItemColor` | function | なし | `src/features/items/domain/item-color.ts:17` |
@@ -195,8 +201,8 @@ JSDoc 付与済み: 0 / 115
 | `itemListQuerySchema` | value | なし | `src/features/items/schemas/item-schema.ts:72` |
 | `attachCategories` | function | なし | `src/features/items/server/items.ts:10` |
 | `getItems` | function | なし | `src/features/items/server/items.ts:40` |
-| `getItem` | function | なし | `src/features/items/server/items.ts:72` |
-| `getArchivedItems` | function | なし | `src/features/items/server/items.ts:91` |
+| `getItem` | function | なし | `src/features/items/server/items.ts:74` |
+| `getArchivedItems` | function | なし | `src/features/items/server/items.ts:94` |
 | `ITEM_STATUSES` | value | なし | `src/features/items/types.ts:7` |
 | `ITEM_STATUS_LABELS` | value | なし | `src/features/items/types.ts:8` |
 | `ItemView` | type | なし | `src/features/items/types.ts:14` |
@@ -206,7 +212,7 @@ JSDoc 付与済み: 0 / 115
 | `reviewSessionSchema` | value | なし | `src/features/review/schemas/review-schema.ts:3` |
 | `reviewSchema` | value | なし | `src/features/review/schemas/review-schema.ts:5` |
 | `getReviewQueue` | function | なし | `src/features/review/server/review.ts:7` |
-| `getReviewSummary` | function | なし | `src/features/review/server/review.ts:20` |
+| `getReviewSummary` | function | なし | `src/features/review/server/review.ts:21` |
 | `ActionState` | type | なし | `src/lib/action-state.ts:1` |
 | `INITIAL_ACTION_STATE` | value | なし | `src/lib/action-state.ts:7` |
 | `invalidAction` | function | なし | `src/lib/action-state.ts:9` |

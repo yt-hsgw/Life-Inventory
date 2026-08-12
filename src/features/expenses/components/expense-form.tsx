@@ -105,7 +105,9 @@ export function ExpenseForm({ expense }: { expense?: ExpenseRow }) {
         </p>
       ) : null}
       <div className="sm:col-span-2">
-        <SubmitButton>{expense ? "固定費を更新" : "固定費を追加"}</SubmitButton>
+        <SubmitButton pendingLabel="固定費を保存中…">
+          {expense ? "固定費を更新" : "固定費を追加"}
+        </SubmitButton>
       </div>
     </form>
   );

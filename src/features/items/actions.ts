@@ -6,6 +6,7 @@ import { z } from "zod";
 import { itemSchema } from "@/features/items/schemas/item-schema";
 import {
   failedAction,
+  INITIAL_ACTION_STATE,
   invalidAction,
   type ActionState,
 } from "@/lib/action-state";
@@ -83,7 +84,10 @@ export async function archiveItemAction(formData: FormData) {
   redirect("/archive");
 }
 
-export async function setReviewRequestedAction(formData: FormData) {
+export async function setReviewRequestedAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
   const parsed = idSchema
     .extend({
       reviewRequested: z
@@ -91,7 +95,7 @@ export async function setReviewRequestedAction(formData: FormData) {
         .transform((value) => value === "true"),
     })
     .safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return;
+  if (!parsed.success) return failedAction("見直しの入力が正しくありません。");
   const { supabase, userId } = await requireUserId();
   const { error } = await supabase
     .from("items")
@@ -100,7 +104,7 @@ export async function setReviewRequestedAction(formData: FormData) {
     .eq("user_id", userId)
     .is("archived_at", null);
   if (error)
-    throw new Error(
+    return failedAction(
       parsed.data.reviewRequested
         ? "見直しへ追加できませんでした。"
         : "見直しを解除できませんでした。",
@@ -108,13 +112,17 @@ export async function setReviewRequestedAction(formData: FormData) {
   revalidatePath("/review");
   revalidatePath(`/items/${parsed.data.itemId}`);
   revalidatePath("/dashboard");
+  return INITIAL_ACTION_STATE;
 }
 
-export async function updateItemStatusAction(formData: FormData) {
+export async function updateItemStatusAction(
+  _: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
   const parsed = idSchema
     .extend({ status: z.enum(["KEEP", "MAYBE", "RELEASE"]) })
     .safeParse(Object.fromEntries(formData));
-  if (!parsed.success) return;
+  if (!parsed.success) return failedAction("状態の入力が正しくありません。");
   const { supabase, userId } = await requireUserId();
   const { error } = await supabase
     .from("items")
@@ -122,8 +130,9 @@ export async function updateItemStatusAction(formData: FormData) {
     .eq("id", parsed.data.itemId)
     .eq("user_id", userId)
     .is("archived_at", null);
-  if (error) throw new Error("状態を更新できませんでした。");
+  if (error) return failedAction("状態を更新できませんでした。");
   revalidatePath("/items");
   revalidatePath(`/items/${parsed.data.itemId}`);
   revalidatePath("/dashboard");
+  return INITIAL_ACTION_STATE;
 }

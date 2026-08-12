@@ -1,5 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { setReviewRequestedAction } from "@/features/items/actions";
+import {
+  setReviewRequestedAction,
+  updateItemStatusAction,
+} from "@/features/items/actions";
+import { INITIAL_ACTION_STATE } from "@/lib/action-state";
 
 const mocks = vi.hoisted(() => ({
   eq: vi.fn(),
@@ -43,7 +47,10 @@ describe("setReviewRequestedAction", () => {
     formData.set("itemId", ITEM_ID);
     formData.set("reviewRequested", input);
 
-    await setReviewRequestedAction(formData);
+    const result = await setReviewRequestedAction(
+      INITIAL_ACTION_STATE,
+      formData,
+    );
 
     expect(mocks.update).toHaveBeenCalledWith({ review_requested: expected });
     expect(mocks.eq).toHaveBeenCalledWith("id", ITEM_ID);
@@ -52,6 +59,7 @@ describe("setReviewRequestedAction", () => {
     expect(mocks.revalidatePath).toHaveBeenCalledWith("/review");
     expect(mocks.revalidatePath).toHaveBeenCalledWith(`/items/${ITEM_ID}`);
     expect(mocks.revalidatePath).toHaveBeenCalledWith("/dashboard");
+    expect(result).toEqual(INITIAL_ACTION_STATE);
   });
 
   it("rejects an unsupported review flag before authentication", async () => {
@@ -59,9 +67,31 @@ describe("setReviewRequestedAction", () => {
     formData.set("itemId", ITEM_ID);
     formData.set("reviewRequested", "on");
 
-    await setReviewRequestedAction(formData);
+    const result = await setReviewRequestedAction(
+      INITIAL_ACTION_STATE,
+      formData,
+    );
 
     expect(mocks.requireUserId).not.toHaveBeenCalled();
     expect(mocks.update).not.toHaveBeenCalled();
+    expect(result).toEqual({
+      status: "error",
+      message: "見直しの入力が正しくありません。",
+    });
+  });
+
+  it("returns a retryable error without revalidating when status update fails", async () => {
+    mocks.is.mockResolvedValue({ error: new Error("database detail") });
+    const formData = new FormData();
+    formData.set("itemId", ITEM_ID);
+    formData.set("status", "MAYBE");
+
+    const result = await updateItemStatusAction(INITIAL_ACTION_STATE, formData);
+
+    expect(result).toEqual({
+      status: "error",
+      message: "状態を更新できませんでした。",
+    });
+    expect(mocks.revalidatePath).not.toHaveBeenCalled();
   });
 });

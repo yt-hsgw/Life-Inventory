@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Archive, ListPlus, ListX, Pencil } from "lucide-react";
+import { Archive, Pencil } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants, Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DisclosureSummary } from "@/components/ui/disclosure-summary";
-import {
-  archiveItemAction,
-  setReviewRequestedAction,
-  updateItemStatusAction,
-} from "@/features/items/actions";
+import { SubmitButton } from "@/components/ui/submit-button";
+import { archiveItemAction } from "@/features/items/actions";
 import { ItemColorDisplay } from "@/features/items/components/item-color-display";
+import { ItemStateControls } from "@/features/items/components/item-state-controls";
 import { getItem } from "@/features/items/server/items";
-import { ITEM_STATUS_LABELS } from "@/features/items/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "持ち物の詳細" };
@@ -89,46 +85,11 @@ export default async function ItemDetailPage({
         </Card>
         <div className="space-y-5">
           <Card>
-            <p className="text-muted-foreground text-xs font-bold tracking-wide">
-              状態
-            </p>
-            <Badge className="mt-3">{ITEM_STATUS_LABELS[item.status]}</Badge>
-            <form action={updateItemStatusAction} className="mt-5 space-y-3">
-              <input type="hidden" name="itemId" value={item.id} />
-              <select
-                name="status"
-                defaultValue={item.status}
-                aria-label="状態を変更"
-              >
-                <option value="KEEP">残す</option>
-                <option value="MAYBE">迷っている</option>
-                <option value="RELEASE">手放す</option>
-              </select>
-              <Button type="submit" variant="outline" className="w-full">
-                状態を更新
-              </Button>
-            </form>
-            <form action={setReviewRequestedAction} className="mt-3">
-              <input type="hidden" name="itemId" value={item.id} />
-              <input
-                type="hidden"
-                name="reviewRequested"
-                value={String(!item.review_requested)}
-              />
-              <Button type="submit" variant="ghost" className="w-full">
-                {item.review_requested ? (
-                  <ListX className="size-4" />
-                ) : (
-                  <ListPlus className="size-4" />
-                )}
-                {item.review_requested ? "見直しを解除" : "見直しに追加"}
-              </Button>
-            </form>
-            {item.status === "MAYBE" ? (
-              <p className="text-muted-foreground mt-2 text-xs leading-5">
-                状態が「迷っている」の間は、依頼を解除しても見直し対象です。
-              </p>
-            ) : null}
+            <ItemStateControls
+              itemId={item.id}
+              status={item.status}
+              reviewRequested={item.review_requested}
+            />
           </Card>
           <Card>
             <details className="group">
@@ -152,10 +113,14 @@ export default async function ItemDetailPage({
                   name="releaseReason"
                   maxLength={255}
                 />
-                <Button type="submit" variant="destructive" className="w-full">
+                <SubmitButton
+                  variant="destructive"
+                  className="w-full"
+                  pendingLabel="アーカイブ中…"
+                >
                   <Archive className="size-4" />
                   アーカイブ
-                </Button>
+                </SubmitButton>
               </form>
             </details>
           </Card>

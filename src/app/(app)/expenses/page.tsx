@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Pencil } from "lucide-react";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { PageHeader } from "@/components/layout/page-header";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { DisclosureSummary } from "@/components/ui/disclosure-summary";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { deleteExpenseAction } from "@/features/expenses/actions";
 import { monthlyEquivalent } from "@/features/expenses/domain/calculate-expenses";
 import { ExpenseForm } from "@/features/expenses/components/expense-form";
@@ -78,9 +78,7 @@ export default async function ExpensesPage() {
                           {formatCurrency(expense.amount)}{" "}
                           <span className="text-muted-foreground text-xs font-normal">
                             /{" "}
-                            {expense.billing_cycle === "MONTHLY"
-                              ? "月"
-                              : "年"}
+                            {expense.billing_cycle === "MONTHLY" ? "月" : "年"}
                           </span>
                         </p>
                         {expense.billing_cycle === "YEARLY" ? (
@@ -113,9 +111,12 @@ export default async function ExpensesPage() {
                             name="expenseId"
                             value={expense.id}
                           />
-                          <Button type="submit" variant="destructive">
+                          <SubmitButton
+                            variant="destructive"
+                            pendingLabel="削除中…"
+                          >
                             固定費を削除
-                          </Button>
+                          </SubmitButton>
                         </form>
                       </div>
                     </details>

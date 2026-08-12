@@ -222,7 +222,9 @@ export function ItemForm({
           {state.message}
         </p>
       ) : null}
-      <SubmitButton>{item ? "変更を保存" : "持ち物を追加"}</SubmitButton>
+      <SubmitButton pendingLabel="持ち物を保存中…">
+        {item ? "変更を保存" : "持ち物を追加"}
+      </SubmitButton>
     </form>
   );
 }

@@ -30,7 +30,7 @@ src/app (routing / composition)
 | `dashboard` | 1 | server: 1 |
 | `expenses` | 7 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 1、types: 1 |
 | `ideal` | 6 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 1 |
-| `items` | 15 | actions: 1、components: 4、domain: 2、schemas: 1、server: 1、tests: 5、types: 1 |
+| `items` | 17 | actions: 1、components: 5、domain: 2、schemas: 1、server: 1、tests: 6、types: 1 |
 | `review` | 5 | actions: 1、components: 2、schemas: 1、server: 1 |
 
 ## Server Actions
@@ -46,10 +46,10 @@ Server Action は認証・入力検証を含む変更処理の入口です。複
 | `deleteExpenseAction` | `expenses` | `src/features/expenses/actions.ts:44` |
 | `saveIdealAction` | `ideal` | `src/features/ideal/actions.ts:13` |
 | `deleteIdealAction` | `ideal` | `src/features/ideal/actions.ts:44` |
-| `saveItemAction` | `items` | `src/features/items/actions.ts:15` |
-| `archiveItemAction` | `items` | `src/features/items/actions.ts:65` |
-| `setReviewRequestedAction` | `items` | `src/features/items/actions.ts:86` |
-| `updateItemStatusAction` | `items` | `src/features/items/actions.ts:113` |
+| `saveItemAction` | `items` | `src/features/items/actions.ts:16` |
+| `archiveItemAction` | `items` | `src/features/items/actions.ts:66` |
+| `setReviewRequestedAction` | `items` | `src/features/items/actions.ts:87` |
+| `updateItemStatusAction` | `items` | `src/features/items/actions.ts:118` |
 | `reviewItemAction` | `review` | `src/features/review/actions.ts:8` |
 
 ## App Router の入口

@@ -3,8 +3,9 @@ import { Pencil } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { Card } from "@/components/ui/card";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { DisclosureSummary } from "@/components/ui/disclosure-summary";
+import { SubmitButton } from "@/components/ui/submit-button";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { IdealForm } from "@/features/ideal/components/ideal-form";
 import { deleteIdealAction } from "@/features/ideal/actions";
@@ -42,7 +43,9 @@ export default async function IdealPage({
       <div className="mb-5 grid gap-3 sm:grid-cols-3">
         <Card>
           <p className="text-muted-foreground text-xs">現在</p>
-          <p className="font-numeric mt-2 text-3xl font-semibold">{currentTotal}</p>
+          <p className="font-numeric mt-2 text-3xl font-semibold">
+            {currentTotal}
+          </p>
         </Card>
         <Card>
           <p className="text-muted-foreground text-xs">理想</p>
@@ -142,9 +145,9 @@ export default async function IdealPage({
                   <IdealForm categories={categories} item={item} />
                   <form action={deleteIdealAction} className="mt-4">
                     <input type="hidden" name="idealItemId" value={item.id} />
-                    <Button type="submit" variant="destructive">
+                    <SubmitButton variant="destructive" pendingLabel="削除中…">
                       理想の持ち物を削除
-                    </Button>
+                    </SubmitButton>
                   </form>
                 </div>
               </details>

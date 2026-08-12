@@ -8,7 +8,7 @@
 
 優先度は `domain` / `server` / Server Action / 共通ライブラリを高、型・schema・component を中、Next.js の規約ファイルを低として分類しています。
 
-候補数: 115
+候補数: 119
 
 | 優先度 | シンボル | 種別 | 定義 | コメントで説明する観点 |
 | --- | --- | --- | --- | --- |
@@ -16,7 +16,7 @@
 | 高 | `saveCategoryAction` | function | `src/features/categories/actions.ts:15` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `saveSubCategoryAction` | function | `src/features/categories/actions.ts:38` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `CategoryWithSubs` | type | `src/features/categories/server/categories.ts:8` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `getCategories` | function | `src/features/categories/server/categories.ts:10` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `getCategories` | function | `src/features/categories/server/categories.ts:11` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `getDashboard` | function | `src/features/dashboard/server/dashboard.ts:7` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `saveExpenseAction` | function | `src/features/expenses/actions.ts:13` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `deleteExpenseAction` | function | `src/features/expenses/actions.ts:44` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
@@ -31,10 +31,10 @@
 | 高 | `getGapDirection` | function | `src/features/ideal/domain/calculate-gap.ts:7` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `IdealComparison` | type | `src/features/ideal/server/ideal.ts:12` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `getIdealComparisons` | function | `src/features/ideal/server/ideal.ts:19` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `saveItemAction` | function | `src/features/items/actions.ts:15` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `archiveItemAction` | function | `src/features/items/actions.ts:65` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `setReviewRequestedAction` | function | `src/features/items/actions.ts:86` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `updateItemStatusAction` | function | `src/features/items/actions.ts:113` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `saveItemAction` | function | `src/features/items/actions.ts:16` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `archiveItemAction` | function | `src/features/items/actions.ts:66` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `setReviewRequestedAction` | function | `src/features/items/actions.ts:87` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `updateItemStatusAction` | function | `src/features/items/actions.ts:118` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `ITEM_COLOR_PRESETS` | value | `src/features/items/domain/item-color.ts:1` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `ITEM_COLOR_HEX_PATTERN` | value | `src/features/items/domain/item-color.ts:15` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `normalizeItemColor` | function | `src/features/items/domain/item-color.ts:17` | 計算規則、値の単位、境界値、不変条件 |
@@ -43,11 +43,11 @@
 | 高 | `isReviewTarget` | function | `src/features/items/domain/item-metrics.ts:12` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `attachCategories` | function | `src/features/items/server/items.ts:10` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `getItems` | function | `src/features/items/server/items.ts:40` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `getItem` | function | `src/features/items/server/items.ts:72` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `getArchivedItems` | function | `src/features/items/server/items.ts:91` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `getItem` | function | `src/features/items/server/items.ts:74` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `getArchivedItems` | function | `src/features/items/server/items.ts:94` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `reviewItemAction` | function | `src/features/review/actions.ts:8` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `getReviewQueue` | function | `src/features/review/server/review.ts:7` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `getReviewSummary` | function | `src/features/review/server/review.ts:20` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `getReviewSummary` | function | `src/features/review/server/review.ts:21` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `ActionState` | type | `src/lib/action-state.ts:1` | 表現するドメイン概念、単位、不変条件 |
 | 高 | `INITIAL_ACTION_STATE` | value | `src/lib/action-state.ts:7` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `invalidAction` | function | `src/lib/action-state.ts:9` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
@@ -62,16 +62,18 @@
 | 高 | `formatCurrency` | function | `src/lib/utils.ts:8` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `formatDate` | function | `src/lib/utils.ts:16` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 中 | `EmptyState` | function | `src/components/feedback/empty-state.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `AppShell` | function | `src/components/layout/app-shell.tsx:41` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `AppShell` | function | `src/components/layout/app-shell.tsx:43` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `PageHeader` | function | `src/components/layout/page-header.tsx:3` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `NavigationPendingHint` | function | `src/components/navigation/navigation-pending-hint.tsx:7` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `Badge` | function | `src/components/ui/badge.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ButtonProps` | type | `src/components/ui/button.tsx:22` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `Button` | function | `src/components/ui/button.tsx:25` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `buttonVariants` | named export | `src/components/ui/button.tsx:34` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `Card` | function | `src/components/ui/card.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `DisclosureSummary` | function | `src/components/ui/disclosure-summary.tsx:5` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `FormField` | function | `src/components/ui/form-field.tsx:11` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `Input` | function | `src/components/ui/input.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `SubmitButton` | function | `src/components/ui/submit-button.tsx:6` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `SubmitButton` | function | `src/components/ui/submit-button.tsx:13` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `Textarea` | function | `src/components/ui/textarea.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `GoogleAuthButton` | function | `src/features/auth/components/google-auth-button.tsx:10` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `CategoryManager` | function | `src/features/categories/components/category-manager.tsx:200` | UI の責務、主要 props、ユーザー操作と副作用 |
@@ -87,6 +89,7 @@
 | 中 | `ItemColorField` | function | `src/features/items/components/item-color-field.tsx:15` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `ItemForm` | function | `src/features/items/components/item-form.tsx:17` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `ItemList` | function | `src/features/items/components/item-list.tsx:13` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ItemStateControls` | function | `src/features/items/components/item-state-controls.tsx:15` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `itemSchema` | value | `src/features/items/schemas/item-schema.ts:40` | 受け付ける外部入力、正規化、上限、拒否条件 |
 | 中 | `itemListQuerySchema` | value | `src/features/items/schemas/item-schema.ts:72` | 受け付ける外部入力、正規化、上限、拒否条件 |
 | 中 | `ITEM_STATUSES` | value | `src/features/items/types.ts:7` | 公開する理由、呼び出し側との契約、変更時の影響 |
@@ -102,17 +105,18 @@
 | 低 | `DashboardPage` | default function | `src/app/(app)/dashboard/page.tsx:38` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/expenses/page.tsx:15` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `ExpensesPage` | default function | `src/app/(app)/expenses/page.tsx:17` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `metadata` | value | `src/app/(app)/ideal/page.tsx:14` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `IdealPage` | default function | `src/app/(app)/ideal/page.tsx:16` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `metadata` | value | `src/app/(app)/ideal/page.tsx:15` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `IdealPage` | default function | `src/app/(app)/ideal/page.tsx:17` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/[itemId]/edit/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `EditItemPage` | default function | `src/app/(app)/items/[itemId]/edit/page.tsx:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `metadata` | value | `src/app/(app)/items/[itemId]/page.tsx:20` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `ItemDetailPage` | default function | `src/app/(app)/items/[itemId]/page.tsx:22` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `metadata` | value | `src/app/(app)/items/[itemId]/page.tsx:16` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `ItemDetailPage` | default function | `src/app/(app)/items/[itemId]/page.tsx:18` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/new/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `NewItemPage` | default function | `src/app/(app)/items/new/page.tsx:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/page.tsx:9` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `ItemsPage` | default function | `src/app/(app)/items/page.tsx:11` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `AuthenticatedLayout` | default function | `src/app/(app)/layout.tsx:5` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `AuthenticatedLoading` | default function | `src/app/(app)/loading.tsx:1` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/review/page.tsx:16` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `ReviewPage` | default function | `src/app/(app)/review/page.tsx:18` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/settings/categories/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |

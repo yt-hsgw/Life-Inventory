@@ -5,14 +5,15 @@ import { attachCategories } from "@/features/items/server/items";
 import { requireUserId } from "@/lib/auth";
 
 export async function getReviewQueue(sessionId: string) {
-  const [{ supabase }, categories] = await Promise.all([
-    requireUserId(),
-    getCategories(),
+  const authContext = await requireUserId();
+  const { supabase } = authContext;
+  const [{ data, error }, categories] = await Promise.all([
+    supabase.rpc("get_review_queue", {
+      p_session_id: sessionId,
+      p_limit: 500,
+    }),
+    getCategories(authContext),
   ]);
-  const { data, error } = await supabase.rpc("get_review_queue", {
-    p_session_id: sessionId,
-    p_limit: 500,
-  });
   if (error) throw new Error("見直し対象を読み込めませんでした。");
   return attachCategories(data, categories);
 }
