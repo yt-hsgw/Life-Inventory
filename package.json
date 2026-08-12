@@ -16,10 +16,12 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:db": "node tests/integration/local-supabase.mjs",
+    "docs:generate": "node scripts/generate-docs.mjs",
+    "docs:check": "node scripts/generate-docs.mjs --check",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "supabase:reset": "supabase db reset --local --yes",
-    "check": "npm run lint && npm run typecheck && npm run test"
+    "check": "npm run lint && npm run typecheck && npm run test && npm run docs:check"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.4",

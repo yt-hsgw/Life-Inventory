@@ -19,7 +19,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npm run check
+      - name: Validate code and generated documentation
+        run: npm run check
       - run: npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co

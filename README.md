@@ -47,4 +47,12 @@ npm run test:e2e
 npm run supabase:stop
 ```
 
+`npm run check` はlint、型検査、unit testに加えて、生成済み技術ドキュメントがソースコードと一致しているか確認します。実装を変更したときは次のコマンドで `docs/generated` を更新し、差分をレビューしてソースコードと一緒にcommitしてください。
+
+```bash
+npm run docs:generate
+```
+
+生成される実装資料、技術リファレンス、コードコメント候補の用途と運用は [docs/DocumentationGeneration.md](docs/DocumentationGeneration.md) を参照してください。
+
 詳しい仕様と設計は [docs/Requirements.md](docs/Requirements.md) と [docs/Architecture.md](docs/Architecture.md) を参照してください。
