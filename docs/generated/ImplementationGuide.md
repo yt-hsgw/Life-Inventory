@@ -30,7 +30,7 @@ src/app (routing / composition)
 | `dashboard` | 1 | server: 1 |
 | `expenses` | 7 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 1、types: 1 |
 | `ideal` | 6 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 1 |
-| `items` | 17 | actions: 1、components: 5、domain: 2、schemas: 1、server: 1、tests: 6、types: 1 |
+| `items` | 18 | actions: 1、components: 5、domain: 2、schemas: 1、server: 1、tests: 7、types: 1 |
 | `review` | 5 | actions: 1、components: 2、schemas: 1、server: 1 |
 
 ## Server Actions

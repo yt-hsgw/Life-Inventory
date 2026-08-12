@@ -71,13 +71,14 @@
 
 ### `items`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (5)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (6)、`types` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (5)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (7)、`types` (1)
 
 - `src/features/items/actions.test.ts`
 - `src/features/items/actions.ts`
 - `src/features/items/components/item-color-display.tsx`
 - `src/features/items/components/item-color-field.test.tsx`
 - `src/features/items/components/item-color-field.tsx`
+- `src/features/items/components/item-form.test.tsx`
 - `src/features/items/components/item-form.tsx`
 - `src/features/items/components/item-list.tsx`
 - `src/features/items/components/item-state-controls.test.tsx`

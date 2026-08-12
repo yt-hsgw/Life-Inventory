@@ -99,11 +99,21 @@ export function ItemForm({
           icon={<SlidersHorizontal className="size-4" />}
         />
         <div className="mt-6 grid gap-5 md:grid-cols-2">
-          <FormField label="サブカテゴリ" htmlFor="subCategoryId">
+          <p className="text-muted-foreground text-sm leading-6 md:col-span-2">
+            すべて任意です。分かる範囲だけ入力し、あとから更新できます。
+          </p>
+          <FormField
+            label="サブカテゴリ"
+            htmlFor="subCategoryId"
+            error={state.errors?.subCategoryId?.[0]}
+            hint="カテゴリをさらに細かく整理したいときに選びます。"
+          >
             <select
               id="subCategoryId"
               name="subCategoryId"
               defaultValue={item?.sub_category_id ?? ""}
+              aria-describedby="subCategoryId-description"
+              aria-invalid={Boolean(state.errors?.subCategoryId)}
             >
               <option value="">未選択</option>
               {subCategories.map((sub) => (
@@ -113,11 +123,18 @@ export function ItemForm({
               ))}
             </select>
           </FormField>
-          <FormField label="状態" htmlFor="status">
+          <FormField
+            label="状態"
+            htmlFor="status"
+            error={state.errors?.status?.[0]}
+            hint="「迷っている」にすると、見直し画面の対象になります。"
+          >
             <select
               id="status"
               name="status"
               defaultValue={item?.status ?? "KEEP"}
+              aria-describedby="status-description"
+              aria-invalid={Boolean(state.errors?.status)}
             >
               <option value="KEEP">残す</option>
               <option value="MAYBE">迷っている</option>
@@ -130,26 +147,43 @@ export function ItemForm({
               error={state.errors?.color?.[0]}
             />
           </div>
-          <FormField label="サイズ" htmlFor="size">
+          <FormField
+            label="サイズ"
+            htmlFor="size"
+            error={state.errors?.size?.[0]}
+            hint="例：M、27cm、幅120 × 奥行60cm"
+          >
             <Input
               id="size"
               name="size"
               defaultValue={item?.size ?? ""}
               maxLength={50}
+              placeholder="例：M、27cm"
+              aria-describedby="size-description"
+              aria-invalid={Boolean(state.errors?.size)}
             />
           </FormField>
-          <FormField label="用途" htmlFor="purpose">
+          <FormField
+            label="用途"
+            htmlFor="purpose"
+            error={state.errors?.purpose?.[0]}
+            hint="例：仕事用、来客用、週末のランニング"
+          >
             <Input
               id="purpose"
               name="purpose"
               defaultValue={item?.purpose ?? ""}
               maxLength={255}
+              placeholder="例：仕事用"
+              aria-describedby="purpose-description"
+              aria-invalid={Boolean(state.errors?.purpose)}
             />
           </FormField>
           <FormField
             label="商品ページURL"
             htmlFor="productUrl"
             error={state.errors?.productUrl?.[0]}
+            hint="商品を確認できる http:// または https:// のURLを入力します。"
           >
             <Input
               id="productUrl"
@@ -157,58 +191,99 @@ export function ItemForm({
               type="url"
               defaultValue={item?.product_url ?? ""}
               maxLength={2048}
+              placeholder="https://example.com/item"
               aria-describedby="productUrl-description"
+              aria-invalid={Boolean(state.errors?.productUrl)}
             />
           </FormField>
-          <FormField label="購入価格" htmlFor="purchasePrice">
+          <FormField
+            label="購入価格"
+            htmlFor="purchasePrice"
+            error={state.errors?.purchasePrice?.[0]}
+            hint="購入時の税込価格を円単位（整数）で入力します。"
+          >
             <Input
               id="purchasePrice"
               name="purchasePrice"
               type="number"
               min="0"
               defaultValue={item?.purchase_price ?? ""}
+              placeholder="例：2980"
+              aria-describedby="purchasePrice-description"
+              aria-invalid={Boolean(state.errors?.purchasePrice)}
             />
           </FormField>
-          <FormField label="購入日" htmlFor="purchasedAt">
+          <FormField
+            label="購入日"
+            htmlFor="purchasedAt"
+            error={state.errors?.purchasedAt?.[0]}
+            hint="購入日が分かる場合だけ選択します。"
+          >
             <Input
               id="purchasedAt"
               name="purchasedAt"
               type="date"
               defaultValue={item?.purchased_at ?? ""}
+              aria-describedby="purchasedAt-description"
+              aria-invalid={Boolean(state.errors?.purchasedAt)}
             />
           </FormField>
-          <FormField label="最終使用日" htmlFor="lastUsedAt">
+          <FormField
+            label="最終使用日"
+            htmlFor="lastUsedAt"
+            error={state.errors?.lastUsedAt?.[0]}
+            hint="最後に使った日です。見直すときの判断材料になります。"
+          >
             <Input
               id="lastUsedAt"
               name="lastUsedAt"
               type="date"
               defaultValue={item?.last_used_at ?? ""}
+              aria-describedby="lastUsedAt-description"
+              aria-invalid={Boolean(state.errors?.lastUsedAt)}
             />
           </FormField>
-          <label className="bg-secondary flex items-center gap-3 self-end rounded-xl p-3 text-sm font-semibold">
-            <input
-              name="reviewRequested"
-              type="checkbox"
-              checked={reviewRequested}
-              onChange={(event) =>
-                setReviewRequested(event.currentTarget.checked)
-              }
-              className="accent-primary size-4"
-            />
-            {reviewRequested ? (
-              <ListX className="size-4" aria-hidden="true" />
-            ) : (
-              <ListPlus className="size-4" aria-hidden="true" />
-            )}
-            {reviewRequested ? "見直しを解除" : "見直しに追加"}
-          </label>
+          <div className="space-y-2 self-end">
+            <label className="bg-secondary flex min-h-11 items-center gap-3 rounded-xl p-3 text-sm font-semibold">
+              <input
+                name="reviewRequested"
+                type="checkbox"
+                checked={reviewRequested}
+                onChange={(event) =>
+                  setReviewRequested(event.currentTarget.checked)
+                }
+                className="accent-primary size-4"
+                aria-describedby="reviewRequested-description"
+              />
+              {reviewRequested ? (
+                <ListX className="size-4" aria-hidden="true" />
+              ) : (
+                <ListPlus className="size-4" aria-hidden="true" />
+              )}
+              {reviewRequested ? "見直しを解除" : "見直しに追加"}
+            </label>
+            <p
+              id="reviewRequested-description"
+              className="text-muted-foreground text-xs"
+            >
+              オンにすると見直し対象へ追加します。「迷っている」はオフでも対象です。
+            </p>
+          </div>
           <div className="md:col-span-2">
-            <FormField label="メモ" htmlFor="memo">
+            <FormField
+              label="メモ"
+              htmlFor="memo"
+              error={state.errors?.memo?.[0]}
+              hint="使用感、保管場所、手放せない理由などを自由に残せます。"
+            >
               <Textarea
                 id="memo"
                 name="memo"
                 defaultValue={item?.memo ?? ""}
                 maxLength={5000}
+                placeholder="例：書斎の引き出しに保管。月に1回ほど使用。"
+                aria-describedby="memo-description"
+                aria-invalid={Boolean(state.errors?.memo)}
               />
             </FormField>
           </div>
