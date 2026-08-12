@@ -76,7 +76,7 @@
 | 中 | `SubmitButton` | function | `src/components/ui/submit-button.tsx:13` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `Textarea` | function | `src/components/ui/textarea.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `GoogleAuthButton` | function | `src/features/auth/components/google-auth-button.tsx:10` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `CategoryManager` | function | `src/features/categories/components/category-manager.tsx:200` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `CategoryManager` | function | `src/features/categories/components/category-manager.tsx:206` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `categorySchema` | value | `src/features/categories/schemas/category-schema.ts:3` | 受け付ける外部入力、正規化、上限、拒否条件 |
 | 中 | `subCategorySchema` | value | `src/features/categories/schemas/category-schema.ts:13` | 受け付ける外部入力、正規化、上限、拒否条件 |
 | 中 | `ExpenseForm` | function | `src/features/expenses/components/expense-form.tsx:16` | UI の責務、主要 props、ユーザー操作と副作用 |

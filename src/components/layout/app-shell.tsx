@@ -219,7 +219,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               pendingLabel="ログアウト中…"
               title={showLabels ? undefined : "ログアウト"}
               className={cn(
-                "text-destructive hover:bg-destructive/10 focus-visible:ring-destructive flex min-h-11 w-full items-center gap-3 overflow-hidden rounded-xl px-3 text-left text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none",
+                "text-destructive hover:bg-destructive/10 focus-visible:ring-destructive flex min-h-11 w-full items-center justify-start gap-3 overflow-hidden rounded-xl px-3 text-left text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none",
                 !showLabels && collapsedNavigationLinkClass,
               )}
             >

@@ -26,11 +26,11 @@ src/app (routing / composition)
 | 機能 | ファイル数 | 内訳 |
 | --- | ---: | --- |
 | `auth` | 3 | actions: 1、components: 1、tests: 1 |
-| `categories` | 4 | actions: 1、components: 1、schemas: 1、server: 1 |
+| `categories` | 5 | actions: 1、components: 1、schemas: 1、server: 1、tests: 1 |
 | `dashboard` | 1 | server: 1 |
-| `expenses` | 7 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 1、types: 1 |
-| `ideal` | 6 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 1 |
-| `items` | 18 | actions: 1、components: 5、domain: 2、schemas: 1、server: 1、tests: 7、types: 1 |
+| `expenses` | 8 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 2、types: 1 |
+| `ideal` | 7 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 2 |
+| `items` | 19 | actions: 1、components: 5、domain: 2、schemas: 1、server: 1、tests: 8、types: 1 |
 | `review` | 5 | actions: 1、components: 2、schemas: 1、server: 1 |
 
 ## Server Actions

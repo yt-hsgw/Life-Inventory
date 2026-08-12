@@ -23,8 +23,9 @@ export function ItemList({
     <div className="space-y-5">
       <Card>
         <form
-          className="grid gap-3 md:grid-cols-[1fr_13rem_11rem_auto]"
+          className="grid min-w-0 gap-3 xl:grid-cols-[minmax(0,1fr)_13rem_11rem_auto]"
           action="/items"
+          aria-label="持ち物を絞り込む"
         >
           <div className="relative">
             <Search className="text-muted-foreground absolute top-3.5 left-3 size-4" />

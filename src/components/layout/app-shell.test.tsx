@@ -24,6 +24,9 @@ describe("AppShell", () => {
     expect(
       desktopNavigation.getByRole("link", { name: "インベントリ" }),
     ).toHaveAttribute("aria-current", "page");
+    expect(screen.getByRole("button", { name: "ログアウト" })).toHaveClass(
+      "justify-start",
+    );
 
     fireEvent.keyDown(separator, { key: "Home" });
     expect(shell).toHaveStyle({ "--sidebar-width": "76px" });

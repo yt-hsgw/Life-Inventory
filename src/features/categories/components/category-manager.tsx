@@ -142,6 +142,9 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
           <Save className="size-4" />
           更新
         </SubmitButton>
+        <p className="text-muted-foreground col-span-2 text-xs">
+          名前を変えると、持ち物一覧のカテゴリ表示も変わります。
+        </p>
       </form>
       {categoryState.message ? (
         <p className="text-destructive mt-2 text-sm" role="alert">
@@ -151,6 +154,9 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
       <div className="border-border mt-5 border-t pt-5">
         <p className="text-muted-foreground text-xs font-bold tracking-wide">
           サブカテゴリ
+        </p>
+        <p className="text-muted-foreground mt-1 text-xs">
+          同じカテゴリ内をさらに細かく整理するときに使います。
         </p>
         {category.subCategories.length ? (
           <div className="mt-3 space-y-2">

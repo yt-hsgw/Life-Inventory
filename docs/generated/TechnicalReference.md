@@ -33,9 +33,10 @@
 
 ### `categories`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (1)、`schemas` (1)、`server` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (1)、`schemas` (1)、`server` (1)、`tests` (1)
 
 - `src/features/categories/actions.ts`
+- `src/features/categories/components/category-manager.test.tsx`
 - `src/features/categories/components/category-manager.tsx`
 - `src/features/categories/schemas/category-schema.ts`
 - `src/features/categories/server/categories.ts`
@@ -48,9 +49,10 @@
 
 ### `expenses`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (1)、`domain` (1)、`schemas` (1)、`server` (1)、`tests` (1)、`types` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (1)、`domain` (1)、`schemas` (1)、`server` (1)、`tests` (2)、`types` (1)
 
 - `src/features/expenses/actions.ts`
+- `src/features/expenses/components/expense-form.test.tsx`
 - `src/features/expenses/components/expense-form.tsx`
 - `src/features/expenses/domain/calculate-expenses.test.ts`
 - `src/features/expenses/domain/calculate-expenses.ts`
@@ -60,9 +62,10 @@
 
 ### `ideal`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (1)、`domain` (1)、`schemas` (1)、`server` (1)、`tests` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (1)、`domain` (1)、`schemas` (1)、`server` (1)、`tests` (2)
 
 - `src/features/ideal/actions.ts`
+- `src/features/ideal/components/ideal-form.test.tsx`
 - `src/features/ideal/components/ideal-form.tsx`
 - `src/features/ideal/domain/calculate-gap.test.ts`
 - `src/features/ideal/domain/calculate-gap.ts`
@@ -71,7 +74,7 @@
 
 ### `items`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (5)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (7)、`types` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (5)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (8)、`types` (1)
 
 - `src/features/items/actions.test.ts`
 - `src/features/items/actions.ts`
@@ -80,6 +83,7 @@
 - `src/features/items/components/item-color-field.tsx`
 - `src/features/items/components/item-form.test.tsx`
 - `src/features/items/components/item-form.tsx`
+- `src/features/items/components/item-list.test.tsx`
 - `src/features/items/components/item-list.tsx`
 - `src/features/items/components/item-state-controls.test.tsx`
 - `src/features/items/components/item-state-controls.tsx`
@@ -158,7 +162,7 @@ JSDoc 付与済み: 0 / 119
 | `GoogleAuthButton` | function | なし | `src/features/auth/components/google-auth-button.tsx:10` |
 | `saveCategoryAction` | function | なし | `src/features/categories/actions.ts:15` |
 | `saveSubCategoryAction` | function | なし | `src/features/categories/actions.ts:38` |
-| `CategoryManager` | function | なし | `src/features/categories/components/category-manager.tsx:200` |
+| `CategoryManager` | function | なし | `src/features/categories/components/category-manager.tsx:206` |
 | `categorySchema` | value | なし | `src/features/categories/schemas/category-schema.ts:3` |
 | `subCategorySchema` | value | なし | `src/features/categories/schemas/category-schema.ts:13` |
 | `CategoryWithSubs` | type | なし | `src/features/categories/server/categories.ts:8` |
