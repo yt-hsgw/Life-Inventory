@@ -27,9 +27,17 @@ describe("AppShell", () => {
 
     fireEvent.keyDown(separator, { key: "Home" });
     expect(shell).toHaveStyle({ "--sidebar-width": "76px" });
-    expect(desktopNavigation.getByRole("link", { name: "持ち物" })).toBeVisible();
+    const collapsedItemLink = desktopNavigation.getByRole("link", {
+      name: "持ち物",
+    });
+    expect(collapsedItemLink).toHaveClass("size-11", "justify-center", "px-0");
+    expect(collapsedItemLink.querySelector("svg")).toHaveClass("size-5");
+    expect(
+      within(collapsedItemLink).getByTestId("navigation-pending-hint"),
+    ).toHaveClass("absolute", "ml-0");
     expect(screen.getByRole("button", { name: "ログアウト" })).toHaveClass(
       "text-destructive",
+      "size-11",
     );
 
     fireEvent.keyDown(separator, { key: "Enter" });

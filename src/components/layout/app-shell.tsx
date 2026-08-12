@@ -115,6 +115,11 @@ export function AppShell({ children }: { children: ReactNode }) {
 
   const navigationLinkClass =
     "text-muted-foreground hover:bg-secondary hover:text-foreground focus-visible:ring-primary flex min-h-11 items-center gap-3 overflow-hidden rounded-xl px-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none";
+  const collapsedNavigationLinkClass =
+    "relative mx-auto size-11 min-h-11 justify-center gap-0 px-0";
+  const navigationPendingHintClass = showLabels
+    ? undefined
+    : "absolute top-1 right-1 ml-0";
 
   return (
     <div
@@ -131,13 +136,16 @@ export function AppShell({ children }: { children: ReactNode }) {
           href="/dashboard"
           aria-label="Life Inventoryのインベントリへ移動"
           title={showLabels ? undefined : "Life Inventory"}
-          className="focus-visible:ring-primary flex min-h-11 items-center gap-3 overflow-hidden px-2 text-sm font-bold tracking-wide whitespace-nowrap focus-visible:ring-2 focus-visible:outline-none"
+          className={cn(
+            "focus-visible:ring-primary flex min-h-11 items-center gap-3 overflow-hidden px-2 text-sm font-bold tracking-wide whitespace-nowrap focus-visible:ring-2 focus-visible:outline-none",
+            !showLabels && collapsedNavigationLinkClass,
+          )}
         >
           <span className="bg-secondary grid size-9 shrink-0 place-items-center rounded-xl">
             <Image src="/app-icon.svg" alt="" width={20} height={20} />
           </span>
           {showLabels ? <span>LIFE INVENTORY</span> : null}
-          <NavigationPendingHint />
+          <NavigationPendingHint className={navigationPendingHintClass} />
         </Link>
         <nav className="mt-10 space-y-1" aria-label="メインナビゲーション">
           {navItems.map((item) => (
@@ -149,14 +157,18 @@ export function AppShell({ children }: { children: ReactNode }) {
               aria-current={isActive(item.href) ? "page" : undefined}
               className={cn(
                 navigationLinkClass,
+                !showLabels && collapsedNavigationLinkClass,
                 isActive(item.href) && "bg-secondary text-foreground",
               )}
             >
-              <item.icon className="size-4 shrink-0" />
+              <item.icon
+                className={cn("shrink-0", showLabels ? "size-4" : "size-5")}
+                aria-hidden="true"
+              />
               {showLabels ? (
                 <span className="whitespace-nowrap">{item.label}</span>
               ) : null}
-              <NavigationPendingHint />
+              <NavigationPendingHint className={navigationPendingHintClass} />
             </Link>
           ))}
         </nav>
@@ -168,14 +180,18 @@ export function AppShell({ children }: { children: ReactNode }) {
             aria-current={isActive("/archive") ? "page" : undefined}
             className={cn(
               navigationLinkClass,
+              !showLabels && collapsedNavigationLinkClass,
               isActive("/archive") && "bg-secondary text-foreground",
             )}
           >
-            <Archive className="size-4 shrink-0" />
+            <Archive
+              className={cn("shrink-0", showLabels ? "size-4" : "size-5")}
+              aria-hidden="true"
+            />
             {showLabels ? (
               <span className="whitespace-nowrap">アーカイブ</span>
             ) : null}
-            <NavigationPendingHint />
+            <NavigationPendingHint className={navigationPendingHintClass} />
           </Link>
           <Link
             href="/settings/categories"
@@ -184,23 +200,33 @@ export function AppShell({ children }: { children: ReactNode }) {
             aria-current={isActive("/settings") ? "page" : undefined}
             className={cn(
               navigationLinkClass,
+              !showLabels && collapsedNavigationLinkClass,
               isActive("/settings") && "bg-secondary text-foreground",
             )}
           >
-            <Settings className="size-4 shrink-0" />
+            <Settings
+              className={cn("shrink-0", showLabels ? "size-4" : "size-5")}
+              aria-hidden="true"
+            />
             {showLabels ? (
               <span className="whitespace-nowrap">設定</span>
             ) : null}
-            <NavigationPendingHint />
+            <NavigationPendingHint className={navigationPendingHintClass} />
           </Link>
           <form action={signOutAction}>
             <SubmitButton
               variant="ghost"
               pendingLabel="ログアウト中…"
               title={showLabels ? undefined : "ログアウト"}
-              className="text-destructive hover:bg-destructive/10 focus-visible:ring-destructive flex min-h-11 w-full items-center gap-3 overflow-hidden rounded-xl px-3 text-left text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none"
+              className={cn(
+                "text-destructive hover:bg-destructive/10 focus-visible:ring-destructive flex min-h-11 w-full items-center gap-3 overflow-hidden rounded-xl px-3 text-left text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none",
+                !showLabels && collapsedNavigationLinkClass,
+              )}
             >
-              <LogOut className="size-4 shrink-0" />
+              <LogOut
+                className={cn("shrink-0", showLabels ? "size-4" : "size-5")}
+                aria-hidden="true"
+              />
               {showLabels ? (
                 <span className="whitespace-nowrap">ログアウト</span>
               ) : (
