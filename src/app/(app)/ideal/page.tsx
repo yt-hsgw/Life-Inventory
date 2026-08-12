@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/page-header";
 import { Card } from "@/components/ui/card";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { DisclosureSummary } from "@/components/ui/disclosure-summary";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { IdealForm } from "@/features/ideal/components/ideal-form";
 import { deleteIdealAction } from "@/features/ideal/actions";
@@ -40,27 +42,28 @@ export default async function IdealPage({
       <div className="mb-5 grid gap-3 sm:grid-cols-3">
         <Card>
           <p className="text-muted-foreground text-xs">現在</p>
-          <p className="mt-2 text-3xl font-semibold">{currentTotal}</p>
+          <p className="font-numeric mt-2 text-3xl font-semibold">{currentTotal}</p>
         </Card>
         <Card>
           <p className="text-muted-foreground text-xs">理想</p>
-          <p className="text-primary mt-2 text-3xl font-semibold">
+          <p className="font-numeric text-primary mt-2 text-3xl font-semibold">
             {targetTotal}
           </p>
         </Card>
         <Card>
           <p className="text-muted-foreground text-xs">差</p>
-          <p className="mt-2 text-3xl font-semibold">
+          <p className="font-numeric mt-2 text-3xl font-semibold">
             {targetTotal - currentTotal > 0 ? "+" : ""}
             {targetTotal - currentTotal}
           </p>
         </Card>
       </div>
       <Card className="mb-5">
-        <details>
-          <summary className="focus-visible:ring-primary cursor-pointer font-semibold focus-visible:ring-2 focus-visible:outline-none">
-            ＋ 理想の持ち物を追加
-          </summary>
+        <details className="group">
+          <DisclosureSummary
+            closedLabel="理想の持ち物の入力欄を開く"
+            openLabel="理想の持ち物の入力欄を閉じる"
+          />
           <div className="mt-6">
             <IdealForm categories={categories} />
           </div>
@@ -112,14 +115,14 @@ export default async function IdealPage({
                     </p>
                   ) : null}
                 </div>
-                <p className="text-sm tabular-nums">
+                <p className="font-numeric text-sm">
                   <strong>{item.currentQuantity}</strong>{" "}
                   <span className="text-muted-foreground mx-2">→</span>{" "}
                   <strong>{item.target_quantity}</strong>
                 </p>
                 <p
                   className={cn(
-                    "min-w-16 text-right text-xl font-semibold",
+                    "font-numeric min-w-16 text-right text-xl font-semibold",
                     item.gap < 0 && "text-warning",
                     item.gap > 0 && "text-primary",
                   )}
@@ -128,10 +131,13 @@ export default async function IdealPage({
                   {item.gap}
                 </p>
               </div>
-              <details className="border-border mt-5 border-t pt-4">
-                <summary className="focus-visible:ring-primary cursor-pointer text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none">
-                  編集
-                </summary>
+              <details className="group border-border mt-5 border-t pt-4">
+                <DisclosureSummary
+                  closedLabel="編集フォームを開く"
+                  openLabel="編集フォームを閉じる"
+                  icon={<Pencil className="size-4" />}
+                  className="text-sm"
+                />
                 <div className="mt-5">
                   <IdealForm categories={categories} item={item} />
                   <form action={deleteIdealAction} className="mt-4">

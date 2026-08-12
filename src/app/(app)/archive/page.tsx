@@ -28,7 +28,7 @@ export default async function ArchivePage() {
               <div>
                 <h2 className="font-semibold">
                   {item.name}{" "}
-                  <span className="text-muted-foreground text-sm font-normal">
+                  <span className="font-numeric text-muted-foreground text-sm font-normal">
                     × {item.quantity}
                   </span>
                 </h2>
@@ -39,7 +39,7 @@ export default async function ArchivePage() {
                   <p className="mt-3 text-sm">{item.release_reason}</p>
                 ) : null}
               </div>
-              <p className="text-sm font-semibold">
+              <p className="font-numeric text-sm font-semibold">
                 {item.purchase_price === null
                   ? "—"
                   : formatCurrency(item.purchase_price)}

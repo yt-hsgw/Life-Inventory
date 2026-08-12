@@ -61,19 +61,19 @@ export default async function ReviewPage({
       {summary.total > 0 ? (
         <Card className="mx-auto mt-5 grid max-w-2xl grid-cols-4 text-center">
           <div>
-            <p className="text-2xl font-semibold">{summary.total}</p>
+            <p className="font-numeric text-2xl font-semibold">{summary.total}</p>
             <p className="text-muted-foreground text-xs">今回</p>
           </div>
           <div>
-            <p className="text-2xl font-semibold">{summary.keep}</p>
+            <p className="font-numeric text-2xl font-semibold">{summary.keep}</p>
             <p className="text-muted-foreground text-xs">残す</p>
           </div>
           <div>
-            <p className="text-2xl font-semibold">{summary.maybe}</p>
+            <p className="font-numeric text-2xl font-semibold">{summary.maybe}</p>
             <p className="text-muted-foreground text-xs">保留</p>
           </div>
           <div>
-            <p className="text-2xl font-semibold">{summary.release}</p>
+            <p className="font-numeric text-2xl font-semibold">{summary.release}</p>
             <p className="text-muted-foreground text-xs">手放す</p>
           </div>
         </Card>

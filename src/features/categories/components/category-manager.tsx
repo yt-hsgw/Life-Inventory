@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Save } from "lucide-react";
 import {
   saveCategoryAction,
   saveSubCategoryAction,
@@ -13,13 +13,22 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
+const SUGGESTED_CATEGORIES = [
+  "デジタル・家電",
+  "健康・美容",
+  "移動・旅行",
+  "防災・備蓄",
+  "思い出・コレクション",
+  "その他",
+] as const;
+
 function NewCategoryForm() {
   const [state, action] = useActionState(
     saveCategoryAction,
     INITIAL_ACTION_STATE,
   );
   return (
-    <form action={action} className="flex flex-col gap-3 sm:flex-row">
+    <form action={action} className="grid grid-cols-[minmax(0,1fr)_auto] gap-3">
       <Input
         name="name"
         maxLength={50}
@@ -33,9 +42,37 @@ function NewCategoryForm() {
         追加
       </Button>
       {state.message ? (
-        <p className="text-destructive text-sm" role="alert">
+        <p className="text-destructive col-span-2 text-sm" role="alert">
           {state.message}
         </p>
+      ) : null}
+    </form>
+  );
+}
+
+function PresetCategoryButton({
+  name,
+  sortOrder,
+}: {
+  name: string;
+  sortOrder: number;
+}) {
+  const [state, action] = useActionState(
+    saveCategoryAction,
+    INITIAL_ACTION_STATE,
+  );
+  return (
+    <form action={action}>
+      <input type="hidden" name="name" value={name} />
+      <input type="hidden" name="sortOrder" value={sortOrder} />
+      <Button type="submit" variant="outline" size="sm">
+        <Plus className="size-3.5" />
+        {name}
+      </Button>
+      {state.message ? (
+        <span className="sr-only" role="alert">
+          {state.message}
+        </span>
       ) : null}
     </form>
   );
@@ -53,7 +90,7 @@ function SubCategoryRow({
     INITIAL_ACTION_STATE,
   );
   return (
-    <form action={action} className="flex flex-col gap-2 sm:flex-row">
+    <form action={action} className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
       <input type="hidden" name="id" value={subCategory.id} />
       <input type="hidden" name="categoryId" value={category.id} />
       <input type="hidden" name="sortOrder" value={subCategory.sort_order} />
@@ -65,10 +102,11 @@ function SubCategoryRow({
         required
       />
       <Button type="submit" variant="outline">
+        <Save className="size-4" />
         更新
       </Button>
       {state.message ? (
-        <p className="text-destructive self-center text-sm" role="alert">
+        <p className="text-destructive col-span-2 text-sm" role="alert">
           {state.message}
         </p>
       ) : null}
@@ -87,7 +125,10 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
   );
   return (
     <Card>
-      <form action={categoryAction} className="flex items-center gap-3">
+      <form
+        action={categoryAction}
+        className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3"
+      >
         <input type="hidden" name="id" value={category.id} />
         <input type="hidden" name="sortOrder" value={category.sort_order} />
         <Input
@@ -98,6 +139,7 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
           required
         />
         <Button type="submit" variant="outline">
+          <Save className="size-4" />
           更新
         </Button>
       </form>
@@ -125,7 +167,7 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
         )}
         <form
           action={subAction}
-          className="mt-4 flex flex-col gap-3 sm:flex-row"
+          className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-3"
         >
           <input type="hidden" name="categoryId" value={category.id} />
           <input
@@ -141,6 +183,7 @@ function CategoryRow({ category }: { category: CategoryWithSubs }) {
             required
           />
           <Button type="submit" variant="ghost">
+            <Plus className="size-4" />
             追加
           </Button>
         </form>
@@ -159,9 +202,33 @@ export function CategoryManager({
 }: {
   categories: CategoryWithSubs[];
 }) {
+  const existingNames = new Set(
+    categories.map((category) => category.name.toLocaleLowerCase("ja")),
+  );
+  const suggestions = SUGGESTED_CATEGORIES.filter(
+    (name) => !existingNames.has(name.toLocaleLowerCase("ja")),
+  );
+
   return (
     <div className="space-y-5">
       <NewCategoryForm />
+      {suggestions.length ? (
+        <Card>
+          <p className="font-semibold">おすすめカテゴリ</p>
+          <p className="text-muted-foreground mt-1 text-sm">
+            必要なものだけ追加できます。既存カテゴリは自動変更しません。
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {suggestions.map((name, index) => (
+              <PresetCategoryButton
+                key={name}
+                name={name}
+                sortOrder={categories.length + index + 100}
+              />
+            ))}
+          </div>
+        </Card>
+      ) : null}
       {categories.map((category) => (
         <CategoryRow key={category.id} category={category} />
       ))}

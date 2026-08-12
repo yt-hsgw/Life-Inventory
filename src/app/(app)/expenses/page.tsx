@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { Pencil } from "lucide-react";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { PageHeader } from "@/components/layout/page-header";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { DisclosureSummary } from "@/components/ui/disclosure-summary";
 import { deleteExpenseAction } from "@/features/expenses/actions";
 import { monthlyEquivalent } from "@/features/expenses/domain/calculate-expenses";
 import { ExpenseForm } from "@/features/expenses/components/expense-form";
@@ -25,22 +27,23 @@ export default async function ExpensesPage() {
       <div className="mb-5 grid gap-3 sm:grid-cols-2">
         <Card>
           <p className="text-muted-foreground text-xs">月額</p>
-          <p className="text-primary mt-2 text-3xl font-semibold">
+          <p className="font-numeric text-primary mt-2 text-3xl font-semibold">
             {formatCurrency(Math.round(totals.monthly))}
           </p>
         </Card>
         <Card>
           <p className="text-muted-foreground text-xs">年額</p>
-          <p className="mt-2 text-3xl font-semibold">
+          <p className="font-numeric mt-2 text-3xl font-semibold">
             {formatCurrency(Math.round(totals.annual))}
           </p>
         </Card>
       </div>
       <Card className="mb-5">
-        <details>
-          <summary className="focus-visible:ring-primary cursor-pointer font-semibold focus-visible:ring-2 focus-visible:outline-none">
-            + 固定費を追加
-          </summary>
+        <details className="group">
+          <DisclosureSummary
+            closedLabel="固定費の入力欄を開く"
+            openLabel="固定費の入力欄を閉じる"
+          />
           <div className="mt-6">
             <ExpenseForm />
           </div>
@@ -71,7 +74,7 @@ export default async function ExpensesPage() {
                         </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-semibold">
+                        <p className="font-numeric font-semibold">
                           {formatCurrency(expense.amount)}{" "}
                           <span className="text-muted-foreground text-xs font-normal">
                             /{" "}
@@ -81,7 +84,7 @@ export default async function ExpensesPage() {
                           </span>
                         </p>
                         {expense.billing_cycle === "YEARLY" ? (
-                          <p className="text-muted-foreground mt-1 text-xs">
+                          <p className="font-numeric text-muted-foreground mt-1 text-xs">
                             月額換算{" "}
                             {formatCurrency(
                               Math.round(
@@ -95,10 +98,13 @@ export default async function ExpensesPage() {
                         ) : null}
                       </div>
                     </div>
-                    <details className="border-border mt-4 border-t pt-3">
-                      <summary className="focus-visible:ring-primary cursor-pointer text-xs font-semibold focus-visible:ring-2 focus-visible:outline-none">
-                        編集・削除
-                      </summary>
+                    <details className="group border-border mt-4 border-t pt-3">
+                      <DisclosureSummary
+                        closedLabel="編集・削除を開く"
+                        openLabel="編集・削除を閉じる"
+                        icon={<Pencil className="size-3.5" />}
+                        className="text-xs"
+                      />
                       <div className="mt-5">
                         <ExpenseForm expense={expense} />
                         <form action={deleteExpenseAction} className="mt-4">

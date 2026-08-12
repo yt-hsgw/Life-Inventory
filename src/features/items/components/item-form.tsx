@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import { SlidersHorizontal } from "lucide-react";
 import { saveItemAction } from "@/features/items/actions";
 import type { CategoryWithSubs } from "@/features/categories/server/categories";
 import type { ItemRow } from "@/types/database.generated";
@@ -10,6 +11,7 @@ import { FormField } from "@/components/ui/form-field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { SubmitButton } from "@/components/ui/submit-button";
+import { DisclosureSummary } from "@/components/ui/disclosure-summary";
 
 export function ItemForm({
   categories,
@@ -84,12 +86,14 @@ export function ItemForm({
         </FormField>
       </Card>
       <details
-        className="border-border bg-card rounded-3xl border p-6"
+        className="group border-border bg-card rounded-3xl border p-6"
         open={Boolean(item)}
       >
-        <summary className="focus-visible:ring-primary cursor-pointer font-semibold focus-visible:ring-2 focus-visible:outline-none">
-          ＋ 詳細情報
-        </summary>
+        <DisclosureSummary
+          closedLabel="詳細情報を開く"
+          openLabel="詳細情報を閉じる"
+          icon={<SlidersHorizontal className="size-4" />}
+        />
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <FormField label="サブカテゴリ" htmlFor="subCategoryId">
             <select

@@ -10,7 +10,7 @@ export default function NotFound() {
         </p>
         <h1 className="mt-3 font-serif text-4xl">ページが見つかりません</h1>
         <Link className={`${buttonVariants()} mt-6`} href="/dashboard">
-          概要へ戻る
+          インベントリへ戻る
         </Link>
       </div>
     </main>

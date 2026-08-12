@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants, Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { DisclosureSummary } from "@/components/ui/disclosure-summary";
 import {
   archiveItemAction,
   requestReviewAction,
@@ -114,10 +115,13 @@ export default async function ItemDetailPage({
             </form>
           </Card>
           <Card>
-            <details>
-              <summary className="focus-visible:ring-primary cursor-pointer text-sm font-semibold focus-visible:ring-2 focus-visible:outline-none">
-                アーカイブする
-              </summary>
+            <details className="group">
+              <DisclosureSummary
+                closedLabel="アーカイブ入力欄を開く"
+                openLabel="アーカイブ入力欄を閉じる"
+                icon={<Archive className="size-4" />}
+                className="text-sm"
+              />
               <form action={archiveItemAction} className="mt-4 space-y-3">
                 <input type="hidden" name="itemId" value={item.id} />
                 <label

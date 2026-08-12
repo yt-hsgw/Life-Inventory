@@ -12,7 +12,7 @@ import { Card } from "@/components/ui/card";
 import { getDashboard } from "@/features/dashboard/server/dashboard";
 import { formatCurrency } from "@/lib/utils";
 
-export const metadata: Metadata = { title: "概要" };
+export const metadata: Metadata = { title: "インベントリ" };
 
 function Metric({
   label,
@@ -28,7 +28,7 @@ function Metric({
       <p className="text-muted-foreground text-xs font-bold tracking-[0.14em]">
         {label}
       </p>
-      <p className={`mt-2 font-serif text-4xl ${accent ? "text-primary" : ""}`}>
+      <p className={`font-numeric mt-2 text-4xl ${accent ? "text-primary" : ""}`}>
         {value}
       </p>
     </div>
@@ -45,7 +45,7 @@ export default async function DashboardPage() {
     <>
       <PageHeader
         eyebrow="暮らしの全体像"
-        title="概要"
+        title="インベントリ"
         description="今の状態と理想との差を、判断を急がずに見渡します。"
       />
       <div className="grid gap-5 lg:grid-cols-[1.35fr_0.65fr]">
@@ -83,7 +83,7 @@ export default async function DashboardPage() {
                       }}
                     />
                   </div>
-                  <span className="text-right text-sm tabular-nums">
+                  <span className="font-numeric text-right text-sm">
                     {category.quantity}
                   </span>
                 </div>
@@ -98,7 +98,7 @@ export default async function DashboardPage() {
                 <ListChecks className="text-primary size-5" />
                 <ArrowRight className="text-muted-foreground size-4" />
               </div>
-              <p className="mt-7 text-3xl font-semibold">{data.reviewCount}</p>
+              <p className="font-numeric mt-7 text-3xl font-semibold">{data.reviewCount}</p>
               <p className="text-muted-foreground mt-1 text-sm">
                 件の持ち物が見直し待ち
               </p>
@@ -110,7 +110,7 @@ export default async function DashboardPage() {
                 <Package className="text-destructive size-5" />
                 <ArrowRight className="text-muted-foreground size-4" />
               </div>
-              <p className="mt-7 text-3xl font-semibold">{data.releaseCount}</p>
+              <p className="font-numeric mt-7 text-3xl font-semibold">{data.releaseCount}</p>
               <p className="text-muted-foreground mt-1 text-sm">
                 個の持ち物を手放す予定
               </p>
@@ -143,13 +143,13 @@ export default async function DashboardPage() {
               </span>
               <div>
                 <p className="text-muted-foreground text-xs">固定費</p>
-                <p className="mt-1 font-semibold">
+                <p className="font-numeric mt-1 font-semibold">
                   {formatCurrency(Math.round(data.expenses.monthly))}{" "}
                   <span className="text-muted-foreground text-xs font-normal">
                     / 月
                   </span>
                 </p>
-                <p className="text-muted-foreground mt-1 text-xs">
+                <p className="font-numeric text-muted-foreground mt-1 text-xs">
                   {formatCurrency(Math.round(data.expenses.annual))} / 年
                 </p>
               </div>

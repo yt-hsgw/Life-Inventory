@@ -29,7 +29,7 @@ export function ReviewCard({
         <div className="mt-6 flex justify-center gap-8 text-sm">
           <p>
             <span className="text-muted-foreground block text-xs">数量</span>
-            <strong className="mt-1 block text-xl">{item.quantity}</strong>
+            <strong className="font-numeric mt-1 block text-xl">{item.quantity}</strong>
           </p>
           <p>
             <span className="text-muted-foreground block text-xs">

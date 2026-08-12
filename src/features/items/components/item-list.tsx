@@ -103,7 +103,7 @@ export function ItemList({
               >
                 {ITEM_STATUS_LABELS[item.status]}
               </Badge>
-              <p className="text-sm font-semibold tabular-nums">
+              <p className="font-numeric text-sm font-semibold">
                 × {item.quantity}
               </p>
             </Link>
