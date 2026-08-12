@@ -8,7 +8,7 @@
 
 優先度は `domain` / `server` / Server Action / 共通ライブラリを高、型・schema・component を中、Next.js の規約ファイルを低として分類しています。
 
-候補数: 109
+候補数: 115
 
 | 優先度 | シンボル | 種別 | 定義 | コメントで説明する観点 |
 | --- | --- | --- | --- | --- |
@@ -33,8 +33,12 @@
 | 高 | `getIdealComparisons` | function | `src/features/ideal/server/ideal.ts:19` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `saveItemAction` | function | `src/features/items/actions.ts:15` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `archiveItemAction` | function | `src/features/items/actions.ts:65` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `requestReviewAction` | function | `src/features/items/actions.ts:86` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `updateItemStatusAction` | function | `src/features/items/actions.ts:101` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `setReviewRequestedAction` | function | `src/features/items/actions.ts:86` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `updateItemStatusAction` | function | `src/features/items/actions.ts:113` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `ITEM_COLOR_PRESETS` | value | `src/features/items/domain/item-color.ts:1` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ITEM_COLOR_HEX_PATTERN` | value | `src/features/items/domain/item-color.ts:15` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `normalizeItemColor` | function | `src/features/items/domain/item-color.ts:17` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `getItemColorPresentation` | function | `src/features/items/domain/item-color.ts:27` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `countItemQuantity` | function | `src/features/items/domain/item-metrics.ts:3` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `isReviewTarget` | function | `src/features/items/domain/item-metrics.ts:12` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `attachCategories` | function | `src/features/items/server/items.ts:10` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
@@ -79,10 +83,12 @@
 | 中 | `EXPENSE_CATEGORY_LABELS` | value | `src/features/expenses/types.ts:11` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 中 | `IdealForm` | function | `src/features/ideal/components/ideal-form.tsx:13` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `idealSchema` | value | `src/features/ideal/schemas/ideal-schema.ts:3` | 受け付ける外部入力、正規化、上限、拒否条件 |
-| 中 | `ItemForm` | function | `src/features/items/components/item-form.tsx:16` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `ItemList` | function | `src/features/items/components/item-list.tsx:12` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `itemSchema` | value | `src/features/items/schemas/item-schema.ts:31` | 受け付ける外部入力、正規化、上限、拒否条件 |
-| 中 | `itemListQuerySchema` | value | `src/features/items/schemas/item-schema.ts:63` | 受け付ける外部入力、正規化、上限、拒否条件 |
+| 中 | `ItemColorDisplay` | function | `src/features/items/components/item-color-display.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ItemColorField` | function | `src/features/items/components/item-color-field.tsx:15` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ItemForm` | function | `src/features/items/components/item-form.tsx:17` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ItemList` | function | `src/features/items/components/item-list.tsx:13` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `itemSchema` | value | `src/features/items/schemas/item-schema.ts:40` | 受け付ける外部入力、正規化、上限、拒否条件 |
+| 中 | `itemListQuerySchema` | value | `src/features/items/schemas/item-schema.ts:72` | 受け付ける外部入力、正規化、上限、拒否条件 |
 | 中 | `ITEM_STATUSES` | value | `src/features/items/types.ts:7` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 中 | `ITEM_STATUS_LABELS` | value | `src/features/items/types.ts:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 中 | `ItemView` | type | `src/features/items/types.ts:14` | 表現するドメイン概念、単位、不変条件 |
@@ -100,8 +106,8 @@
 | 低 | `IdealPage` | default function | `src/app/(app)/ideal/page.tsx:16` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/[itemId]/edit/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `EditItemPage` | default function | `src/app/(app)/items/[itemId]/edit/page.tsx:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `metadata` | value | `src/app/(app)/items/[itemId]/page.tsx:18` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `ItemDetailPage` | default function | `src/app/(app)/items/[itemId]/page.tsx:20` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `metadata` | value | `src/app/(app)/items/[itemId]/page.tsx:20` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `ItemDetailPage` | default function | `src/app/(app)/items/[itemId]/page.tsx:22` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/new/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `NewItemPage` | default function | `src/app/(app)/items/new/page.tsx:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/page.tsx:9` | 公開する理由、呼び出し側との契約、変更時の影響 |

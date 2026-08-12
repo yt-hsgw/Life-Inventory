@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  ITEM_COLOR_HEX_PATTERN,
+  normalizeItemColor,
+} from "@/features/items/domain/item-color";
 import { ITEM_STATUSES } from "@/features/items/types";
 
 const optionalText = (max: number) =>
@@ -15,6 +19,11 @@ const optionalDate = z.preprocess(
   (value) => (value === "" ? undefined : value),
   z.iso.date().optional(),
 );
+const optionalColor = z.preprocess((value) => {
+  if (typeof value !== "string") return value;
+  if (value.trim() === "") return undefined;
+  return normalizeItemColor(value) ?? value;
+}, z.string().regex(ITEM_COLOR_HEX_PATTERN, "16進カラー（例: #2563EB）で入力してください。").optional());
 const optionalUrl = z.preprocess(
   (value) =>
     typeof value === "string" && value.trim() === "" ? undefined : value,
@@ -45,7 +54,7 @@ export const itemSchema = z.object({
     .int("整数で入力してください。")
     .min(1, "1以上で入力してください。")
     .max(1_000_000),
-  color: optionalText(50),
+  color: optionalColor,
   size: optionalText(50),
   purpose: optionalText(255),
   productUrl: optionalUrl,

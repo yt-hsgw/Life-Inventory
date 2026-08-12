@@ -83,19 +83,31 @@ export async function archiveItemAction(formData: FormData) {
   redirect("/archive");
 }
 
-export async function requestReviewAction(formData: FormData) {
-  const parsed = idSchema.safeParse(Object.fromEntries(formData));
+export async function setReviewRequestedAction(formData: FormData) {
+  const parsed = idSchema
+    .extend({
+      reviewRequested: z
+        .enum(["true", "false"])
+        .transform((value) => value === "true"),
+    })
+    .safeParse(Object.fromEntries(formData));
   if (!parsed.success) return;
   const { supabase, userId } = await requireUserId();
   const { error } = await supabase
     .from("items")
-    .update({ review_requested: true })
+    .update({ review_requested: parsed.data.reviewRequested })
     .eq("id", parsed.data.itemId)
     .eq("user_id", userId)
     .is("archived_at", null);
-  if (error) throw new Error("見直しへ追加できませんでした。");
+  if (error)
+    throw new Error(
+      parsed.data.reviewRequested
+        ? "見直しへ追加できませんでした。"
+        : "見直しを解除できませんでした。",
+    );
   revalidatePath("/review");
   revalidatePath(`/items/${parsed.data.itemId}`);
+  revalidatePath("/dashboard");
 }
 
 export async function updateItemStatusAction(formData: FormData) {

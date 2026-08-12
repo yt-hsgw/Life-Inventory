@@ -71,13 +71,20 @@
 
 ### `items`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (2)、`domain` (1)、`schemas` (1)、`server` (1)、`tests` (1)、`types` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (4)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (5)、`types` (1)
 
+- `src/features/items/actions.test.ts`
 - `src/features/items/actions.ts`
+- `src/features/items/components/item-color-display.tsx`
+- `src/features/items/components/item-color-field.test.tsx`
+- `src/features/items/components/item-color-field.tsx`
 - `src/features/items/components/item-form.tsx`
 - `src/features/items/components/item-list.tsx`
+- `src/features/items/domain/item-color.test.ts`
+- `src/features/items/domain/item-color.ts`
 - `src/features/items/domain/item-metrics.test.ts`
 - `src/features/items/domain/item-metrics.ts`
+- `src/features/items/schemas/item-schema.test.ts`
 - `src/features/items/schemas/item-schema.ts`
 - `src/features/items/server/items.ts`
 - `src/features/items/types.ts`
@@ -94,7 +101,7 @@
 
 ## Exported symbols
 
-JSDoc 付与済み: 0 / 109
+JSDoc 付与済み: 0 / 115
 
 | シンボル | 種別 | JSDoc | 定義 |
 | --- | --- | --- | --- |
@@ -108,8 +115,8 @@ JSDoc 付与済み: 0 / 109
 | `IdealPage` | default function | なし | `src/app/(app)/ideal/page.tsx:16` |
 | `metadata` | value | なし | `src/app/(app)/items/[itemId]/edit/page.tsx:6` |
 | `EditItemPage` | default function | なし | `src/app/(app)/items/[itemId]/edit/page.tsx:8` |
-| `metadata` | value | なし | `src/app/(app)/items/[itemId]/page.tsx:18` |
-| `ItemDetailPage` | default function | なし | `src/app/(app)/items/[itemId]/page.tsx:20` |
+| `metadata` | value | なし | `src/app/(app)/items/[itemId]/page.tsx:20` |
+| `ItemDetailPage` | default function | なし | `src/app/(app)/items/[itemId]/page.tsx:22` |
 | `metadata` | value | なし | `src/app/(app)/items/new/page.tsx:6` |
 | `NewItemPage` | default function | なし | `src/app/(app)/items/new/page.tsx:8` |
 | `metadata` | value | なし | `src/app/(app)/items/page.tsx:9` |
@@ -172,14 +179,20 @@ JSDoc 付与済み: 0 / 109
 | `getIdealComparisons` | function | なし | `src/features/ideal/server/ideal.ts:19` |
 | `saveItemAction` | function | なし | `src/features/items/actions.ts:15` |
 | `archiveItemAction` | function | なし | `src/features/items/actions.ts:65` |
-| `requestReviewAction` | function | なし | `src/features/items/actions.ts:86` |
-| `updateItemStatusAction` | function | なし | `src/features/items/actions.ts:101` |
-| `ItemForm` | function | なし | `src/features/items/components/item-form.tsx:16` |
-| `ItemList` | function | なし | `src/features/items/components/item-list.tsx:12` |
+| `setReviewRequestedAction` | function | なし | `src/features/items/actions.ts:86` |
+| `updateItemStatusAction` | function | なし | `src/features/items/actions.ts:113` |
+| `ItemColorDisplay` | function | なし | `src/features/items/components/item-color-display.tsx:4` |
+| `ItemColorField` | function | なし | `src/features/items/components/item-color-field.tsx:15` |
+| `ItemForm` | function | なし | `src/features/items/components/item-form.tsx:17` |
+| `ItemList` | function | なし | `src/features/items/components/item-list.tsx:13` |
+| `ITEM_COLOR_PRESETS` | value | なし | `src/features/items/domain/item-color.ts:1` |
+| `ITEM_COLOR_HEX_PATTERN` | value | なし | `src/features/items/domain/item-color.ts:15` |
+| `normalizeItemColor` | function | なし | `src/features/items/domain/item-color.ts:17` |
+| `getItemColorPresentation` | function | なし | `src/features/items/domain/item-color.ts:27` |
 | `countItemQuantity` | function | なし | `src/features/items/domain/item-metrics.ts:3` |
 | `isReviewTarget` | function | なし | `src/features/items/domain/item-metrics.ts:12` |
-| `itemSchema` | value | なし | `src/features/items/schemas/item-schema.ts:31` |
-| `itemListQuerySchema` | value | なし | `src/features/items/schemas/item-schema.ts:63` |
+| `itemSchema` | value | なし | `src/features/items/schemas/item-schema.ts:40` |
+| `itemListQuerySchema` | value | なし | `src/features/items/schemas/item-schema.ts:72` |
 | `attachCategories` | function | なし | `src/features/items/server/items.ts:10` |
 | `getItems` | function | なし | `src/features/items/server/items.ts:40` |
 | `getItem` | function | なし | `src/features/items/server/items.ts:72` |

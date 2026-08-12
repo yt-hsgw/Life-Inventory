@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { SlidersHorizontal } from "lucide-react";
+import { ListPlus, ListX, SlidersHorizontal } from "lucide-react";
 import { saveItemAction } from "@/features/items/actions";
 import type { CategoryWithSubs } from "@/features/categories/server/categories";
 import type { ItemRow } from "@/types/database.generated";
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { DisclosureSummary } from "@/components/ui/disclosure-summary";
+import { ItemColorField } from "@/features/items/components/item-color-field";
 
 export function ItemForm({
   categories,
@@ -23,6 +24,9 @@ export function ItemForm({
   const [state, action] = useActionState(saveItemAction, INITIAL_ACTION_STATE);
   const [categoryId, setCategoryId] = useState(
     item?.category_id ?? categories[0]?.id ?? "",
+  );
+  const [reviewRequested, setReviewRequested] = useState(
+    item?.review_requested ?? false,
   );
   const subCategories =
     categories.find((category) => category.id === categoryId)?.subCategories ??
@@ -120,14 +124,12 @@ export function ItemForm({
               <option value="RELEASE">手放す</option>
             </select>
           </FormField>
-          <FormField label="色" htmlFor="color">
-            <Input
-              id="color"
-              name="color"
-              defaultValue={item?.color ?? ""}
-              maxLength={50}
+          <div className="md:col-span-2">
+            <ItemColorField
+              defaultValue={item?.color}
+              error={state.errors?.color?.[0]}
             />
-          </FormField>
+          </div>
           <FormField label="サイズ" htmlFor="size">
             <Input
               id="size"
@@ -187,10 +189,18 @@ export function ItemForm({
             <input
               name="reviewRequested"
               type="checkbox"
-              defaultChecked={item?.review_requested}
+              checked={reviewRequested}
+              onChange={(event) =>
+                setReviewRequested(event.currentTarget.checked)
+              }
               className="accent-primary size-4"
             />
-            見直しに追加
+            {reviewRequested ? (
+              <ListX className="size-4" aria-hidden="true" />
+            ) : (
+              <ListPlus className="size-4" aria-hidden="true" />
+            )}
+            {reviewRequested ? "見直しを解除" : "見直しに追加"}
           </label>
           <div className="md:col-span-2">
             <FormField label="メモ" htmlFor="memo">

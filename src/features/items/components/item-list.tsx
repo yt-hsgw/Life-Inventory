@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import type { CategoryWithSubs } from "@/features/categories/server/categories";
+import { ItemColorDisplay } from "@/features/items/components/item-color-display";
 import { ITEM_STATUS_LABELS, type ItemView } from "@/features/items/types";
 import { cn } from "@/lib/utils";
 
@@ -89,10 +90,18 @@ export function ItemList({
                   <h2 className="font-semibold">{item.name}</h2>
                   <ArrowUpRight className="size-3.5 opacity-0 transition-opacity group-hover:opacity-100" />
                 </div>
-                <p className="text-muted-foreground mt-1 text-xs">
-                  {item.category.name}
-                  {item.subCategory ? ` / ${item.subCategory.name}` : ""}
-                </p>
+                <div className="text-muted-foreground mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs">
+                  <span>
+                    {item.category.name}
+                    {item.subCategory ? ` / ${item.subCategory.name}` : ""}
+                  </span>
+                  {item.color ? (
+                    <>
+                      <span aria-hidden="true">·</span>
+                      <ItemColorDisplay value={item.color} compact />
+                    </>
+                  ) : null}
+                </div>
               </div>
               <Badge
                 className={cn(

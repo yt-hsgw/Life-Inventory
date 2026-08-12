@@ -21,7 +21,9 @@
 - Active Itemの一覧、名前検索、Category / Status filter。
 - 名前（1〜100文字）、Category、数量（1以上）を必須として追加・編集。
 - Sub Category、色、サイズ、用途、URL、購入価格・日、最終使用日、Memoは任意。
+- 色は未設定、プリセット、カラーパレット、16進入力から選べる。保存時は `#RRGGBB` に正規化し、プリセット色は色名と16進値を併記する。
 - StatusはKEEP / MAYBE / RELEASE。既定はKEEP。
+- 明示的なReview依頼はItem詳細からON / OFFできる。ただしStatusがMAYBEのItemは依頼をOFFにしてもReview対象である。
 - Archive後は通常一覧から除外し、Archive画面へ表示する。
 - Category / Sub Categoryを追加・編集できる。紐づくItemがあるCategoryは削除しない。
 

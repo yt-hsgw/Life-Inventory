@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Archive, ListChecks, Pencil } from "lucide-react";
+import type { ReactNode } from "react";
+import { Archive, ListPlus, ListX, Pencil } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants, Button } from "@/components/ui/button";
@@ -8,9 +9,10 @@ import { Card } from "@/components/ui/card";
 import { DisclosureSummary } from "@/components/ui/disclosure-summary";
 import {
   archiveItemAction,
-  requestReviewAction,
+  setReviewRequestedAction,
   updateItemStatusAction,
 } from "@/features/items/actions";
+import { ItemColorDisplay } from "@/features/items/components/item-color-display";
 import { getItem } from "@/features/items/server/items";
 import { ITEM_STATUS_LABELS } from "@/features/items/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
@@ -24,13 +26,13 @@ export default async function ItemDetailPage({
 }) {
   const { itemId } = await params;
   const { item } = await getItem(itemId);
-  const details = [
+  const details: Array<[string, ReactNode]> = [
     [
       "カテゴリ",
       `${item.category.name}${item.subCategory ? ` / ${item.subCategory.name}` : ""}`,
     ],
     ["数量", String(item.quantity)],
-    ["色", item.color ?? "—"],
+    ["色", <ItemColorDisplay key="item-color" value={item.color} />],
     ["サイズ", item.size ?? "—"],
     ["用途", item.purpose ?? "—"],
     [
@@ -106,13 +108,27 @@ export default async function ItemDetailPage({
                 状態を更新
               </Button>
             </form>
-            <form action={requestReviewAction} className="mt-3">
+            <form action={setReviewRequestedAction} className="mt-3">
               <input type="hidden" name="itemId" value={item.id} />
+              <input
+                type="hidden"
+                name="reviewRequested"
+                value={String(!item.review_requested)}
+              />
               <Button type="submit" variant="ghost" className="w-full">
-                <ListChecks className="size-4" />
-                {item.review_requested ? "見直しに追加済み" : "見直しに追加"}
+                {item.review_requested ? (
+                  <ListX className="size-4" />
+                ) : (
+                  <ListPlus className="size-4" />
+                )}
+                {item.review_requested ? "見直しを解除" : "見直しに追加"}
               </Button>
             </form>
+            {item.status === "MAYBE" ? (
+              <p className="text-muted-foreground mt-2 text-xs leading-5">
+                状態が「迷っている」の間は、依頼を解除しても見直し対象です。
+              </p>
+            ) : null}
           </Card>
           <Card>
             <details className="group">
