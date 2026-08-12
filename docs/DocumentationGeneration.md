@@ -2,13 +2,18 @@
 
 ## 目的
 
-ソースコードとmigrationから、実装調査やレビューの入口になる技術ドキュメントを再現可能に生成する。手作業で転記する量を減らし、実装変更に対して資料が古くなったことをCIで検出する。
+ソースコードとmigrationから、実装調査やレビューの入口になる技術ドキュメントを再現可能に生成する。TypeScriptの構文・型・JSDoc/TSDocコメントはTypeDocで解析し、アプリ固有のroute、feature、Supabase migration、RLSは補助スクリプトで解析する。
 
-生成物は `docs/generated` にGit管理され、次の3ファイルで構成される。
+生成物は次の2種類で構成される。
 
-- `ImplementationGuide.md`: route、feature、server actionの実装案内
-- `TechnicalReference.md`: 公開symbol、migration、RLS、security boundaryの技術リファレンス
-- `CommentSuggestions.md`: JSDocが不足している公開symbolとコメント候補
+- `docs/generated/*.md`: Git管理するroute、feature、server action、migration、RLSの実装資料
+- `docs/generated/api/`: TypeDocが生成する検索可能なHTML APIリファレンス。ファイル数が多いためGit管理せず、必要時にローカル生成する
+
+TypeScript本体が公式に提供するのはJSDocの解釈と型検査であり、HTMLやMarkdownのドキュメント生成CLIではない。このプロジェクトでは、TypeScript向けの定番OSSであるTypeDocを採用する。TSDocはコメント記法の標準であり、単体のドキュメント生成ツールではない。
+
+TypeDoc 0.28の日本語localeには未翻訳のUIキーが残るため、rendererのUIは英語に固定し、プロジェクト説明とJSDoc/TSDoc本文を日本語にする。未翻訳キーが解消された版へ更新した際に `typedoc.json` の `lang` を `ja` へ戻す。
+
+参考: [TypeScriptのJSDoc対応](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html)、[TypeDoc](https://typedoc.org/)、[TSDoc](https://tsdoc.org/)
 
 `CommentSuggestions.md` はレビュー材料であり、生成処理がソースコードへコメントを自動挿入することはない。
 
@@ -21,9 +26,9 @@ npm ci
 npm run docs:generate
 ```
 
-生成後は `docs/generated` の差分を確認する。誤った説明や不要な公開APIが見つかった場合は、生成物だけを手で直さず、ソースコードまたは生成処理を修正して再生成する。
+生成後は `docs/generated/api/index.html` をブラウザで開き、APIリファレンスを確認する。Git管理されるMarkdownの差分も確認する。誤った説明や不要な公開APIが見つかった場合は、生成物だけを手で直さず、ソースコード、JSDoc/TSDocコメント、または生成設定を修正して再生成する。
 
-生成済みファイルが現在のソースコードと一致するかだけを確認する場合は、次を実行する。このコマンドはファイルを書き換えず、不一致があれば失敗する。
+生成済みMarkdownが現在のソースコードと一致し、TypeDocが現在の型を解析できるか確認する場合は、次を実行する。このコマンドはファイルを書き換えず、Markdownの不一致、TypeScriptエラー、無効なドキュメントリンクがあれば失敗する。
 
 ```bash
 npm run docs:check
@@ -41,22 +46,22 @@ CIで失敗した場合は、ローカルで `npm run docs:generate` を実行�
 
 ```mermaid
 flowchart LR
+  TS["TypeScript / JSDoc / TSDoc"] --> TypeDoc["TypeDoc"]
+  TypeDoc --> API["docs/generated/api/*.html"]
   Source["routes / features / actions"] --> Generator["scripts/generate-docs.mjs"]
   Migration["Supabase migrations / RLS"] --> Generator
-  Generator --> Guide["ImplementationGuide.md"]
-  Generator --> Reference["TechnicalReference.md"]
-  Generator --> Suggestions["CommentSuggestions.md"]
-  Check["npm run docs:check"] -->|"差分を検出"| CI["GitHub Actions"]
-  Guide --> Check
-  Reference --> Check
-  Suggestions --> Check
+  Generator --> Markdown["docs/generated/*.md"]
+  Check["npm run docs:check"] -->|"Markdown鮮度・TypeDoc変換・リンク検証"| CI["GitHub Actions"]
+  Markdown --> Check
+  TS --> Check
 ```
 
-生成処理はソースコードを読み取り、出力先を `docs/generated` に限定する。`--check` は同じ入力から期待内容を組み立て、Git管理された生成物と比較する。アプリの実行時には呼び出さず、ドキュメント生成を業務処理やSupabaseへの副作用から分離する。
+生成処理はソースコードを読み取り、出力先を `docs/generated` に限定する。補助スクリプトの `--check` は同じ入力から期待内容を組み立て、Git管理されたMarkdownと比較する。TypeDocは `--emit none` で出力せず解析・検証できる。どちらもアプリの実行時には呼び出さず、ドキュメント生成を業務処理やSupabaseへの副作用から分離する。
 
 ### 設計理由
 
 - 生成物をGit管理することで、GitHub上のコードレビューやオフラインの調査でも参照できる。
+- TypeScript APIは独自の正規表現だけに依存せず、TypeScript Compiler APIを利用するTypeDocで正確に解析する。
 - 生成と鮮度確認に同じエンジンを使い、ローカルとCIの判定差を避ける。
 - `npm run check` に鮮度確認を含め、実装変更時の確認漏れを品質ゲートで検知する。
 - コメントは提案に留め、意図を理解しない自動書換えや不要なJSDocの増加を防ぐ。
@@ -67,12 +72,12 @@ flowchart LR
 
 ## トレードオフ
 
-- Git管理するため生成差分がcommit量を増やす一方、PRで実装と資料を同時にレビューできる。
+- アプリ固有MarkdownはGit管理してレビューしやすくする一方、TypeDoc HTMLは大量の静的ファイルになるためGit管理せず、必要時に再生成する。
 - 静的解析は構造を再現しやすい一方、業務上の意図やruntimeの分岐を完全には説明できない。
-- `npm run check` の時間がわずかに増える一方、古いドキュメントのmergeを早期に防げる。
+- `npm run check` の時間が増える一方、型解析不能や無効なコメントリンクをmerge前に検出できる。
 - コメントを自動挿入しないため採用は手作業になる一方、公開symbolの意味を人が確認するレビュー境界を維持できる。
 
-代替案として生成物をCI artifactだけに保存する方法がある。リポジトリ差分は減るが、通常のコードレビューやローカル参照が難しく、main branch上の資料へ安定してリンクできないため採用しない。
+代替案としてAPI Extractorで公開APIモデルを固定する方法がある。ライブラリの互換性管理には強いが、このNext.jsアプリには公開パッケージのAPI契約がなく構成が過剰になるため採用しない。Markdown形式が必須になった場合は `typedoc-plugin-markdown` も候補になるが、TypeDoc本体ではないcommunity pluginへの依存が増えるため、現時点では組み込みHTML rendererを使う。
 
 ## 危険ケースとレビュー観点
 
@@ -81,6 +86,7 @@ flowchart LR
 - **手修正の消失**: `docs/generated` を直接編集しても次回生成で上書きされる。恒久修正はソースまたは生成処理へ行う。
 - **不安定な出力**: 実行時刻、環境依存の絶対path、走査順の揺れを出力へ含めるとCIが継続的に失敗する。生成結果は決定的であることを保つ。
 - **公開範囲の誤認**: exported symbolであることと、外部利用を保証する公開APIであることは同義ではない。コメント候補の採用前にfeature境界を確認する。
+- **非公開情報の露出**: API HTMLを外部公開する場合は、内部path、コメント、型名に公開不適切な情報がないことを別途確認する。現在の出力はローカル開発者向けである。
 - **規模拡大**: ファイル数が増えて鮮度確認が遅くなった場合は、入力範囲の明示や解析結果のcacheを検討する。ただし差分検出を部分的にして取りこぼす最適化は行わない。
 - **Markdownの安全性**: ソース由来の文字列をHTMLとして信頼しない。生成物を別システムへ公開する場合は、そのrenderer側でも危険なHTMLやURLを無効化する。
 

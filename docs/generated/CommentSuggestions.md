@@ -62,7 +62,7 @@
 | 高 | `formatCurrency` | function | `src/lib/utils.ts:8` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `formatDate` | function | `src/lib/utils.ts:16` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 中 | `EmptyState` | function | `src/components/feedback/empty-state.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `AppShell` | function | `src/components/layout/app-shell.tsx:43` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `AppShell` | function | `src/components/layout/app-shell.tsx:42` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `PageHeader` | function | `src/components/layout/page-header.tsx:3` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `NavigationPendingHint` | function | `src/components/navigation/navigation-pending-hint.tsx:7` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `Badge` | function | `src/components/ui/badge.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |

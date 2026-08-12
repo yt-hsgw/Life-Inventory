@@ -1,0 +1,28 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "Life Inventory TypeScript API",
+  "entryPoints": ["src"],
+  "entryPointStrategy": "expand",
+  "out": "docs/generated/api",
+  "tsconfig": "tsconfig.json",
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.d.ts",
+    "src/types/database.generated.ts"
+  ],
+  "excludeExternals": true,
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "disableSources": true,
+  "readme": "docs/TypeScriptApi.md",
+  "lang": "en",
+  "githubPages": false,
+  "highlightLanguages": ["bash", "mermaid", "text", "tsx", "typescript"],
+  "validation": {
+    "invalidLink": true,
+    "notExported": false,
+    "notDocumented": false
+  },
+  "treatWarningsAsErrors": true
+}

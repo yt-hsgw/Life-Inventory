@@ -47,12 +47,14 @@ npm run test:e2e
 npm run supabase:stop
 ```
 
-`npm run check` はlint、型検査、unit testに加えて、生成済み技術ドキュメントがソースコードと一致しているか確認します。実装を変更したときは次のコマンドで `docs/generated` を更新し、差分をレビューしてソースコードと一緒にcommitしてください。
+`npm run check` はlint、型検査、unit testに加えて、生成済みMarkdownがソースコードと一致し、TypeDocがTypeScript APIを解析できることを確認します。実装を変更したときは次のコマンドでドキュメントを更新してください。Git管理されるMarkdownの差分をレビューし、TypeDoc HTMLは `docs/generated/api/index.html` で確認します。
 
 ```bash
 npm run docs:generate
 ```
 
 生成される実装資料、技術リファレンス、コードコメント候補の用途と運用は [docs/DocumentationGeneration.md](docs/DocumentationGeneration.md) を参照してください。
+
+基本機能の手動確認は、ユースケース図付きの [docs/ManualAcceptanceChecklist.md](docs/ManualAcceptanceChecklist.md) を参照してください。
 
 詳しい仕様と設計は [docs/Requirements.md](docs/Requirements.md) と [docs/Architecture.md](docs/Architecture.md) を参照してください。

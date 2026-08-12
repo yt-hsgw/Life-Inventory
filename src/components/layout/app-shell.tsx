@@ -4,7 +4,6 @@ import {
   Archive,
   CircleGauge,
   CreditCard,
-  ChevronsLeftRight,
   ListChecks,
   LogOut,
   Package,
@@ -246,8 +245,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           aria-valuetext={
             showLabels ? `${Math.round(sidebarWidth)}ピクセル` : "折りたたみ"
           }
-          title="ドラッグで幅を変更・クリックで折りたたみ"
-          className="group focus-visible:ring-primary absolute inset-y-0 -right-2 hidden w-4 cursor-col-resize touch-none focus-visible:ring-2 focus-visible:outline-none md:block"
+          className="focus-visible:outline-primary absolute inset-y-0 -right-2 hidden w-4 cursor-col-resize touch-none focus-visible:outline-2 md:block"
           onPointerDown={handleResizeStart}
           onPointerMove={handleResize}
           onPointerUp={handleResizeEnd}
@@ -258,12 +256,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             dragStart.current = null;
           }}
           onKeyDown={handleResizeKeyDown}
-        >
-          <span className="bg-border group-hover:bg-primary group-focus-visible:bg-primary absolute inset-y-0 left-1/2 w-px -translate-x-1/2 transition-colors" />
-          <span className="border-border bg-card text-muted-foreground group-hover:border-primary group-hover:text-primary absolute top-1/2 left-1/2 grid h-10 w-3 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border text-[9px] opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-            <ChevronsLeftRight className="size-2.5" />
-          </span>
-        </button>
+        />
       </aside>
       <main className="min-w-0 px-5 pt-7 pb-28 md:col-start-2 md:px-10 md:pt-10 md:pb-12 xl:px-14">
         <div className="mx-auto max-w-6xl">{children}</div>

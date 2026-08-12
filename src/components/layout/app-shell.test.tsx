@@ -21,6 +21,9 @@ describe("AppShell", () => {
     );
 
     expect(shell).toHaveStyle({ "--sidebar-width": "240px" });
+    expect(separator).toBeEmptyDOMElement();
+    expect(separator).not.toHaveAttribute("title");
+    expect(separator).toHaveClass("cursor-col-resize");
     expect(
       desktopNavigation.getByRole("link", { name: "インベントリ" }),
     ).toHaveAttribute("aria-current", "page");

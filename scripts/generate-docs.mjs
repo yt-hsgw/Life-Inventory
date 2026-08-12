@@ -371,13 +371,13 @@ function renderImplementationGuide(model) {
     "3. 純粋なドメインロジックのテストを追加します。",
     "4. `schemas`、`server`、`actions`、`components`、`app` の順に最小変更を実装します。",
     "5. `npm run check` と関連 E2E / DB テストを実行します。",
-    "6. ドキュメントを再生成し、`node scripts/generate-docs.mjs --check` で同期を確認します。",
+    "6. `npm run docs:generate` でMarkdownとTypeDoc APIを再生成し、`npm run docs:check` で検証します。",
     "",
     "## 生成コマンド",
     "",
     "```bash",
-    "node scripts/generate-docs.mjs",
-    "node scripts/generate-docs.mjs --check",
+    "npm run docs:generate",
+    "npm run docs:check",
     "```",
     "",
     "通常実行は `docs/generated` を更新します。`--check` は生成結果と既存ファイルが異なる場合に終了コード 1 を返し、ファイルは変更しません。",
@@ -388,7 +388,6 @@ function renderImplementationGuide(model) {
 }
 
 function renderTechnicalReference(model) {
-  const documentedCount = model.exports.filter((entry) => entry.hasJsDoc).length;
   const lines = [
     generatedHeader("技術リファレンス"),
     "## ルート一覧",
@@ -407,13 +406,9 @@ function renderTechnicalReference(model) {
       ...feature.files.map((filePath) => `- ${markdownCode(filePath)}`),
       "",
     ]),
-    "## Exported symbols",
+    "## TypeScript API",
     "",
-    `JSDoc 付与済み: ${documentedCount} / ${model.exports.length}`,
-    "",
-    "| シンボル | 種別 | JSDoc | 定義 |",
-    "| --- | --- | --- | --- |",
-    ...model.exports.map((entry) => `| ${markdownCode(entry.name)} | ${entry.kind} | ${entry.hasJsDoc ? "あり" : "なし"} | ${markdownCode(`${entry.filePath}:${entry.line}`)} |`),
+    "exported symbol、型、JSDoc/TSDocコメントはTypeDocが解析します。`npm run docs:generate:api` の後、`docs/generated/api/index.html` を開いて参照してください。",
     "",
     "## Supabase migrations",
     "",

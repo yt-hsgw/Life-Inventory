@@ -16,8 +16,10 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "test:db": "node tests/integration/local-supabase.mjs",
-    "docs:generate": "node scripts/generate-docs.mjs",
-    "docs:check": "node scripts/generate-docs.mjs --check",
+    "docs:generate:app": "node scripts/generate-docs.mjs",
+    "docs:generate:api": "typedoc",
+    "docs:generate": "npm run docs:generate:app && npm run docs:generate:api",
+    "docs:check": "node scripts/generate-docs.mjs --check && typedoc --emit none",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "supabase:reset": "supabase db reset --local --yes",
@@ -51,6 +53,7 @@
     "prettier-plugin-tailwindcss": "0.8.1",
     "supabase": "2.113.0",
     "tailwindcss": "4.3.3",
+    "typedoc": "0.28.20",
     "typescript": "5.9.3",
     "vitest": "4.1.10"
   }
