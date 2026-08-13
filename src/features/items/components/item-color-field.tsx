@@ -14,18 +14,24 @@ const FALLBACK_PICKER_COLOR = "#89916B";
 
 export function ItemColorField({
   defaultValue,
+  value,
+  onValueChange,
   error,
 }: {
   defaultValue?: string | null;
+  value?: string;
+  onValueChange?: (value: string) => void;
   error?: string;
 }) {
   const initialValue = normalizeItemColor(defaultValue) ?? defaultValue ?? "";
-  const [inputValue, setInputValue] = useState(initialValue);
+  const [internalValue, setInternalValue] = useState(initialValue);
+  const inputValue = value ?? internalValue;
   const selectedColor = normalizeItemColor(inputValue);
   const hasInvalidInput = inputValue.trim() !== "" && !selectedColor;
 
   function selectColor(value: string) {
-    setInputValue(value);
+    if (onValueChange) onValueChange(value);
+    else setInternalValue(value);
   }
 
   return (
@@ -99,9 +105,9 @@ export function ItemColorField({
             id="color"
             name="color"
             value={inputValue}
-            onChange={(event) => setInputValue(event.currentTarget.value)}
+            onChange={(event) => selectColor(event.currentTarget.value)}
             onBlur={() => {
-              if (selectedColor) setInputValue(selectedColor);
+              if (selectedColor) selectColor(selectedColor);
             }}
             maxLength={7}
             pattern="#?[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?"

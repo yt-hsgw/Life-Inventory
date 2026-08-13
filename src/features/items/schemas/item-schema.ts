@@ -4,6 +4,7 @@ import {
   normalizeItemColor,
 } from "@/features/items/domain/item-color";
 import { ITEM_STATUSES } from "@/features/items/types";
+import { photoDraftIdsSchema } from "@/features/items/domain/item-photo";
 
 const optionalText = (max: number) =>
   z.preprocess(
@@ -67,6 +68,7 @@ export const itemSchema = z.object({
     z.boolean(),
   ),
   memo: optionalText(5000),
+  photoDraftIds: photoDraftIdsSchema,
 });
 
 export const itemListQuerySchema = z.object({

@@ -7,6 +7,8 @@
 | URL | タイトル | 種別 | メソッド | ファイル |
 | --- | --- | --- | --- | --- |
 | `/` | — | Page | PAGE | `src/app/page.tsx` |
+| `/api/item-photo-drafts` | — | Route Handler | DELETE, PATCH, POST | `src/app/api/item-photo-drafts/route.ts` |
+| `/api/item-photo-drafts/cleanup` | — | Route Handler | POST | `src/app/api/item-photo-drafts/cleanup/route.ts` |
 | `/archive` | アーカイブ | Page | PAGE | `src/app/(app)/archive/page.tsx` |
 | `/auth/callback` | — | Route Handler | GET | `src/app/auth/callback/route.ts` |
 | `/auth/confirm` | — | Route Handler | GET | `src/app/auth/confirm/route.ts` |
@@ -74,7 +76,7 @@
 
 ### `items`
 
-責務フォルダ / ファイル: `actions` (1)、`components` (5)、`domain` (2)、`schemas` (1)、`server` (1)、`tests` (8)、`types` (1)
+責務フォルダ / ファイル: `actions` (1)、`components` (6)、`domain` (4)、`schemas` (1)、`server` (3)、`tests` (12)、`types` (1)
 
 - `src/features/items/actions.test.ts`
 - `src/features/items/actions.ts`
@@ -85,15 +87,24 @@
 - `src/features/items/components/item-form.tsx`
 - `src/features/items/components/item-list.test.tsx`
 - `src/features/items/components/item-list.tsx`
+- `src/features/items/components/item-photo-uploader.test.tsx`
+- `src/features/items/components/item-photo-uploader.tsx`
 - `src/features/items/components/item-state-controls.test.tsx`
 - `src/features/items/components/item-state-controls.tsx`
 - `src/features/items/domain/item-color.test.ts`
 - `src/features/items/domain/item-color.ts`
 - `src/features/items/domain/item-metrics.test.ts`
 - `src/features/items/domain/item-metrics.ts`
+- `src/features/items/domain/item-photo-analysis.test.ts`
+- `src/features/items/domain/item-photo-analysis.ts`
+- `src/features/items/domain/item-photo.test.ts`
+- `src/features/items/domain/item-photo.ts`
 - `src/features/items/schemas/item-schema.test.ts`
 - `src/features/items/schemas/item-schema.ts`
 - `src/features/items/server/items.ts`
+- `src/features/items/server/photo-analysis-core.ts`
+- `src/features/items/server/photo-analysis.test.ts`
+- `src/features/items/server/photo-analysis.ts`
 - `src/features/items/types.ts`
 
 ### `review`
@@ -114,14 +125,19 @@ exported symbol、型、JSDoc/TSDocコメントはTypeDocが解析します。`n
 
 - `supabase/migrations/20260810164719_initial_schema.sql`
 - `supabase/migrations/20260811102207_harden_review_invariants.sql`
+- `supabase/migrations/20260813040839_item_photos.sql`
 
 ### テーブルと RLS
 
 | テーブル | RLS | 現在のポリシー | 作成 migration |
 | --- | --- | --- | --- |
+| `private.item_photo_analysis_attempts` | 有効 | なし | `supabase/migrations/20260813040839_item_photos.sql` |
+| `private.item_photo_deletion_queue` | 有効 | なし | `supabase/migrations/20260813040839_item_photos.sql` |
 | `public.categories` | 有効 | categories_delete_own (DELETE)、categories_insert_own (INSERT)、categories_select_own (SELECT)、categories_update_own (UPDATE) | `supabase/migrations/20260810164719_initial_schema.sql` |
 | `public.expenses` | 有効 | expenses_delete_own (DELETE)、expenses_insert_own (INSERT)、expenses_select_own (SELECT)、expenses_update_own (UPDATE) | `supabase/migrations/20260810164719_initial_schema.sql` |
 | `public.ideal_items` | 有効 | ideal_items_delete_own (DELETE)、ideal_items_insert_own (INSERT)、ideal_items_select_own (SELECT)、ideal_items_update_own (UPDATE) | `supabase/migrations/20260810164719_initial_schema.sql` |
+| `public.item_photo_drafts` | 有効 | item_photo_drafts_select_own (SELECT) | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.item_photos` | 有効 | item_photos_select_own (SELECT) | `supabase/migrations/20260813040839_item_photos.sql` |
 | `public.item_reviews` | 有効 | item_reviews_select_own (SELECT) | `supabase/migrations/20260810164719_initial_schema.sql` |
 | `public.items` | 有効 | items_insert_own (INSERT)、items_select_own (SELECT)、items_update_own (UPDATE) | `supabase/migrations/20260810164719_initial_schema.sql` |
 | `public.sub_categories` | 有効 | sub_categories_delete_own (DELETE)、sub_categories_insert_own (INSERT)、sub_categories_select_own (SELECT)、sub_categories_update_own (UPDATE) | `supabase/migrations/20260810164719_initial_schema.sql` |
@@ -131,6 +147,18 @@ exported symbol、型、JSDoc/TSDocコメントはTypeDocが解析します。`n
 | 関数 | 引数 | 戻り値 | language | security | 最終定義 migration |
 | --- | --- | --- | --- | --- | --- |
 | `private.set_updated_at` | `なし` | `trigger` | plpgsql | INVOKER | `supabase/migrations/20260810164719_initial_schema.sql` |
+| `private.validate_item_photo` | `なし` | `trigger` | plpgsql | INVOKER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `private.validate_item_photo_storage_object` | `なし` | `trigger` | plpgsql | INVOKER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.attach_item_photo_drafts` | `p_item_id uuid, p_photo_draft_ids uuid[]` | `setof public.item_photos` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.claim_item_photo_deletion_queue` | `p_limit integer default 50` | `table(storage_path text)` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.claim_item_photo_draft_analysis` | `p_draft_id uuid` | `unknown` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.complete_item_photo_deletion` | `p_storage_path text` | `boolean` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.complete_item_photo_draft_analysis` | `p_draft_id uuid, p_claim_token uuid, p_analysis jsonb` | `public.item_photo_drafts` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.create_item_photo_draft` | `p_storage_path text, p_content_type text, p_size_bytes bigint` | `public.item_photo_drafts` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.create_item_with_photo_drafts` | `p_name text, p_category_id uuid, p_quantity integer, p_photo_draft_ids uuid[] default '{}'::uuid[], p_sub_category_id uuid default null, p_color text default null, p_size text default null, p_purpose text default null, p_product_url text default null, p_purchase_price integer default null, p_purchased_at date default null, p_last_used_at date default null, p_status text default 'KEEP', p_review_requested boolean default false, p_memo text default null` | `public.items` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.fail_item_photo_draft_analysis` | `p_draft_id uuid, p_claim_token uuid` | `public.item_photo_drafts` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
 | `public.get_review_queue` | `p_session_id uuid, p_limit integer default 500` | `setof public.items` | sql | INVOKER | `supabase/migrations/20260811102207_harden_review_invariants.sql` |
 | `public.get_review_queue_count` | `なし` | `bigint` | sql | INVOKER | `supabase/migrations/20260811102207_harden_review_invariants.sql` |
+| `public.queue_expired_item_photo_drafts` | `p_limit integer default 50, p_expired_before timestamptz default (now(` | `table(storage_path text)` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
+| `public.queue_item_photo_draft_deletion` | `p_draft_id uuid` | `table(storage_path text)` | plpgsql | DEFINER | `supabase/migrations/20260813040839_item_photos.sql` |
 | `public.review_item` | `p_item_id uuid, p_decision text, p_session_id uuid, p_memo text default null` | `public.item_reviews` | plpgsql | DEFINER | `supabase/migrations/20260811102207_harden_review_invariants.sql` |

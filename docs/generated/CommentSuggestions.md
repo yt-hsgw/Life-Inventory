@@ -8,7 +8,7 @@
 
 優先度は `domain` / `server` / Server Action / 共通ライブラリを高、型・schema・component を中、Next.js の規約ファイルを低として分類しています。
 
-候補数: 119
+候補数: 145
 
 | 優先度 | シンボル | 種別 | 定義 | コメントで説明する観点 |
 | --- | --- | --- | --- | --- |
@@ -32,19 +32,36 @@
 | 高 | `IdealComparison` | type | `src/features/ideal/server/ideal.ts:12` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `getIdealComparisons` | function | `src/features/ideal/server/ideal.ts:19` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `saveItemAction` | function | `src/features/items/actions.ts:16` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `archiveItemAction` | function | `src/features/items/actions.ts:66` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `setReviewRequestedAction` | function | `src/features/items/actions.ts:87` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
-| 高 | `updateItemStatusAction` | function | `src/features/items/actions.ts:118` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `archiveItemAction` | function | `src/features/items/actions.ts:110` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `setReviewRequestedAction` | function | `src/features/items/actions.ts:131` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
+| 高 | `updateItemStatusAction` | function | `src/features/items/actions.ts:162` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `ITEM_COLOR_PRESETS` | value | `src/features/items/domain/item-color.ts:1` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `ITEM_COLOR_HEX_PATTERN` | value | `src/features/items/domain/item-color.ts:15` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `normalizeItemColor` | function | `src/features/items/domain/item-color.ts:17` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `getItemColorPresentation` | function | `src/features/items/domain/item-color.ts:27` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `countItemQuantity` | function | `src/features/items/domain/item-metrics.ts:3` | 計算規則、値の単位、境界値、不変条件 |
 | 高 | `isReviewTarget` | function | `src/features/items/domain/item-metrics.ts:12` | 計算規則、値の単位、境界値、不変条件 |
-| 高 | `attachCategories` | function | `src/features/items/server/items.ts:10` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `getItems` | function | `src/features/items/server/items.ts:40` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `getItem` | function | `src/features/items/server/items.ts:74` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
-| 高 | `getArchivedItems` | function | `src/features/items/server/items.ts:94` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `itemPhotoAnalysisSchema` | value | `src/features/items/domain/item-photo-analysis.ts:4` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ItemPhotoAnalysis` | type | `src/features/items/domain/item-photo-analysis.ts:31` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ItemPhotoAnalysisResult` | type | `src/features/items/domain/item-photo-analysis.ts:33` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ITEM_PHOTO_BUCKET` | value | `src/features/items/domain/item-photo.ts:3` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ITEM_PHOTO_MAX_BYTES` | value | `src/features/items/domain/item-photo.ts:4` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ITEM_PHOTO_MAX_COUNT` | value | `src/features/items/domain/item-photo.ts:5` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ITEM_PHOTO_CONTENT_TYPES` | value | `src/features/items/domain/item-photo.ts:6` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `ItemPhotoContentType` | type | `src/features/items/domain/item-photo.ts:12` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `photoDraftIdsSchema` | value | `src/features/items/domain/item-photo.ts:14` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `photoDraftDeleteSchema` | value | `src/features/items/domain/item-photo.ts:22` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `UploadedItemPhotoDraft` | type | `src/features/items/domain/item-photo.ts:26` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `isSupportedPhotoContentType` | function | `src/features/items/domain/item-photo.ts:33` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `detectPhotoContentType` | function | `src/features/items/domain/item-photo.ts:39` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `getPhotoExtension` | function | `src/features/items/domain/item-photo.ts:70` | 計算規則、値の単位、境界値、不変条件 |
+| 高 | `attachCategories` | function | `src/features/items/server/items.ts:66` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `getItems` | function | `src/features/items/server/items.ts:100` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `getItem` | function | `src/features/items/server/items.ts:143` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `getArchivedItems` | function | `src/features/items/server/items.ts:164` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `isSafeItemPhotoBytes` | function | `src/features/items/server/photo-analysis-core.ts:254` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `analyzeItemPhotoCore` | function | `src/features/items/server/photo-analysis-core.ts:363` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
+| 高 | `analyzeItemPhoto` | function | `src/features/items/server/photo-analysis.ts:7` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `reviewItemAction` | function | `src/features/review/actions.ts:8` | 入力検証、認証境界、永続化・再検証・遷移の副作用 |
 | 高 | `getReviewQueue` | function | `src/features/review/server/review.ts:7` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
 | 高 | `getReviewSummary` | function | `src/features/review/server/review.ts:21` | 認証済みユーザーへの絞り込み、取得条件、失敗時の契約 |
@@ -53,7 +70,9 @@
 | 高 | `invalidAction` | function | `src/lib/action-state.ts:9` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `failedAction` | function | `src/lib/action-state.ts:23` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `requireUserId` | value | `src/lib/auth.ts:7` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
-| 高 | `getPublicEnv` | function | `src/lib/env.ts:8` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
+| 高 | `getPublicEnv` | function | `src/lib/env.ts:16` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
+| 高 | `getServerEnv` | function | `src/lib/env.ts:32` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
+| 高 | `getItemPhotoCleanupSecret` | function | `src/lib/env.ts:48` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `getSafeRedirectPath` | function | `src/lib/safe-redirect.ts:1` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `createClient` | function | `src/lib/supabase/client.ts:7` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
 | 高 | `updateSession` | function | `src/lib/supabase/proxy.ts:5` | 共通契約、セキュリティ前提、戻り値と失敗条件 |
@@ -87,14 +106,16 @@
 | 中 | `idealSchema` | value | `src/features/ideal/schemas/ideal-schema.ts:3` | 受け付ける外部入力、正規化、上限、拒否条件 |
 | 中 | `ItemColorDisplay` | function | `src/features/items/components/item-color-display.tsx:4` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `ItemColorField` | function | `src/features/items/components/item-color-field.tsx:15` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `ItemForm` | function | `src/features/items/components/item-form.tsx:17` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `ItemList` | function | `src/features/items/components/item-list.tsx:13` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ItemForm` | function | `src/features/items/components/item-form.tsx:19` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ItemList` | function | `src/features/items/components/item-list.tsx:14` | UI の責務、主要 props、ユーザー操作と副作用 |
+| 中 | `ItemPhotoUploader` | function | `src/features/items/components/item-photo-uploader.tsx:35` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `ItemStateControls` | function | `src/features/items/components/item-state-controls.tsx:15` | UI の責務、主要 props、ユーザー操作と副作用 |
-| 中 | `itemSchema` | value | `src/features/items/schemas/item-schema.ts:40` | 受け付ける外部入力、正規化、上限、拒否条件 |
-| 中 | `itemListQuerySchema` | value | `src/features/items/schemas/item-schema.ts:72` | 受け付ける外部入力、正規化、上限、拒否条件 |
-| 中 | `ITEM_STATUSES` | value | `src/features/items/types.ts:7` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 中 | `ITEM_STATUS_LABELS` | value | `src/features/items/types.ts:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 中 | `ItemView` | type | `src/features/items/types.ts:14` | 表現するドメイン概念、単位、不変条件 |
+| 中 | `itemSchema` | value | `src/features/items/schemas/item-schema.ts:41` | 受け付ける外部入力、正規化、上限、拒否条件 |
+| 中 | `itemListQuerySchema` | value | `src/features/items/schemas/item-schema.ts:74` | 受け付ける外部入力、正規化、上限、拒否条件 |
+| 中 | `ITEM_STATUSES` | value | `src/features/items/types.ts:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 中 | `ITEM_STATUS_LABELS` | value | `src/features/items/types.ts:9` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 中 | `ItemView` | type | `src/features/items/types.ts:15` | 表現するドメイン概念、単位、不変条件 |
+| 中 | `ItemPhotoView` | type | `src/features/items/types.ts:22` | 表現するドメイン概念、単位、不変条件 |
 | 中 | `ReviewCard` | function | `src/features/review/components/review-card.tsx:8` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `ReviewDecisionButtons` | function | `src/features/review/components/review-decision-buttons.tsx:7` | UI の責務、主要 props、ユーザー操作と副作用 |
 | 中 | `reviewSessionSchema` | value | `src/features/review/schemas/review-schema.ts:3` | 受け付ける外部入力、正規化、上限、拒否条件 |
@@ -109,8 +130,8 @@
 | 低 | `IdealPage` | default function | `src/app/(app)/ideal/page.tsx:17` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/[itemId]/edit/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `EditItemPage` | default function | `src/app/(app)/items/[itemId]/edit/page.tsx:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `metadata` | value | `src/app/(app)/items/[itemId]/page.tsx:16` | 公開する理由、呼び出し側との契約、変更時の影響 |
-| 低 | `ItemDetailPage` | default function | `src/app/(app)/items/[itemId]/page.tsx:18` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `metadata` | value | `src/app/(app)/items/[itemId]/page.tsx:17` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `ItemDetailPage` | default function | `src/app/(app)/items/[itemId]/page.tsx:19` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/new/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `NewItemPage` | default function | `src/app/(app)/items/new/page.tsx:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/items/page.tsx:9` | 公開する理由、呼び出し側との契約、変更時の影響 |
@@ -121,6 +142,11 @@
 | 低 | `ReviewPage` | default function | `src/app/(app)/review/page.tsx:18` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `metadata` | value | `src/app/(app)/settings/categories/page.tsx:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `CategoriesPage` | default function | `src/app/(app)/settings/categories/page.tsx:8` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `runtime` | value | `src/app/api/item-photo-drafts/cleanup/route.ts:5` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `runtime` | value | `src/app/api/item-photo-drafts/route.ts:17` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `POST` | function | `src/app/api/item-photo-drafts/route.ts:87` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `PATCH` | function | `src/app/api/item-photo-drafts/route.ts:208` | 公開する理由、呼び出し側との契約、変更時の影響 |
+| 低 | `DELETE` | function | `src/app/api/item-photo-drafts/route.ts:326` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `GET` | function | `src/app/auth/callback/route.ts:5` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `GET` | function | `src/app/auth/confirm/route.ts:6` | 公開する理由、呼び出し側との契約、変更時の影響 |
 | 低 | `ErrorPage` | default function | `src/app/error.tsx:5` | 公開する理由、呼び出し側との契約、変更時の影響 |

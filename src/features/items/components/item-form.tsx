@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import { ListPlus, ListX, SlidersHorizontal } from "lucide-react";
 import { saveItemAction } from "@/features/items/actions";
 import type { CategoryWithSubs } from "@/features/categories/server/categories";
@@ -13,27 +13,85 @@ import { Textarea } from "@/components/ui/textarea";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { DisclosureSummary } from "@/components/ui/disclosure-summary";
 import { ItemColorField } from "@/features/items/components/item-color-field";
+import { ItemPhotoUploader } from "@/features/items/components/item-photo-uploader";
+import type { ItemPhotoAnalysis } from "@/features/items/domain/item-photo-analysis";
 
 export function ItemForm({
   categories,
   item,
 }: {
   categories: CategoryWithSubs[];
-  item?: ItemRow;
+  item?: ItemRow & { photos?: Array<{ id: string }> };
 }) {
   const [state, action] = useActionState(saveItemAction, INITIAL_ACTION_STATE);
+  const formRef = useRef<HTMLFormElement>(null);
+  const hasAppliedPhotoAnalysisRef = useRef(false);
   const [categoryId, setCategoryId] = useState(
     item?.category_id ?? categories[0]?.id ?? "",
   );
+  const [subCategoryId, setSubCategoryId] = useState(
+    item?.sub_category_id ?? "",
+  );
+  const [color, setColor] = useState(item?.color ?? "");
+  const [photoUploadBusy, setPhotoUploadBusy] = useState(false);
   const [reviewRequested, setReviewRequested] = useState(
     item?.review_requested ?? false,
   );
   const subCategories =
     categories.find((category) => category.id === categoryId)?.subCategories ??
     [];
+
+  function applyPhotoAnalysis(analysis: ItemPhotoAnalysis) {
+    if (hasAppliedPhotoAnalysisRef.current) return;
+    hasAppliedPhotoAnalysisRef.current = true;
+    const form = formRef.current;
+    if (!form) return;
+
+    const setIfEmpty = (name: string, value?: string | null) => {
+      if (!value) return;
+      const field = form.elements.namedItem(name);
+      if (
+        (field instanceof HTMLInputElement ||
+          field instanceof HTMLTextAreaElement) &&
+        field.value.trim() === ""
+      ) {
+        field.value = value;
+      }
+    };
+
+    setIfEmpty("name", analysis.name);
+    setIfEmpty("size", analysis.size);
+    setIfEmpty("purpose", analysis.purpose);
+    setIfEmpty("memo", analysis.memo);
+    if (analysis.colorHex && !color) setColor(analysis.colorHex);
+    if (item) return;
+
+    const matchedCategory = categories.find(
+      (category) =>
+        analysis.categoryName &&
+        category.name.trim().toLocaleLowerCase() ===
+          analysis.categoryName.trim().toLocaleLowerCase(),
+    );
+    if (!matchedCategory) return;
+
+    setCategoryId(matchedCategory.id);
+    const matchedSubCategory = matchedCategory.subCategories.find(
+      (subCategory) =>
+        analysis.subCategoryName &&
+        subCategory.name.trim().toLocaleLowerCase() ===
+          analysis.subCategoryName.trim().toLocaleLowerCase(),
+    );
+    setSubCategoryId(matchedSubCategory?.id ?? "");
+  }
+
   return (
-    <form action={action} noValidate className="space-y-5">
+    <form ref={formRef} action={action} noValidate className="space-y-5">
       {item ? <input type="hidden" name="itemId" value={item.id} /> : null}
+      <ItemPhotoUploader
+        existingCount={item?.photos?.length ?? 0}
+        onAnalysis={applyPhotoAnalysis}
+        onBusyChange={setPhotoUploadBusy}
+      />
       <Card className="grid gap-5 md:grid-cols-2">
         <div className="md:col-span-2">
           <FormField
@@ -46,7 +104,7 @@ export function ItemForm({
               name="name"
               defaultValue={item?.name}
               maxLength={100}
-              autoFocus
+              autoFocus={Boolean(item)}
               required
               aria-describedby="name-description"
             />
@@ -61,7 +119,10 @@ export function ItemForm({
             id="categoryId"
             name="categoryId"
             value={categoryId}
-            onChange={(event) => setCategoryId(event.target.value)}
+            onChange={(event) => {
+              setCategoryId(event.target.value);
+              setSubCategoryId("");
+            }}
             required
             aria-describedby="categoryId-description"
           >
@@ -111,7 +172,8 @@ export function ItemForm({
             <select
               id="subCategoryId"
               name="subCategoryId"
-              defaultValue={item?.sub_category_id ?? ""}
+              value={subCategoryId}
+              onChange={(event) => setSubCategoryId(event.target.value)}
               aria-describedby="subCategoryId-description"
               aria-invalid={Boolean(state.errors?.subCategoryId)}
             >
@@ -144,6 +206,8 @@ export function ItemForm({
           <div className="md:col-span-2">
             <ItemColorField
               defaultValue={item?.color}
+              value={color}
+              onValueChange={setColor}
               error={state.errors?.color?.[0]}
             />
           </div>
@@ -297,7 +361,7 @@ export function ItemForm({
           {state.message}
         </p>
       ) : null}
-      <SubmitButton pendingLabel="持ち物を保存中…">
+      <SubmitButton disabled={photoUploadBusy} pendingLabel="持ち物を保存中…">
         {item ? "変更を保存" : "持ち物を追加"}
       </SubmitButton>
     </form>

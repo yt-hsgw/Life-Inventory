@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { Archive, Pencil } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
@@ -50,6 +51,33 @@ export default async function ItemDetailPage({
           </Link>
         }
       />
+      {item.photos.length > 0 ? (
+        <Card className="mb-5">
+          <h2 className="mb-4 font-semibold">写真</h2>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            {item.photos.map((photo, index) => (
+              <div
+                key={photo.id}
+                className="border-border bg-secondary relative aspect-square overflow-hidden rounded-2xl border"
+              >
+                <Image
+                  src={photo.url}
+                  alt={`${item.name}の写真 ${index + 1}`}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 12rem"
+                  className="object-cover"
+                  priority={index === 0}
+                />
+                {index === 0 ? (
+                  <span className="bg-primary text-primary-foreground absolute top-2 left-2 rounded-full px-2 py-1 text-[0.625rem] font-bold">
+                    代表
+                  </span>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </Card>
+      ) : null}
       <div className="grid gap-5 lg:grid-cols-[1fr_20rem]">
         <Card>
           <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">

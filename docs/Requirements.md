@@ -13,6 +13,8 @@
 - Ideal Item: 理想の物と数量。Itemとは直接FKで結ばない。
 - Gap: `target quantity - current quantity`。負は減らす、正は増やす。
 - Expense: MONTHLY / YEARLYの固定費。変動費は対象外。
+- Item Photo: Itemに紐づく非公開写真。並び順の先頭を代表写真とする。
+- Item Photo Draft: Item確定前に一時アップロードした、認証ユーザー所有の写真候補。
 
 ## MVP Features
 
@@ -26,6 +28,18 @@
 - 明示的なReview依頼はItem詳細からON / OFFできる。ただしStatusがMAYBEのItemは依頼をOFFにしてもReview対象である。
 - Archive後は通常一覧から除外し、Archive画面へ表示する。
 - Category / Sub Categoryを追加・編集できる。紐づくItemがあるCategoryは削除しない。
+
+### Photo-first Item Registration
+
+- PCでは画像選択とDrag & Drop、Mobileではカメラ撮影と既存画像の選択からItem登録を開始できる。
+- 1件のItemへ最大10枚を登録できる。対応形式はJPEG / PNG / WebP、上限は1枚5MB・最大辺8,192px・4,000万画素とし、ClientとServerの両方で検証する。Storage濫用を抑えるため、確定写真と有効Draftの合計はユーザーあたり500枚までとする。
+- 写真は非公開のSupabase Storage bucketへ保存し、認証済み所有者だけが参照・追加・削除できる。公開URLは発行しない。
+- 写真はItemへ紐づけ、利用者が指定した並び順の先頭を代表写真として一覧と詳細に表示する。
+- Item確定前の写真はItem Photo Draftとして扱い、他ユーザーのItemへ紐づけられない。
+- 写真付き新規ItemのDB保存は、Item作成とPhoto DraftからItem Photoへの紐付けを単一transactionで確定する。Storage uploadはDB transaction外の先行処理であり、失敗・中断時はItemを作らず、Draftを安全に再利用または期限付きで回収する。
+- AIが設定されている場合は、外部送信の説明後に利用者が明示操作したときだけ、写真からItem入力の下書きを提案できる。AIの出力は未確定の候補としてフォームへ反映し、利用者が確認・修正して明示的に保存するまでDBへ確定しない。費用と可用性を守るため、同一Draftは最大2回、ユーザーごとは1時間20回までとする。
+- AIが未設定、利用不可、応答失敗、または誤認した場合も、アップロード済み写真と入力内容を可能な範囲で維持し、手入力で登録を継続できる。
+- 撮影写真には位置情報、人物、住居内情報等が含まれうるため、保存とAI解析の前にプライバシー上の注意を表示する。位置情報をItem下書きの生成項目として利用しない。
 
 ### Review
 
@@ -61,6 +75,7 @@
 - 色はPrimary `#89916B`、Background `#F5F3ED`、Text `#34382D` を基準とする。
 - Desktop優先、Tablet / Mobileも利用可能。Mobileではbottom navigationを使う。
 - Item追加は最短3入力。詳細は必要時だけ展開する。
+- 写真起点の登録は任意であり、写真を使わない従来の3入力登録も維持する。
 - Itemの詳細情報は任意であることを明示し、意味が曖昧な項目には入力例または判断のヒントを表示する。
 - Ideal・Expenseの編集欄は、数量・金額・周期など判断を誤りやすい項目に最小限の入力例またはヒントを表示する。
 - Keyboard、明確なFocus、十分なContrast、Icon buttonのaria-labelを保証する。
@@ -70,4 +85,4 @@
 
 ## Out of Scope
 
-画像、URLからの商品取得、置換関係、90日自動Review、One In One Out、Resale、Ideal Budget、Mobile native app。
+URLからの商品取得、置換関係、90日自動Review、One In One Out、Resale、Ideal Budget、Mobile native app。AIによる無確認の自動登録、人物識別、写真の公開共有は対象外。
