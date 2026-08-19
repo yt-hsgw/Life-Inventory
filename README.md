@@ -58,3 +58,7 @@ npm run docs:generate
 基本機能の手動確認は、ユースケース図付きの [docs/ManualAcceptanceChecklist.md](docs/ManualAcceptanceChecklist.md) を参照してください。
 
 詳しい仕様と設計は [docs/Requirements.md](docs/Requirements.md) と [docs/Architecture.md](docs/Architecture.md) を参照してください。
+
+## Landing page
+
+ランディングページの試作は、本体アプリと依存関係を分離して [landing-page/README.md](landing-page/README.md) で管理しています。
