@@ -3,6 +3,7 @@
  * Warm editorial paper, lichen-olive accents, asymmetric paper-like sections,
  * and reflective product language. Avoid urgency, sales pressure, and dense grids.
  */
+/* eslint-disable @next/next/no-img-element -- This file belongs to the standalone Vite LP, where next/image is unavailable. */
 import {
   ArrowDownRight,
   ArrowRight,
@@ -13,7 +14,6 @@ import {
   ListChecks,
   Menu,
   Package,
-  Plus,
   Target,
 } from "lucide-react";
 import { useState } from "react";
