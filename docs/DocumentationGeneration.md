@@ -28,7 +28,7 @@ npm run docs:generate
 
 生成後は `docs/generated/api/index.html` をブラウザで開き、APIリファレンスを確認する。Git管理されるMarkdownの差分も確認する。誤った説明や不要な公開APIが見つかった場合は、生成物だけを手で直さず、ソースコード、JSDoc/TSDocコメント、または生成設定を修正して再生成する。
 
-生成済みMarkdownが現在のソースコードと一致し、TypeDocが現在の型を解析できるか確認する場合は、次を実行する。このコマンドはファイルを書き換えず、Markdownの不一致、TypeScriptエラー、無効なドキュメントリンクがあれば失敗する。
+生成済みMarkdownが現在のソースコードと一致し、TypeDocが現在の型を解析できるか確認する場合は、次を実行する。このコマンドはファイルを書き換えず、Markdownの不一致、TypeScriptエラー、無効なドキュメントリンク、閉じていないMermaidコードブロックがあれば失敗する。
 
 ```bash
 npm run docs:check

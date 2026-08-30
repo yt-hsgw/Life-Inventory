@@ -53,6 +53,8 @@ npm run supabase:stop
 npm run docs:generate
 ```
 
+ドキュメント全体の入口は [docs/README.md](docs/README.md) です。要求、要件、USDM、画面、基本・詳細設計、単体・結合・受入評価をWiki形式で辿れます。
+
 生成される実装資料、技術リファレンス、コードコメント候補の用途と運用は [docs/DocumentationGeneration.md](docs/DocumentationGeneration.md) を参照してください。
 
 基本機能の手動確認は、ユースケース図付きの [docs/ManualAcceptanceChecklist.md](docs/ManualAcceptanceChecklist.md) を参照してください。
