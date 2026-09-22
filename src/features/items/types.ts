@@ -3,6 +3,7 @@ import type {
   ItemRow,
   SubCategory,
 } from "@/types/database.generated";
+import type { ItemPhotoRow } from "@/types/database.generated";
 
 export const ITEM_STATUSES = ["KEEP", "MAYBE", "RELEASE"] as const;
 export const ITEM_STATUS_LABELS = {
@@ -14,4 +15,13 @@ export const ITEM_STATUS_LABELS = {
 export type ItemView = ItemRow & {
   category: Pick<Category, "id" | "name">;
   subCategory: Pick<SubCategory, "id" | "name"> | null;
+  photos: ItemPhotoView[];
+  coverPhoto: ItemPhotoView | null;
+};
+
+export type ItemPhotoView = Pick<
+  ItemPhotoRow,
+  "id" | "item_id" | "display_order" | "content_type" | "size_bytes"
+> & {
+  url: string;
 };

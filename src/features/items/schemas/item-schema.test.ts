@@ -23,4 +23,14 @@ describe("item schema", () => {
 
     expect(result.success).toBe(false);
   });
+
+  it("keeps duplicate form fields as an ordered photo draft list", () => {
+    const photoDraftIds = [
+      "393be301-edf2-4d1a-9388-c91777abe329",
+      "0923aca8-14a9-40d2-9828-c4911df07a73",
+    ];
+    const result = itemSchema.parse({ ...requiredItem, photoDraftIds });
+
+    expect(result.photoDraftIds).toEqual(photoDraftIds);
+  });
 });

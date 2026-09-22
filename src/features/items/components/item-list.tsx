@@ -1,5 +1,6 @@
 import { ArrowUpRight, Search } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { EmptyState } from "@/components/feedback/empty-state";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -84,8 +85,23 @@ export function ItemList({
             <Link
               key={item.id}
               href={`/items/${item.id}`}
-              className="group hover:bg-secondary/60 focus-visible:ring-primary grid gap-3 p-5 transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset sm:grid-cols-[1fr_auto_auto] sm:items-center"
+              className="group hover:bg-secondary/60 focus-visible:ring-primary grid grid-cols-[3.5rem_minmax(0,1fr)] items-start gap-3 p-5 transition-colors focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset sm:grid-cols-[4rem_minmax(0,1fr)_auto_auto] sm:items-center"
             >
+              <div className="border-border bg-secondary relative size-14 overflow-hidden rounded-2xl border sm:size-16">
+                {item.coverPhoto ? (
+                  <Image
+                    src={item.coverPhoto.url}
+                    alt=""
+                    fill
+                    sizes="4rem"
+                    className="object-cover"
+                  />
+                ) : (
+                  <span className="text-muted-foreground absolute inset-0 grid place-items-center text-[0.625rem]">
+                    写真なし
+                  </span>
+                )}
+              </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h2 className="font-semibold">{item.name}</h2>
@@ -104,18 +120,20 @@ export function ItemList({
                   ) : null}
                 </div>
               </div>
-              <Badge
-                className={cn(
-                  item.status === "RELEASE" &&
-                    "bg-destructive/10 text-destructive",
-                  item.status === "MAYBE" && "bg-warning/10 text-warning",
-                )}
-              >
-                {ITEM_STATUS_LABELS[item.status]}
-              </Badge>
-              <p className="font-numeric text-sm font-semibold">
-                × {item.quantity}
-              </p>
+              <div className="col-start-2 flex flex-wrap items-center justify-between gap-2 sm:contents">
+                <Badge
+                  className={cn(
+                    item.status === "RELEASE" &&
+                      "bg-destructive/10 text-destructive",
+                    item.status === "MAYBE" && "bg-warning/10 text-warning",
+                  )}
+                >
+                  {ITEM_STATUS_LABELS[item.status]}
+                </Badge>
+                <p className="font-numeric text-sm font-semibold">
+                  × {item.quantity}
+                </p>
+              </div>
             </Link>
           ))}
         </div>

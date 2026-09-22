@@ -30,7 +30,7 @@ src/app (routing / composition)
 | `dashboard` | 1 | server: 1 |
 | `expenses` | 8 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 2、types: 1 |
 | `ideal` | 7 | actions: 1、components: 1、domain: 1、schemas: 1、server: 1、tests: 2 |
-| `items` | 19 | actions: 1、components: 5、domain: 2、schemas: 1、server: 1、tests: 8、types: 1 |
+| `items` | 28 | actions: 1、components: 6、domain: 4、schemas: 1、server: 3、tests: 12、types: 1 |
 | `review` | 5 | actions: 1、components: 2、schemas: 1、server: 1 |
 
 ## Server Actions
@@ -47,9 +47,9 @@ Server Action は認証・入力検証を含む変更処理の入口です。複
 | `saveIdealAction` | `ideal` | `src/features/ideal/actions.ts:13` |
 | `deleteIdealAction` | `ideal` | `src/features/ideal/actions.ts:44` |
 | `saveItemAction` | `items` | `src/features/items/actions.ts:16` |
-| `archiveItemAction` | `items` | `src/features/items/actions.ts:66` |
-| `setReviewRequestedAction` | `items` | `src/features/items/actions.ts:87` |
-| `updateItemStatusAction` | `items` | `src/features/items/actions.ts:118` |
+| `archiveItemAction` | `items` | `src/features/items/actions.ts:110` |
+| `setReviewRequestedAction` | `items` | `src/features/items/actions.ts:131` |
+| `updateItemStatusAction` | `items` | `src/features/items/actions.ts:162` |
 | `reviewItemAction` | `review` | `src/features/review/actions.ts:8` |
 
 ## App Router の入口
@@ -57,6 +57,8 @@ Server Action は認証・入力検証を含む変更処理の入口です。複
 | URL | 種別 | メソッド | 実装 |
 | --- | --- | --- | --- |
 | `/` | Page | PAGE | `src/app/page.tsx` |
+| `/api/item-photo-drafts` | Route Handler | DELETE, PATCH, POST | `src/app/api/item-photo-drafts/route.ts` |
+| `/api/item-photo-drafts/cleanup` | Route Handler | POST | `src/app/api/item-photo-drafts/cleanup/route.ts` |
 | `/archive` | Page | PAGE | `src/app/(app)/archive/page.tsx` |
 | `/auth/callback` | Route Handler | GET | `src/app/auth/callback/route.ts` |
 | `/auth/confirm` | Route Handler | GET | `src/app/auth/confirm/route.ts` |
@@ -73,9 +75,9 @@ Server Action は認証・入力検証を含む変更処理の入口です。複
 
 ## データと権限の境界
 
-- 公開テーブル: 6 件
-- RLS 有効: 6 / 6 テーブル
-- DB 関数: 4 件
+- 公開テーブル: 10 件
+- RLS 有効: 10 / 10 テーブル
+- DB 関数: 16 件
 - `SECURITY DEFINER` 関数は、認証確認、所有者条件、`search_path` 固定、実行権限を migration でレビューしてください。
 
 ## 変更時の実装順序

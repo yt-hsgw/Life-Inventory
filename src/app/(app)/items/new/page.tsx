@@ -12,7 +12,7 @@ export default async function NewItemPage() {
       <PageHeader
         eyebrow="新しい持ち物"
         title="持ち物を追加"
-        description="まずは名前・カテゴリ・数量だけで登録できます。"
+        description="写真から始めるか、名前・カテゴリ・数量だけで登録できます。"
       />
       <ItemForm categories={categories} />
     </>

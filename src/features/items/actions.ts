@@ -17,7 +17,10 @@ export async function saveItemAction(
   _: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
-  const parsed = itemSchema.safeParse(Object.fromEntries(formData));
+  const parsed = itemSchema.safeParse({
+    ...Object.fromEntries(formData),
+    photoDraftIds: formData.getAll("photoDraftIds").map(String),
+  });
   if (!parsed.success) return invalidAction(parsed.error.flatten().fieldErrors);
   const { supabase, userId } = await requireUserId();
   const value = parsed.data;
@@ -37,21 +40,62 @@ export async function saveItemAction(
     review_requested: value.reviewRequested,
     memo: value.memo ?? null,
   };
-  const query = value.itemId
-    ? supabase
-        .from("items")
-        .update(record)
-        .eq("id", value.itemId)
-        .eq("user_id", userId)
-        .is("archived_at", null)
-        .select("id")
-        .single()
-    : supabase
-        .from("items")
-        .insert({ ...record, user_id: userId })
-        .select("id")
-        .single();
-  const { data, error } = await query;
+  let data: { id: string } | null = null;
+  let error: { message: string } | null = null;
+
+  if (value.itemId) {
+    const updateResult = await supabase
+      .from("items")
+      .update(record)
+      .eq("id", value.itemId)
+      .eq("user_id", userId)
+      .is("archived_at", null)
+      .select("id")
+      .single();
+    data = updateResult.data;
+    error = updateResult.error;
+
+    if (!error && data && value.photoDraftIds.length > 0) {
+      const attachResult = await supabase.rpc("attach_item_photo_drafts", {
+        p_item_id: value.itemId,
+        p_photo_draft_ids: value.photoDraftIds,
+      });
+      if (attachResult.error) {
+        return failedAction(
+          "持ち物の情報は保存しましたが、写真を紐づけできませんでした。写真を残したまま再度保存してください。",
+        );
+      }
+    }
+  } else if (value.photoDraftIds.length > 0) {
+    const createResult = await supabase.rpc("create_item_with_photo_drafts", {
+      p_name: record.name,
+      p_category_id: record.category_id,
+      p_quantity: record.quantity,
+      p_photo_draft_ids: value.photoDraftIds,
+      p_sub_category_id: record.sub_category_id,
+      p_color: record.color,
+      p_size: record.size,
+      p_purpose: record.purpose,
+      p_product_url: record.product_url,
+      p_purchase_price: record.purchase_price,
+      p_purchased_at: record.purchased_at,
+      p_last_used_at: record.last_used_at,
+      p_status: record.status,
+      p_review_requested: record.review_requested,
+      p_memo: record.memo,
+    });
+    data = createResult.data;
+    error = createResult.error;
+  } else {
+    const insertResult = await supabase
+      .from("items")
+      .insert({ ...record, user_id: userId })
+      .select("id")
+      .single();
+    data = insertResult.data;
+    error = insertResult.error;
+  }
+
   if (error || !data)
     return failedAction(
       "持ち物を保存できませんでした。カテゴリの組み合わせも確認してください。",
